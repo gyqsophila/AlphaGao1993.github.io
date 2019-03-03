@@ -1,0 +1,1119 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
+
+<link rel="stylesheet" href="/css/main.css?v=7.0.1">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.0.1">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.0.1">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.0.1">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.0.1" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '7.0.1',
+    sidebar: {"position":"left","display":"hide","offset":12,"b2t":true,"scrollpercent":true,"onmobile":false,"dimmer":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="因为在 Android 的通信这一块有点吃瘪，所以重新学习 Java 的网络编程。因为即时通讯中 UDP 的大放异彩，这里就来实现一个简单的 UDP 通信的案例。一开始不太熟悉，只能够实现客户端与服务端的单次通信，程序就会结束。也就是说客户端在向服务端发送一次数据，然后接收一次来自服务端的数据就会退出了。这对于我来说并没有什么意义。我想要达成的是服务端可以和客户端实现不间断的通信过程，其中可以是单">
+<meta name="keywords" content="Java,UDP,Socket">
+<meta property="og:type" content="article">
+<meta property="og:title" content="基于 UDP 协议的 C&#x2F;S 通信案例">
+<meta property="og:url" content="alphagao.com/2016/11/19/udp-socket-sample/index.html">
+<meta property="og:site_name" content="Here&#39;s to Change">
+<meta property="og:description" content="因为在 Android 的通信这一块有点吃瘪，所以重新学习 Java 的网络编程。因为即时通讯中 UDP 的大放异彩，这里就来实现一个简单的 UDP 通信的案例。一开始不太熟悉，只能够实现客户端与服务端的单次通信，程序就会结束。也就是说客户端在向服务端发送一次数据，然后接收一次来自服务端的数据就会退出了。这对于我来说并没有什么意义。我想要达成的是服务端可以和客户端实现不间断的通信过程，其中可以是单">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2017-08-07T09:46:00.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="基于 UDP 协议的 C&#x2F;S 通信案例">
+<meta name="twitter:description" content="因为在 Android 的通信这一块有点吃瘪，所以重新学习 Java 的网络编程。因为即时通讯中 UDP 的大放异彩，这里就来实现一个简单的 UDP 通信的案例。一开始不太熟悉，只能够实现客户端与服务端的单次通信，程序就会结束。也就是说客户端在向服务端发送一次数据，然后接收一次来自服务端的数据就会退出了。这对于我来说并没有什么意义。我想要达成的是服务端可以和客户端实现不间断的通信过程，其中可以是单">
+
+
+
+
+
+
+  <link rel="canonical" href="alphagao.com/2016/11/19/udp-socket-sample/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>基于 UDP 协议的 C/S 通信案例 | Here's to Change</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Here's to Change</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">请问你真的有在努力吗 ？</p>
+      
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="Toggle navigation bar">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>Home</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>About</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>Tags</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>Categories</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>Archives</a>
+
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="alphagao.com/2016/11/19/udp-socket-sample/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Alpha Gao">
+      <meta itemprop="description" content="You will be what you want.">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Here's to Change">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">基于 UDP 协议的 C/S 通信案例
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2016-11-19 15:01:36" itemprop="dateCreated datePublished" datetime="2016-11-19T15:01:36+08:00">2016-11-19</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="Modified: 2017-08-07 17:46:00" itemprop="dateModified" datetime="2017-08-07T17:46:00+08:00">2017-08-07</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Java/" itemprop="url" rel="index"><span itemprop="name">Java</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+              
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+            
+                <span class="post-meta-item-text">Comments: </span>
+                <a href="/2016/11/19/udp-socket-sample/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2016/11/19/udp-socket-sample/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>因为在 Android 的通信这一块有点吃瘪，所以重新学习 Java 的网络编程。因为即时通讯中 UDP 的大放异彩，这里就来实现一个简单的 UDP 通信的案例。一开始不太熟悉，只能够实现客户端与服务端的单次通信，程序就会结束。也就是说客户端在向服务端发送一次数据，然后接收一次来自服务端的数据就会退出了。这对于我来说并没有什么意义。我想要达成的是服务端可以和客户端实现不间断的通信过程，其中可以是单向的连续发送或者连续接收。</p>
+<a id="more"></a>
+<p>因为暂且还是在命令行的模式下，在同一个线程中我还不能做到在 DatagramSocket 接收数据报的同时，还能够随意发送数据报，因为 DatagramSocket 的 receive() 方法在接收到数据报之前是会阻塞当前进程的。因此我想应该可以在主线程进行数据报的监听与接收操作，而在子线程中实现监听用户的输入并打包发送的过程。这一原理也可以用在客户端，这样双方都可以随时进行数据发送与接收了。</p>
+<p>首先来看服务端的实现，因为考虑到以后会进行多客户端的同时监听，我已经把监听数据报的逻辑放到了一个分线程中：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> udp;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.io.IOException;</span><br><span class="line"><span class="keyword">import</span> java.net.DatagramSocket;</span><br><span class="line"><span class="keyword">import</span> java.net.InetAddress;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Created by alpha on 16-11-18.</span></span><br><span class="line"><span class="comment"> * 基于 udp 的服务端</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Server</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line">        <span class="comment">//DatagramSocket socket = new DatagramSocket(3467);//直接监听 localhost</span></span><br><span class="line">        <span class="comment">//服务器端，指定端口，这里监听局域网 IP 地址</span></span><br><span class="line">        DatagramSocket socket = <span class="keyword">new</span> DatagramSocket(<span class="number">3467</span>, </span><br><span class="line">                InetAddress.getByAddress(<span class="keyword">new</span> <span class="keyword">byte</span>[]&#123;(<span class="keyword">byte</span>) <span class="number">192</span>, (<span class="keyword">byte</span>) <span class="number">168</span>, <span class="number">99</span>, <span class="number">100</span>&#125;));</span><br><span class="line">        <span class="comment">//socket.setBroadcast(true);</span></span><br><span class="line">        System.out.println(<span class="string">"服务器已经启动，等待客户端连接。。。"</span>);</span><br><span class="line">        <span class="comment">//在子线程完成数据接收与发送</span></span><br><span class="line">        ServerThread thread = <span class="keyword">new</span> ServerThread(socket);</span><br><span class="line">        <span class="keyword">while</span> (<span class="keyword">true</span>) &#123;</span><br><span class="line">            thread.run();</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">//以下全部为注释</span></span><br><span class="line">        <span class="comment">/*//字节数组，指定接收数据包大小</span></span><br><span class="line"><span class="comment">        byte[] data = new byte[1024];</span></span><br><span class="line"><span class="comment">        //创建数据报，用于接收客户端发送的信息</span></span><br><span class="line"><span class="comment">        DatagramPacket packet = new DatagramPacket(data, data.length);</span></span><br><span class="line"><span class="comment">        System.out.println("服务器已经启动，等待服务端发送数据。。。");</span></span><br><span class="line"><span class="comment">        //接收客户端信息</span></span><br><span class="line"><span class="comment">        socket.receive(packet);//在接收到数据报之前会阻塞进程</span></span><br><span class="line"><span class="comment">        //读取接收的数据</span></span><br><span class="line"><span class="comment">        String info = new String(data, 0, packet.getLength());</span></span><br><span class="line"><span class="comment">        System.out.println("客户端说：" + info);*/</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">/**</span></span><br><span class="line"><span class="comment">         * 响应客户端</span></span><br><span class="line"><span class="comment">         */</span></span><br><span class="line">        <span class="comment">/*InetAddress address = packet.getAddress();</span></span><br><span class="line"><span class="comment">        int port = packet.getPort();</span></span><br><span class="line"><span class="comment">        System.out.println("客户端端口号是：" + port);</span></span><br><span class="line"><span class="comment">        byte[] data2 = "欢迎您！".getBytes();</span></span><br><span class="line"><span class="comment">        DatagramPacket packet2 = new DatagramPacket(data2, data2.length, address, port);</span></span><br><span class="line"><span class="comment">        socket.send(packet2);</span></span><br><span class="line"><span class="comment">        socket.close();*/</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>可以看出这里我监听的是局域网的 IP 地址，当然也可以改成监听 localhost 。对应的写法也在源码中有所体现了。</p>
+<p>子线程源码：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> udp;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.io.BufferedReader;</span><br><span class="line"><span class="keyword">import</span> java.io.IOException;</span><br><span class="line"><span class="keyword">import</span> java.io.InputStreamReader;</span><br><span class="line"><span class="keyword">import</span> java.net.DatagramPacket;</span><br><span class="line"><span class="keyword">import</span> java.net.DatagramSocket;</span><br><span class="line"><span class="keyword">import</span> java.net.InetAddress;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Created by alpha on 16-11-19.</span></span><br><span class="line"><span class="comment"> * 服务端通信线程</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ServerThread</span> <span class="keyword">implements</span> <span class="title">Runnable</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> DatagramSocket socket;</span><br><span class="line">    <span class="comment">//public static int count = 0;</span></span><br><span class="line">    <span class="keyword">private</span> DatagramPacket receivePacket;</span><br><span class="line">    <span class="keyword">private</span> DatagramPacket sendPacket;</span><br><span class="line">    <span class="keyword">private</span> String sendMsg;</span><br><span class="line">    <span class="keyword">private</span> String receivedMsg;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">ServerThread</span><span class="params">(DatagramSocket socket)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.socket = socket;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">byte</span>[] data = <span class="keyword">new</span> <span class="keyword">byte</span>[<span class="number">1024</span>];</span><br><span class="line">        receivePacket = <span class="keyword">new</span> DatagramPacket(data, data.length);</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="comment">//接收客户端的验证信息</span></span><br><span class="line">            socket.receive(receivePacket);</span><br><span class="line">            <span class="comment">//System.out.println("当前链接客户端数量：" + ++count);</span></span><br><span class="line">            receivedMsg = <span class="keyword">new</span> String(data, <span class="number">0</span>, receivePacket.getLength());</span><br><span class="line">            System.out.println(<span class="string">"这个客户端说："</span> + receivedMsg);</span><br><span class="line"></span><br><span class="line">            InetAddress address = receivePacket.getAddress();</span><br><span class="line">            <span class="keyword">int</span> port = receivePacket.getPort();</span><br><span class="line">            System.out.println(<span class="string">"来自："</span> + address + <span class="string">"，端口为："</span> + port);</span><br><span class="line">            <span class="comment">/**</span></span><br><span class="line"><span class="comment">             * 响应客户端</span></span><br><span class="line"><span class="comment">             */</span></span><br><span class="line">            <span class="keyword">byte</span>[] data2 = <span class="string">"欢迎您！"</span>.getBytes();</span><br><span class="line">            sendPacket = <span class="keyword">new</span> DatagramPacket(data2, data2.length, address, port);</span><br><span class="line">            socket.send(sendPacket);</span><br><span class="line"></span><br><span class="line">            <span class="comment">//另开一个子线程用于接收服务端输入信息并发送出去</span></span><br><span class="line">            <span class="keyword">new</span> Thread()&#123;</span><br><span class="line">                <span class="meta">@Override</span></span><br><span class="line">                <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">                    <span class="keyword">try</span> &#123;</span><br><span class="line">                        <span class="keyword">while</span> (!<span class="string">"bye"</span>.equals(receivedMsg)) &#123;</span><br><span class="line">                            <span class="comment">//继续向客户端发送信息</span></span><br><span class="line">                            BufferedReader in = <span class="keyword">new</span> BufferedReader(<span class="keyword">new</span> InputStreamReader(System.in));</span><br><span class="line">                            sendMsg = in.readLine();</span><br><span class="line">                            sendPacket = <span class="keyword">new</span> DatagramPacket(sendMsg.getBytes(),</span><br><span class="line">                             sendMsg.getBytes().length, address, port);</span><br><span class="line">                            socket.send(sendPacket);</span><br><span class="line">                            System.out.println(<span class="string">"我说："</span> + sendMsg);</span><br><span class="line">                        &#125;</span><br><span class="line">                    &#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">                        e.printStackTrace();</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;.start();</span><br><span class="line">            <span class="comment">//循环接收客户端发送的信息</span></span><br><span class="line">            <span class="keyword">while</span> (!<span class="string">"bye"</span>.equals(receivedMsg)) &#123;</span><br><span class="line">                socket.receive(receivePacket);</span><br><span class="line">                receivedMsg = <span class="keyword">new</span> String(receivePacket.getData(), <span class="number">0</span>, receivePacket.getLength());</span><br><span class="line">                System.out.println(<span class="string">"客户端说："</span> + receivedMsg);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>正如一开始所说，我在这个处理数据接收与发送的线程中又开了一个子线程专门用于监听用户在控制台的输入和发送，而在这个原本的子线程中除了一开始的主动回应，就只有数据报的接收操作了。</p>
+<p>客户端源码：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> udp;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.io.BufferedReader;</span><br><span class="line"><span class="keyword">import</span> java.io.IOException;</span><br><span class="line"><span class="keyword">import</span> java.io.InputStreamReader;</span><br><span class="line"><span class="keyword">import</span> java.net.*;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Created by alpha on 16-11-18.</span></span><br><span class="line"><span class="comment"> * 基于 udp 的客户端</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Client</span> <span class="keyword">implements</span> <span class="title">Runnable</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> port = <span class="number">3467</span>;</span><br><span class="line">    <span class="keyword">private</span> DatagramPacket receivePacket;</span><br><span class="line">    <span class="keyword">private</span> InetAddress address;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">byte</span>[] inData;</span><br><span class="line">    <span class="keyword">private</span> String receivedMsg;</span><br><span class="line">    <span class="keyword">private</span> DatagramPacket sendPacket;</span><br><span class="line">    <span class="keyword">private</span> DatagramSocket socket;</span><br><span class="line">    <span class="keyword">private</span> String sendMsg = <span class="string">""</span>;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        Client client = <span class="keyword">new</span> Client();</span><br><span class="line">        client.run();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="comment">//向服务端发送第一次连接信息</span></span><br><span class="line">            <span class="comment">//address = InetAddress.getByName("localhost");</span></span><br><span class="line">            address = InetAddress.getByAddress(<span class="keyword">new</span> <span class="keyword">byte</span>[]&#123;(<span class="keyword">byte</span>) <span class="number">192</span>, (<span class="keyword">byte</span>) <span class="number">168</span>, <span class="number">99</span>, <span class="number">100</span>&#125;);</span><br><span class="line">            <span class="keyword">byte</span>[] data = <span class="string">"用户名：alpha，密码：123456"</span>.getBytes();</span><br><span class="line">            sendPacket = <span class="keyword">new</span> DatagramPacket(data, data.length, address, <span class="number">3467</span>);</span><br><span class="line">            socket = <span class="keyword">new</span> DatagramSocket(<span class="number">3468</span>);</span><br><span class="line">            socket.send(sendPacket);</span><br><span class="line"></span><br><span class="line">            <span class="comment">/**</span></span><br><span class="line"><span class="comment">             * 接收服务端反馈信息</span></span><br><span class="line"><span class="comment">             */</span></span><br><span class="line">            inData = <span class="keyword">new</span> <span class="keyword">byte</span>[<span class="number">1024</span>];</span><br><span class="line">            receivePacket = <span class="keyword">new</span> DatagramPacket(inData, inData.length, address, port);</span><br><span class="line">            socket.receive(receivePacket);</span><br><span class="line">            receivedMsg = <span class="keyword">new</span> String(inData, <span class="number">0</span>, receivePacket.getLength());</span><br><span class="line">            System.out.println(<span class="string">"服务器说："</span> + receivedMsg);</span><br><span class="line"></span><br><span class="line">            <span class="comment">//新开线程监听输入并发送</span></span><br><span class="line">            <span class="keyword">new</span> Thread() &#123;</span><br><span class="line">                <span class="meta">@Override</span></span><br><span class="line">                <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">                    <span class="keyword">while</span> (!<span class="string">"bye"</span>.equals(sendMsg)) &#123;</span><br><span class="line">                        <span class="keyword">try</span> &#123;</span><br><span class="line">                            <span class="comment">//监听控制台输入</span></span><br><span class="line">                            BufferedReader in = <span class="keyword">new</span> BufferedReader(<span class="keyword">new</span> </span><br><span class="line">                                InputStreamReader(System.in));</span><br><span class="line">                            sendMsg = in.readLine();</span><br><span class="line">                            <span class="comment">//打包输入信息</span></span><br><span class="line">                            sendPacket = <span class="keyword">new</span> DatagramPacket(sendMsg.getBytes(),</span><br><span class="line">                             sendMsg.getBytes().length, address, port);</span><br><span class="line">                            socket.send(sendPacket);</span><br><span class="line">                            System.out.println(<span class="string">"我说："</span> + sendMsg);</span><br><span class="line">                        &#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">                            e.printStackTrace();</span><br><span class="line">                        &#125;</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;.start();</span><br><span class="line"></span><br><span class="line">            <span class="comment">//循环监听来接收服务端信息</span></span><br><span class="line">            <span class="keyword">while</span> ( !<span class="string">"bye"</span>.equals(sendMsg)) &#123;</span><br><span class="line">                <span class="comment">//inData = new byte[1024];</span></span><br><span class="line">                <span class="comment">//receivePacket = new DatagramPacket(inData, inData.length);</span></span><br><span class="line">                socket.receive(receivePacket);</span><br><span class="line">                receivedMsg = <span class="keyword">new</span> String(receivePacket.getData(), <span class="number">0</span>,</span><br><span class="line">                 receivePacket.getLength());</span><br><span class="line">                System.out.println(<span class="string">"服务器说："</span> + receivedMsg);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; <span class="keyword">catch</span> (SocketException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125; <span class="keyword">catch</span> (UnknownHostException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>看一下实际的效果：</p>
+<p>首先开启服务端：</p>
+<pre><code>服务器已经启动，等待客户端连接。。。
+</code></pre><p>再开启客户端：</p>
+<pre><code>服务器说：欢迎您！
+</code></pre><p>这个时候服务端也接收到了来自客户端的问候信息：</p>
+<pre><code>这个客户端说：用户名：alpha，密码：123456
+来自：/192.168.99.100，端口为：3468
+</code></pre><p>在客户端发送一条信息：</p>
+<pre><code>你好
+我说：你好
+</code></pre><p>服务端就收到信息了：</p>
+<pre><code>客户端说：你好
+</code></pre><p>在服务端回复一条信息：</p>
+<pre><code>你也好啊
+我说：你也好啊
+</code></pre><p>客户端也就收到了：</p>
+<pre><code>服务器说：你也好啊
+</code></pre><p>如果要结束通信，那么在客户端输入 “bye” ：</p>
+<p>由于<strong>客户端的发送信息的代码是写在接收信息的上方</strong>，所以此时虽然客户端下的发送线程已经退出，但是客户端并没有结束，需要继续从服务端接收任何一条信息即可退出：</p>
+<p>在服务端随意发送一条信息：</p>
+<pre><code>bye
+我说：bye
+</code></pre><p>此时再看客户端：</p>
+<pre><code>Process finished with exit code 0
+</code></pre><p>客户端就关闭了。</p>
+<p>完整服务端控制台内容：</p>
+<pre><code>服务器已经启动，等待客户端连接。。。
+这个客户端说：用户名：alpha，密码：123456
+来自：/192.168.99.100，端口为：3468
+客户端说：你好
+你也好啊
+我说：你也好啊
+客户端说：bye
+bye
+我说：bye
+</code></pre><p>完整客户端：</p>
+<pre><code>服务器说：欢迎您！
+你好
+我说：你好
+服务器说：你也好啊
+bye
+我说：bye
+服务器说：bye
+Process finished with exit code 0
+</code></pre><p>尽管通过多线程的方式实现了双方不间断的任意通信，但就是我自己也感觉这个示例是非常粗糙的，不仅没有断开重连，也没有超时机制，就连客户端验证也只是一个模拟的信息而已。双方都是位于本机，并没有进行真正对的局域网测试，更不要说实现互联网通信了。不过这是一个良好的开端，再次基础之上，继续增加 GUI 窗口，多客户端同时连接，客户端之间的通信，甚至发送图片，表情，文件等，都是接下来需要完成的。</p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Java/" rel="tag"># Java</a>
+          
+            <a href="/tags/UDP/" rel="tag"># UDP</a>
+          
+            <a href="/tags/Socket/" rel="tag"># Socket</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/11/14/add-shortcut/" rel="next" title="桌面添加图标心碎二三事[摔]">
+                <i class="fa fa-chevron-left"></i> 桌面添加图标心碎二三事[摔]
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/11/23/deploy-zentao-with-source-code-on-ubuntu/" rel="prev" title="在 Ubuntu 上以源码方式部署禅道项目管理软件">
+                在 Ubuntu 上以源码方式部署禅道项目管理软件 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+    <div class="comments" id="comments">
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <div class="site-overview-wrap sidebar-panel sidebar-panel-active">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Alpha Gao</p>
+              <div class="site-description motion-element" itemprop="description">You will be what you want.</div>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">50</span>
+                    <span class="site-state-item-name">posts</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  
+                    
+                      <a href="/categories/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">11</span>
+                    <span class="site-state-item-name">categories</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                      <a href="/tags/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">93</span>
+                    <span class="site-state-item-name">tags</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+
+      
+        <div class="back-to-top">
+          <i class="fa fa-arrow-up"></i>
+          
+            <span id="scrollpercent"><span>0</span>%</span>
+          
+        </div>
+      
+
+    </div>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">  <a href="http://www.miitbeian.gov.cn" rel="noopener" target="_blank">陇ICP备17000389号 </a>&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-Alpha Gao"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Alpha Gao</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> v3.8.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> v7.0.1</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/src/utils.js?v=7.0.1"></script>
+
+  <script src="/js/src/motion.js?v=7.0.1"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/src/schemes/muse.js?v=7.0.1"></script>
+
+
+
+  
+  <script src="/js/src/scrollspy.js?v=7.0.1"></script>
+<script src="/js/src/post-details.js?v=7.0.1"></script>
+
+
+
+  
+
+
+  <script src="/js/src/next-boot.js?v=7.0.1"></script>
+
+
+  
+  
+  
+
+<script src="//cdn1.lncld.net/static/js/3.11.1/av-min.js"></script>
+
+
+
+<script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+
+<script>
+  var GUEST = ['nick', 'mail', 'link'];
+  var guest = 'nick,mail,link';
+  guest = guest.split(',').filter(function(item) {
+    return GUEST.indexOf(item) > -1;
+  });
+  new Valine({
+    el: '#comments',
+    verify: false,
+    notify: false,
+    appId: 'H96xxLo0hzG4azqx9XRPBLGe-gzGzoHsz',
+    appKey: 'NPnxUKfUoUn6iIlWOyvA1WgE',
+    placeholder: 'Just say anything',
+    avatar: 'mm',
+    meta: guest,
+    pageSize: '10' || 10,
+    visitor: false
+  });
+</script>
+
+
+
+
+  
+
+
+  
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

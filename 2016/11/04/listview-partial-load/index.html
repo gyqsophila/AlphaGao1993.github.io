@@ -1,0 +1,1079 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
+
+<link rel="stylesheet" href="/css/main.css?v=7.0.1">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.0.1">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.0.1">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.0.1">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.0.1" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '7.0.1',
+    sidebar: {"position":"left","display":"hide","offset":12,"b2t":true,"scrollpercent":true,"onmobile":false,"dimmer":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="为什么需要分批加载呢，一般我们在浏览数据的时候，往往要浏览的数据是很多的，例如你上淘宝买东西，一搜索可能会有好几万条结果，但是这些数据如果一下子全部加载出来，先不说你手机内存是否吃的消，假如你是流量上网，那么你的流量会瞬间消耗多少呢，况且一句手机的网速，需要加载多久也不久不用我多说了把。 因此就需要分批加载，一般来说每次加载20条数据即可。">
+<meta name="keywords" content="Android,ListView,Partial">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ListView的分批加载">
+<meta property="og:url" content="alphagao.com/2016/11/04/listview-partial-load/index.html">
+<meta property="og:site_name" content="Here&#39;s to Change">
+<meta property="og:description" content="为什么需要分批加载呢，一般我们在浏览数据的时候，往往要浏览的数据是很多的，例如你上淘宝买东西，一搜索可能会有好几万条结果，但是这些数据如果一下子全部加载出来，先不说你手机内存是否吃的消，假如你是流量上网，那么你的流量会瞬间消耗多少呢，况且一句手机的网速，需要加载多久也不久不用我多说了把。 因此就需要分批加载，一般来说每次加载20条数据即可。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2017-08-07T09:49:46.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="ListView的分批加载">
+<meta name="twitter:description" content="为什么需要分批加载呢，一般我们在浏览数据的时候，往往要浏览的数据是很多的，例如你上淘宝买东西，一搜索可能会有好几万条结果，但是这些数据如果一下子全部加载出来，先不说你手机内存是否吃的消，假如你是流量上网，那么你的流量会瞬间消耗多少呢，况且一句手机的网速，需要加载多久也不久不用我多说了把。 因此就需要分批加载，一般来说每次加载20条数据即可。">
+
+
+
+
+
+
+  <link rel="canonical" href="alphagao.com/2016/11/04/listview-partial-load/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>ListView的分批加载 | Here's to Change</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Here's to Change</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">请问你真的有在努力吗 ？</p>
+      
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="Toggle navigation bar">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>Home</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>About</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>Tags</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>Categories</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>Archives</a>
+
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="alphagao.com/2016/11/04/listview-partial-load/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Alpha Gao">
+      <meta itemprop="description" content="You will be what you want.">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Here's to Change">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">ListView的分批加载
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2016-11-04 14:22:35" itemprop="dateCreated datePublished" datetime="2016-11-04T14:22:35+08:00">2016-11-04</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="Modified: 2017-08-07 17:49:46" itemprop="dateModified" datetime="2017-08-07T17:49:46+08:00">2017-08-07</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Android/" itemprop="url" rel="index"><span itemprop="name">Android</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+              
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+            
+                <span class="post-meta-item-text">Comments: </span>
+                <a href="/2016/11/04/listview-partial-load/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2016/11/04/listview-partial-load/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>为什么需要分批加载呢，一般我们在浏览数据的时候，往往要浏览的数据是很多的，例如你上淘宝买东西，一搜索可能会有好几万条结果，但是这些数据如果一下子全部加载出来，先不说你手机内存是否吃的消，假如你是流量上网，那么你的流量会瞬间消耗多少呢，况且一句手机的网速，需要加载多久也不久不用我多说了把。</p>
+<p>因此就需要分批加载，一般来说每次加载20条数据即可。<br><a id="more"></a><br>既然是分批加载，那么肯定得有加载数据的逻辑，根据封装的思想，最好能够传入起始加载位置和加载的数量就能够返回数据的集合：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 查询部分数据</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> maxNum 需要查询的条目数量</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> startIndex 查询的起始位置</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@return</span> 查询到的部分数据的集合 list</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> List&lt;BlackNumInfo&gt; <span class="title">queryPartBlackNum</span><span class="params">(<span class="keyword">int</span> maxNum,<span class="keyword">int</span> startIndex)</span></span>&#123;</span><br><span class="line">    List&lt;BlackNumInfo&gt; infoList = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">    SQLiteDatabase database = blackNumOpenHelper.getReadableDatabase();</span><br><span class="line">    Cursor cursor = database.rawQuery(<span class="string">"select blackNum,mode from info order by _id desc "</span> +</span><br><span class="line">            <span class="string">"limit ? offset ?"</span>, <span class="keyword">new</span> String[]&#123;maxNum + <span class="string">""</span>, startIndex + <span class="string">""</span>&#125;);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span> (cursor.moveToNext()) &#123;</span><br><span class="line">        String num = cursor.getString(<span class="number">0</span>);</span><br><span class="line">        <span class="keyword">int</span> mode = cursor.getInt(<span class="number">1</span>);</span><br><span class="line">        infoList.add(<span class="keyword">new</span> BlackNumInfo(num, mode));</span><br><span class="line">    &#125;</span><br><span class="line">    cursor.close();</span><br><span class="line">    database.close();</span><br><span class="line">    <span class="keyword">return</span> infoList;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>有了加载部分数据的逻辑，我们还需要判断加载数据的时机，仅在需要的时候再加载下一批数据。因为我们的数据是用 ListView 来显示的，那么就需要从 ListView 的状态入手。我们可以认为，当用户滑到 ListView 最底部的时候，她还想继续浏览，这个时候我们就可以放心地加载下一批数据。</p>
+<p>因此，加载的时机就是当 ListView 窗口显示的数据条目是其对应的 adapter 的最后一条数据，也就是用户滑到了最底部的时候，就可以加载数据了：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"> <span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 最大分批加载数量</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> MAXNUM = <span class="number">20</span>;</span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 分批加载起始位置</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">int</span> startIndex=<span class="number">0</span>;</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 为列表的滑动添加监听事件，当屏幕显示的最后一条数据是列表的最后一条数据时，加载下一批数据</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    blackList.setOnScrollListener(<span class="keyword">new</span> AbsListView.OnScrollListener() &#123;</span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onScrollStateChanged</span><span class="params">(AbsListView view, <span class="keyword">int</span> scrollState)</span> </span>&#123;</span><br><span class="line">            <span class="comment">//必须是处于静止状态下(或者说滑动停止后)</span></span><br><span class="line">            <span class="keyword">if</span> (scrollState == AbsListView.OnScrollListener.SCROLL_STATE_IDLE) &#123;</span><br><span class="line">                <span class="comment">//AbsListView.OnScrollListener.SCROLL_STATE_IDLE表示列表属于空闲状态（静止）</span></span><br><span class="line">                <span class="comment">//当屏幕显示的最后一条数据是列表的最后一条数据时，加载下一批数据</span></span><br><span class="line">                <span class="keyword">if</span> (blackList.getLastVisiblePosition() == list.size() - <span class="number">1</span>) &#123;</span><br><span class="line">                    startIndex += MAXNUM;</span><br><span class="line">                    <span class="comment">//加载数据</span></span><br><span class="line">                    fillData();</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onScroll</span><span class="params">(AbsListView view, <span class="keyword">int</span> firstVisibleItem, <span class="keyword">int</span> visibleItemCount, <span class="keyword">int</span> totalItemCount)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br></pre></td></tr></table></figure>
+<p>接下来要做什么呢，时机到了，新的数据也查到了，那么就要把数据更新到 ListView 中。在这里需要注意一些小细节：</p>
+<ul>
+<li>当 ListView 中不存在数据和已经存在数据的情况；</li>
+<li>ListView 的 adapter 为空和不为空的情况；</li>
+</ul>
+<p>为什么要注意这两点呢，首先一开始的时候，我们也是要采用分批加载数据的方法才加载第一批数据的。其次如果 ListView 中已经存在数据，那么就不能简单的用新查询到的数据直接替换原来的 list 数据集合，否则原先的数据就会消失，而只剩下新查询到的数据，这可不是我们的本意；最后还得对 adapter 进行判断，如果 adapter 不为空，那么就得采用通知更新的方法，而不能直接为 list 集合设置新的 adapter，否则每次加载完数据，ListView都会跳转到列表开始的位置，也就是第一条数据。</p>
+<p>以下是具体的逻辑，其中用到了一个简单的异步加载框架：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">fillData</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">new</span> MyAsycTask() &#123;</span><br><span class="line"></span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">preTask</span><span class="params">()</span> </span>&#123;</span><br><span class="line">            <span class="comment">//显示进度条</span></span><br><span class="line">            callLoading.setVisibility(View.VISIBLE);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">doInBack</span><span class="params">()</span> </span>&#123;</span><br><span class="line">            <span class="comment">//若list已经存在数据，只需要将新的数据添加到原有数据集合中</span></span><br><span class="line">            <span class="keyword">if</span> (list == <span class="keyword">null</span>) &#123;</span><br><span class="line">                list = blackNumDao.queryPartBlackNum(MAXNUM, startIndex);</span><br><span class="line">            &#125;<span class="keyword">else</span> &#123;</span><br><span class="line">                list.addAll(blackNumDao.queryPartBlackNum(MAXNUM, startIndex));</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">postTask</span><span class="params">()</span> </span>&#123;</span><br><span class="line">            <span class="comment">//判断原来的adapter中是否已经存在数据，如果没有则重新设置，否则更新数据即可</span></span><br><span class="line">            <span class="keyword">if</span> (myAdapter == <span class="keyword">null</span>) &#123;</span><br><span class="line">                myAdapter = <span class="keyword">new</span> MyAdapter();</span><br><span class="line">                blackList.setAdapter(myAdapter);</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                myAdapter.notifyDataSetChanged();</span><br><span class="line">            &#125;</span><br><span class="line">            callLoading.setVisibility(View.INVISIBLE);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;.execute();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>至此，一个简单但却完整的分批加载框架就完成了。<br>完整的源码参见<a href="https://github.com/AlphaGao1993/MobileSafe/blob/master/app/src/main/java/com/example/alpha/mobilesafe/DB/BlackNumDao.java" target="_blank" rel="noopener">BlackNumDao.java</a>和<a href="https://github.com/AlphaGao1993/MobileSafe/blob/master/app/src/main/java/com/example/alpha/mobilesafe/Activity/CallSafeActivity.java" target="_blank" rel="noopener">CallSafeActivity.java</a></p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Android/" rel="tag"># Android</a>
+          
+            <a href="/tags/ListView/" rel="tag"># ListView</a>
+          
+            <a href="/tags/Partial/" rel="tag"># Partial</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/09/13/netease-campus-2017-algorithm-1/" rel="next" title="网易2017校招笔试算法题(一)">
+                <i class="fa fa-chevron-left"></i> 网易2017校招笔试算法题(一)
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/11/07/notifyDataSetChanged-didnt-work/" rel="prev" title="notifyDataSetChanged() 方法不更新数据的问题">
+                notifyDataSetChanged() 方法不更新数据的问题 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+    <div class="comments" id="comments">
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <div class="site-overview-wrap sidebar-panel sidebar-panel-active">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Alpha Gao</p>
+              <div class="site-description motion-element" itemprop="description">You will be what you want.</div>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">50</span>
+                    <span class="site-state-item-name">posts</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  
+                    
+                      <a href="/categories/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">11</span>
+                    <span class="site-state-item-name">categories</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                      <a href="/tags/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">93</span>
+                    <span class="site-state-item-name">tags</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+
+      
+        <div class="back-to-top">
+          <i class="fa fa-arrow-up"></i>
+          
+            <span id="scrollpercent"><span>0</span>%</span>
+          
+        </div>
+      
+
+    </div>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">  <a href="http://www.miitbeian.gov.cn" rel="noopener" target="_blank">陇ICP备17000389号 </a>&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-Alpha Gao"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Alpha Gao</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> v3.8.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> v7.0.1</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/src/utils.js?v=7.0.1"></script>
+
+  <script src="/js/src/motion.js?v=7.0.1"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/src/schemes/muse.js?v=7.0.1"></script>
+
+
+
+  
+  <script src="/js/src/scrollspy.js?v=7.0.1"></script>
+<script src="/js/src/post-details.js?v=7.0.1"></script>
+
+
+
+  
+
+
+  <script src="/js/src/next-boot.js?v=7.0.1"></script>
+
+
+  
+  
+  
+
+<script src="//cdn1.lncld.net/static/js/3.11.1/av-min.js"></script>
+
+
+
+<script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+
+<script>
+  var GUEST = ['nick', 'mail', 'link'];
+  var guest = 'nick,mail,link';
+  guest = guest.split(',').filter(function(item) {
+    return GUEST.indexOf(item) > -1;
+  });
+  new Valine({
+    el: '#comments',
+    verify: false,
+    notify: false,
+    appId: 'H96xxLo0hzG4azqx9XRPBLGe-gzGzoHsz',
+    appKey: 'NPnxUKfUoUn6iIlWOyvA1WgE',
+    placeholder: 'Just say anything',
+    avatar: 'mm',
+    meta: guest,
+    pageSize: '10' || 10,
+    visitor: false
+  });
+</script>
+
+
+
+
+  
+
+
+  
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

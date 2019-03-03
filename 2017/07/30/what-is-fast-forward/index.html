@@ -1,0 +1,1077 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
+
+<link rel="stylesheet" href="/css/main.css?v=7.0.1">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.0.1">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.0.1">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.0.1">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.0.1" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '7.0.1',
+    sidebar: {"position":"left","display":"hide","offset":12,"b2t":true,"scrollpercent":true,"onmobile":false,"dimmer":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="今天完成一个功能开发，提交代码的时候，突然提示如下错误：1234567To C:/Users/Alpha/AppData/Local/Temp/d20170730-15308-3dbr6w/.git ! [rejected]        master -&amp;gt; master (non-fast-forward)error: failed to push some refs to &amp;apos;C">
+<meta name="keywords" content="git,fast-forword">
+<meta property="og:type" content="article">
+<meta property="og:title" content="git：到底什么是 fast-forwards ?">
+<meta property="og:url" content="alphagao.com/2017/07/30/what-is-fast-forward/index.html">
+<meta property="og:site_name" content="Here&#39;s to Change">
+<meta property="og:description" content="今天完成一个功能开发，提交代码的时候，突然提示如下错误：1234567To C:/Users/Alpha/AppData/Local/Temp/d20170730-15308-3dbr6w/.git ! [rejected]        master -&amp;gt; master (non-fast-forward)error: failed to push some refs to &amp;apos;C">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2017-08-07T09:41:26.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="git：到底什么是 fast-forwards ?">
+<meta name="twitter:description" content="今天完成一个功能开发，提交代码的时候，突然提示如下错误：1234567To C:/Users/Alpha/AppData/Local/Temp/d20170730-15308-3dbr6w/.git ! [rejected]        master -&amp;gt; master (non-fast-forward)error: failed to push some refs to &amp;apos;C">
+
+
+
+
+
+
+  <link rel="canonical" href="alphagao.com/2017/07/30/what-is-fast-forward/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>git：到底什么是 fast-forwards ? | Here's to Change</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Here's to Change</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">请问你真的有在努力吗 ？</p>
+      
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="Toggle navigation bar">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>Home</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>About</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>Tags</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>Categories</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>Archives</a>
+
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="alphagao.com/2017/07/30/what-is-fast-forward/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Alpha Gao">
+      <meta itemprop="description" content="You will be what you want.">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Here's to Change">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">git：到底什么是 fast-forwards ?
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2017-07-30 21:34:55" itemprop="dateCreated datePublished" datetime="2017-07-30T21:34:55+08:00">2017-07-30</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="Modified: 2017-08-07 17:41:26" itemprop="dateModified" datetime="2017-08-07T17:41:26+08:00">2017-08-07</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Git/" itemprop="url" rel="index"><span itemprop="name">Git</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+              
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+            
+                <span class="post-meta-item-text">Comments: </span>
+                <a href="/2017/07/30/what-is-fast-forward/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2017/07/30/what-is-fast-forward/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>今天完成一个功能开发，提交代码的时候，突然提示如下错误：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">To C:/Users/Alpha/AppData/Local/Temp/d20170730-15308-3dbr6w/.git</span><br><span class="line"> ! [rejected]        master -&gt; master (non-fast-forward)</span><br><span class="line">error: failed to push some refs to &apos;C:/Users/Alpha/AppData/Local/Temp/d20170730-15308-3dbr6w/.git&apos;</span><br><span class="line">hint: Updates were rejected because the tip of your current branch is behind</span><br><span class="line">hint: its remote counterpart. Integrate the remote changes (e.g.</span><br><span class="line">hint: &apos;git pull ...&apos;) before pushing again.</span><br><span class="line">hint: See the &apos;Note about fast-forwards&apos; in &apos;git push --help&apos; for details.</span><br></pre></td></tr></table></figure></p>
+<a id="more"></a>
+<p>意思就是本次提交被远程仓库拒绝了，因为当前分支无法与远程仓库对应起来。远程仓库对应分支默认有个指针指向最新提交到仓库的 commit ，而所有的本地仓库的分支都可以看做是从这个 commit 分散开来的。也就是本地分支的最后一次 push 到仓库的 commit 一定与仓库对应分支的最新一次 commit 是相同的，否则就无法对接。也就是会出现上面的错误提示。如果是正常 push 到仓库，正确的完成 commit 更新，那么这次更新就是一个 <code>fast-forward</code> 更新,而如果不理会错误警告用本地更新强制覆盖仓库，就是一次 <code>no-fast-forward</code> 更新，很明显，<strong><code>no-fast-forward</code> 更新会导致记录丢失</strong>。</p>
+<p>那么这种问题是如何发生的呢？比如有两个人都是从仓库的 master 分支克隆到本地，然后分别开发。master 本身有一个指针 HEAD 指向最后一次 commit 记录 commit-0 。A 先完成一个功能，并 push 到仓库，这次 commit 记为 commit-A，这也就是一次 <code>fast-forward</code> 更新，此时仓库的 master 分支的 HEAD 指针就指向了 commit-A。接下来 B 也完成了一个功能，要向仓库 push commit-B，如果没有做额外操作，肯定会出现上面的错误。</p>
+<p>知道错误是如何发生的，就可以避免了。既然仓库有了更新，那么就要先把仓库的更新拉取到本地。这里有两种方式可以拉取：一是直接使用 <code>git pull</code> 命令，该命令会在拉取的同时会直接与本地对应分支进行合并，如果确信仓库的更新与本地不会发生冲突，那么可以直接使用。但是很可能 A 与 B 都对同一些文件做出了修改，那么必然导致冲突。不过既然知道会冲突也只能老老实实解决冲突了，不管是 fetch 先解决冲突在合并还是 pull 先合并再解决冲突，这个过程少不了的，除非你确定仓库的更新是没用的可以直接抛弃，就可以执行 <code>git push -f</code> 强制覆盖到仓库，这会导致仓库中某些记录丢失。</p>
+<p>我们借助于 githug 28 关来模拟看看：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">$ git push -u origin master</span><br><span class="line">To C:/Users/Alpha/AppData/Local/Temp/d20170731-15124-1ywoym1/.git</span><br><span class="line"> ! [rejected]        master -&gt; master (non-fast-forward)</span><br><span class="line">error: failed to push some refs to &apos;C:/Users/Alpha/AppData/Local/Temp/d20170731-15124-1ywoym1/.git&apos;</span><br><span class="line">hint: Updates were rejected because the tip of your current branch is behind</span><br><span class="line">hint: its remote counterpart. Integrate the remote changes (e.g.</span><br><span class="line">hint: &apos;git pull ...&apos;) before pushing again.</span><br><span class="line">hint: See the &apos;Note about fast-forwards&apos; in &apos;git push --help&apos; for details.</span><br><span class="line"></span><br><span class="line">$ git log origin/master --oneline</span><br><span class="line">68ad000 Fourth commit</span><br><span class="line"></span><br><span class="line">$ git log --oneline</span><br><span class="line">b977ec3 Third commit</span><br><span class="line">6d15890 Second commit</span><br><span class="line">5266aa2 First commit</span><br><span class="line"></span><br><span class="line">$ git push -f -u origin master</span><br><span class="line">Counting objects: 7, done.</span><br><span class="line">Delta compression using up to 4 threads.</span><br><span class="line">Compressing objects: 100% (5/5), done.</span><br><span class="line">Writing objects: 100% (7/7), 546 bytes | 0 bytes/s, done.</span><br><span class="line">Total 7 (delta 2), reused 0 (delta 0)</span><br><span class="line">To C:/Users/Alpha/AppData/Local/Temp/d20170731-15124-1ywoym1/.git</span><br><span class="line"> + 68ad000...b977ec3 master -&gt; master (forced update)</span><br><span class="line">Branch master set up to track remote branch master from origin.</span><br><span class="line"></span><br><span class="line">$ git log origin/master --oneline</span><br><span class="line">b977ec3 Third commit</span><br><span class="line">6d15890 Second commit</span><br><span class="line">5266aa2 First commit</span><br></pre></td></tr></table></figure>
+<p>可以看到，强制覆盖 push 后，仓库的 <code>Fourth commit</code> 已经不见了。</p>
+<p>但如果不想丢掉 commit-A 的同时又不想与 commit-A 合并，B 想继续接着本地仓库工作，可以使用 <code>git rebase origin/master</code> ,表示将本地所有 commit 排在仓库 的 commit 记录之后。然后向仓库的 push 就会被接受。同样借助于 githug 28 关，而且，这才是 28 关正确的过关方式：</p>
+<p>详细过关过程如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line">$ git push -u origin master</span><br><span class="line">To C:/Users/Alpha/AppData/Local/Temp/d20170731-14980-yb0fll/.git</span><br><span class="line"> ! [rejected]        master -&gt; master (non-fast-forward)</span><br><span class="line">error: failed to push some refs to &apos;C:/Users/Alpha/AppData/Local/Temp/d20170731-14980-yb0fll/.git&apos;</span><br><span class="line">hint: Updates were rejected because the tip of your current branch is behind</span><br><span class="line">hint: its remote counterpart. Integrate the remote changes (e.g.</span><br><span class="line">hint: &apos;git pull ...&apos;) before pushing again.</span><br><span class="line">hint: See the &apos;Note about fast-forwards&apos; in &apos;git push --help&apos; for details.</span><br><span class="line"></span><br><span class="line">$ git log origin/master --oneline</span><br><span class="line">015383a Fourth commit</span><br><span class="line"></span><br><span class="line">$ git log --oneline</span><br><span class="line">38aa398 Third commit</span><br><span class="line">1c03f48 Second commit</span><br><span class="line">ad32a6d First commit</span><br><span class="line"></span><br><span class="line">$ git rebase origin/master</span><br><span class="line">First, rewinding head to replay your work on top of it...</span><br><span class="line">Applying: First commit</span><br><span class="line">Applying: Second commit</span><br><span class="line">Applying: Third commit</span><br><span class="line"></span><br><span class="line">$ git log --oneline</span><br><span class="line">fbf0528 Third commit</span><br><span class="line">03d1240 Second commit</span><br><span class="line">9828360 First commit</span><br><span class="line">015383a Fourth commit</span><br><span class="line">   </span><br><span class="line">$ git push -u origin master</span><br><span class="line">Counting objects: 6, done.</span><br><span class="line">Delta compression using up to 4 threads.</span><br><span class="line">Compressing objects: 100% (6/6), done.</span><br><span class="line">Writing objects: 100% (6/6), 607 bytes | 0 bytes/s, done.</span><br><span class="line">Total 6 (delta 2), reused 0 (delta 0)</span><br><span class="line">To C:/Users/Alpha/AppData/Local/Temp/d20170731-14980-yb0fll/.git</span><br><span class="line">   015383a..fbf0528  master -&gt; master</span><br><span class="line">Branch master set up to track remote branch master from origin.</span><br></pre></td></tr></table></figure></p>
+<p>但其实还有一种比较常见的出现 <code>no-fast-forward</code> 这种错误的情境，是在你向一个只有你自己可访问的仓库 push 的时候发生的。当你已经将一次 commit-A push 到仓库后，然后因为某些原因又使用了 git commit –amend 修改了 commit-A ,这个时候 commit-A 就变成了 commit-B，而此时本地仓库就没有关系 commit-A 的记录了，这个时候再次向仓库 push ，很明显，commit-B 无法与仓库的 commit-A 进行对接，所以出现了 <code>no-fast-forward</code> 错误。这种情况下其实也很好解决，<strong>如果你确定 commit-A 已经完全无用并且没有人将 commit-A 拉取到本地进行进一步开发</strong>之后，你就使用 <code>git push -f</code> 来覆盖仓库记录。之后，你就会永远丢失 commit-A 记录了。</p>
+<p>而对比发现，我之所以会遇到本文开头的错误，就是因为之前使用了 <code>git commit --amend</code> 命令修改了已经 push 到仓库的 commit 的注释导致的。因此，一旦已经 push 到仓库，想要做出修改，就只能通过一次新的 commit 来完成对某次已经 push 到仓库的 commit 记录的修改了，可以参考 githug 52 关 revert。</p>
+<blockquote>
+<p>参考：<br>[1]<a href="https://git-scm.com/docs/git-push/2.10.0" target="_blank" rel="noopener">https://git-scm.com/docs/git-push/2.10.0#Note about fast-forwards</a><br>[2]<a href="http://wiki.jikexueyuan.com/project/githug-walkthrough/level-28.html" target="_blank" rel="noopener">极客学院 githug 通关攻略</a></p>
+</blockquote>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/git/" rel="tag"># git</a>
+          
+            <a href="/tags/fast-forword/" rel="tag"># fast-forword</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/07/28/best-way-to-start-activiity/" rel="next" title="开启 Activity 最佳实践">
+                <i class="fa fa-chevron-left"></i> 开启 Activity 最佳实践
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/08/07/stragety-pattern-vs-state-pattern/" rel="prev" title="策略模式 vs 状态模式">
+                策略模式 vs 状态模式 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+    <div class="comments" id="comments">
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <div class="site-overview-wrap sidebar-panel sidebar-panel-active">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Alpha Gao</p>
+              <div class="site-description motion-element" itemprop="description">You will be what you want.</div>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">50</span>
+                    <span class="site-state-item-name">posts</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  
+                    
+                      <a href="/categories/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">11</span>
+                    <span class="site-state-item-name">categories</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                      <a href="/tags/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">93</span>
+                    <span class="site-state-item-name">tags</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+
+      
+        <div class="back-to-top">
+          <i class="fa fa-arrow-up"></i>
+          
+            <span id="scrollpercent"><span>0</span>%</span>
+          
+        </div>
+      
+
+    </div>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">  <a href="http://www.miitbeian.gov.cn" rel="noopener" target="_blank">陇ICP备17000389号 </a>&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-Alpha Gao"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Alpha Gao</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> v3.8.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> v7.0.1</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/src/utils.js?v=7.0.1"></script>
+
+  <script src="/js/src/motion.js?v=7.0.1"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/src/schemes/muse.js?v=7.0.1"></script>
+
+
+
+  
+  <script src="/js/src/scrollspy.js?v=7.0.1"></script>
+<script src="/js/src/post-details.js?v=7.0.1"></script>
+
+
+
+  
+
+
+  <script src="/js/src/next-boot.js?v=7.0.1"></script>
+
+
+  
+  
+  
+
+<script src="//cdn1.lncld.net/static/js/3.11.1/av-min.js"></script>
+
+
+
+<script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+
+<script>
+  var GUEST = ['nick', 'mail', 'link'];
+  var guest = 'nick,mail,link';
+  guest = guest.split(',').filter(function(item) {
+    return GUEST.indexOf(item) > -1;
+  });
+  new Valine({
+    el: '#comments',
+    verify: false,
+    notify: false,
+    appId: 'H96xxLo0hzG4azqx9XRPBLGe-gzGzoHsz',
+    appKey: 'NPnxUKfUoUn6iIlWOyvA1WgE',
+    placeholder: 'Just say anything',
+    avatar: 'mm',
+    meta: guest,
+    pageSize: '10' || 10,
+    visitor: false
+  });
+</script>
+
+
+
+
+  
+
+
+  
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

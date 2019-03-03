@@ -1,0 +1,1120 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
+
+<link rel="stylesheet" href="/css/main.css?v=7.0.1">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.0.1">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.0.1">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.0.1">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.0.1" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '7.0.1',
+    sidebar: {"position":"left","display":"hide","offset":12,"b2t":true,"scrollpercent":true,"onmobile":false,"dimmer":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="已经一个多月没有更新了，因为公司开了新项目，并且由于业务的特殊性，上线期限比较紧，又碰上国庆长假，所以时间非常紧张。这段时间一直都是加班加点，偶尔周末也会加一天班，所以整个人都比较累，回家了也没什么精神写博客了。正好到这周终于没有什么杂事来打扰，有空总结下这段时间的经验和收获。 这次就主要说一下项目中用到的新的 API 请求框架 GrqphQL 。GrqphQL 是由 facebook 开源的新一">
+<meta name="keywords" content="GrqphQL,REST">
+<meta property="og:type" content="article">
+<meta property="og:title" content="遇见 GraqphQL">
+<meta property="og:url" content="alphagao.com/2017/10/22/meeting-with-graphql/index.html">
+<meta property="og:site_name" content="Here&#39;s to Change">
+<meta property="og:description" content="已经一个多月没有更新了，因为公司开了新项目，并且由于业务的特殊性，上线期限比较紧，又碰上国庆长假，所以时间非常紧张。这段时间一直都是加班加点，偶尔周末也会加一天班，所以整个人都比较累，回家了也没什么精神写博客了。正好到这周终于没有什么杂事来打扰，有空总结下这段时间的经验和收获。 这次就主要说一下项目中用到的新的 API 请求框架 GrqphQL 。GrqphQL 是由 facebook 开源的新一">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2017-10-22T10:38:53.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="遇见 GraqphQL">
+<meta name="twitter:description" content="已经一个多月没有更新了，因为公司开了新项目，并且由于业务的特殊性，上线期限比较紧，又碰上国庆长假，所以时间非常紧张。这段时间一直都是加班加点，偶尔周末也会加一天班，所以整个人都比较累，回家了也没什么精神写博客了。正好到这周终于没有什么杂事来打扰，有空总结下这段时间的经验和收获。 这次就主要说一下项目中用到的新的 API 请求框架 GrqphQL 。GrqphQL 是由 facebook 开源的新一">
+
+
+
+
+
+
+  <link rel="canonical" href="alphagao.com/2017/10/22/meeting-with-graphql/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>遇见 GraqphQL | Here's to Change</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Here's to Change</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">请问你真的有在努力吗 ？</p>
+      
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="Toggle navigation bar">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>Home</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>About</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>Tags</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>Categories</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>Archives</a>
+
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="alphagao.com/2017/10/22/meeting-with-graphql/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Alpha Gao">
+      <meta itemprop="description" content="You will be what you want.">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Here's to Change">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">遇见 GraqphQL
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2017-10-22 14:21:14 / Modified: 18:38:53" itemprop="dateCreated datePublished" datetime="2017-10-22T14:21:14+08:00">2017-10-22</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Android/" itemprop="url" rel="index"><span itemprop="name">Android</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+              
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+            
+                <span class="post-meta-item-text">Comments: </span>
+                <a href="/2017/10/22/meeting-with-graphql/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2017/10/22/meeting-with-graphql/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>已经一个多月没有更新了，因为公司开了新项目，并且由于业务的特殊性，上线期限比较紧，又碰上国庆长假，所以时间非常紧张。这段时间一直都是加班加点，偶尔周末也会加一天班，所以整个人都比较累，回家了也没什么精神写博客了。正好到这周终于没有什么杂事来打扰，有空总结下这段时间的经验和收获。</p>
+<p>这次就主要说一下项目中用到的新的 API 请求框架 GrqphQL 。GrqphQL 是由 facebook 开源的新一代 API 请求框架，具体的介绍和与 REST 的差别大家还是 Google 吧，我也不想 copy and paste，不过我会把具体使用过程中遇到的问题和体会写在这里，供大家参考。<br><a id="more"></a></p>
+<h3 id="使用准备"><a href="#使用准备" class="headerlink" title="使用准备"></a>使用准备</h3><p>GrqphQL 在 Android 和所有的移动端、前端都主要是由两部分构成的：数据结构和请求语句，对应到项目中就是 schema.json 和 xxx.graphql 文件。</p>
+<p>其中 schema.json 可以通过 <a href="http://dev.apollodata.com/ios/downloading-schema.html" target="_blank" rel="noopener">apollo-codegen</a> 这个工具请求自动生成，安装这个工具需要先安装 nodejs 环境，然后执行 <code>npm install -g apollo-codegen</code> 就可以安装了。然后在命令行下执行 <code>apollo-codegen download-schema {url}/graphql --output {path}/schema.json</code> 就能得到 schema.json 这个文件了。</p>
+<p>然后就是 xxx.graphql 文件了。写请求语句需要对照后端 API 文档，所以还需要一个 GraphQL API 调试工具，github 上有一个非常好用的工具 <a href="https://github.com/andev-software/graphql-ide" target="_blank" rel="noopener">GrqphQL-IDE</a>,不仅可以查看所有接口的参数和类型，可以实时更新，还可以像一个传统的查询语言模拟 GraphQL 请求，看到实际的返回结果，同时也能够配置多环境，也可以导入数据文件，使用别人的 example，作用基本与 Postman 类似，mac 可以直接下载使用。</p>
+<p>还有一个官方的 IDE 项目 <a href="https://github.com/graphql/graphiql" target="_blank" rel="noopener">GraphIql</a>,是一个网页版的 GraphQL 调试工具，但是仍然需要在本地安装依赖组件，所以我觉得上面的 GraphQL 更加方便，不需要安装任何依赖，开箱即用。</p>
+<p>GrqphQL 请求分为两类，query 和 mutation。query 对应于传统的 GET 读操作，mutation 对应于 PSOT，PUT 等写操作，使用上的区别在下面会讲到。</p>
+<p>另外在真机上测试的时候 GraphQL IDE 就派不上用场了，所以还是抓包看看实际传输的数据吧，这样即使不依托于 GrqphQL 在 Android 中的依赖库，也能自己使用 REST 框架构建和发起 GraphQL 请求，当然这是我曾经无奈之下的办法，并不推荐这种方式。</p>
+<p>GraphQL 其实也有 IDEA IDE 插件，地址是 <a href="https://github.com/apollographql/intellij-graphq，" target="_blank" rel="noopener">https://github.com/apollographql/intellij-graphq，</a> 需要自己编译安装，目前功能较弱，没什么存在感。</p>
+<h3 id="框架配置"><a href="#框架配置" class="headerlink" title="框架配置"></a>框架配置</h3><p>然后就是在 Android 中实际使用了。 GrqphQL 有专用于 Android 的 github 项目，地址是 <a href="https://github.com/apollographql/apollo-android" target="_blank" rel="noopener">apollo-android</a> ，可用于 Android 的依赖包都在这个项目中，不过经过我这段时间的使用，感觉对于 iOS 和 Web 端来说，Android 的实现还不是非常到位，其中有不少坑，我也会一一列出来供大家参考。</p>
+<p>首先在 project 级别下的 build.gradle 中添加如下部分：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">buildscript &#123;</span><br><span class="line">    repositories &#123;</span><br><span class="line">        jcenter()</span><br><span class="line">    &#125;</span><br><span class="line">    dependencies &#123;</span><br><span class="line">        classpath &apos;com.apollographql.apollo:apollo-gradle-plugin:x.y.z&apos;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>截止目前该库的版本为 0.4.2，也就是在几天之前更新的。本来在 0.4.2 之前，还需要在 app 级别下的 build.gradle 中添加以下依赖：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">compile &quot;com.apollographql.apollo:apollo-runtime:$apolloReleaseVersion&quot; </span><br><span class="line">compile &quot;com.apollographql.apollo:apollo-android-support:$apolloReleaseVersion&quot;</span><br></pre></td></tr></table></figure></p>
+<p>不过看 github 的介绍已经没有这段了，经过实验去掉之后也不会有什么影响了。不过如果你要添加 rxJava 支持或 apollo 族中其他组件，还是需要另行添加的。</p>
+<p>然后需要在 app 下 build.gradle 中加入 apollo 的 plugin：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">apply plugin: &apos;com.apollographql.android&apos;</span><br></pre></td></tr></table></figure></p>
+<p>另外需要注意的是，在 app 下的 build.gradle 中，android.application 的 plugin 应该是在 GraphQL plugin 之前的，如果你还使用 kotlin，那么就应该是这样的：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">apply plugin: &apos;com.android.application&apos;</span><br><span class="line">apply plugin: &apos;com.apollographql.android&apos;</span><br><span class="line">apply plugin: &apos;kotlin-android&apos;</span><br><span class="line">apply plugin: &apos;kotlin-android-extensions&apos;</span><br></pre></td></tr></table></figure></p>
+<p>也就是 apollo 的 plugin 是在 application 之后，kotlin 之前的。</p>
+<p>如果有需要还可以自定义一些配置，比如我目前用到的：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">apollo &#123;</span><br><span class="line">    generateModelBuilder = true</span><br><span class="line">    schemaFilePath = &quot;/Users/alpha/Projects/graphql-example/app/src/main/java/com/alphagao/graphql-example/compontents/graphql/schema.json&quot;</span><br><span class="line">    outputPackageName = &quot;com.alphagao.graphql-example.compontents.graphql.api&quot;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>其中 <code>generateModelBuilder</code> 用于对 apollo 中所生成的所有 pojo 类增加 builder 方法，以生成新的对象，apollo 默认所有的数据对象都是只能读不能写的，通过查看生成的 Java 代码就会发现所有的 pojo 类的属性都是 final 类型的，非常不方便临时修改和保存状态，而且即使开启了 这个配置，要改变一个对象的值也是非常麻烦的，例如：<br><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> feed = FeedsQuery.Feed</span><br><span class="line">      .builder()</span><br><span class="line">      .__typename(item.__typename())</span><br><span class="line">      .child_count(item.child_count())</span><br><span class="line">      .comment_count(item.comment_count())</span><br><span class="line">      .created_at(item.created_at())</span><br><span class="line">      .gather(item.gather())</span><br><span class="line">      .id(item.id())</span><br><span class="line">      .like_count(<span class="keyword">if</span> (item.liked()!!) item.like_count()?.minus(<span class="number">1</span>) <span class="keyword">else</span> item.like_count()?.plus(<span class="number">1</span>))</span><br><span class="line">      .liked(!item.liked()!!)</span><br><span class="line">      .photo_count(item.photo_count())</span><br><span class="line">      .photos(item.photos())</span><br><span class="line">      .published_at(item.published_at())</span><br><span class="line">      .sent_type(item.sent_type())</span><br><span class="line">      .teacher(item.teacher())</span><br><span class="line">      .title(item.title())</span><br><span class="line">      .content(item.content())</span><br><span class="line">      .build()</span><br><span class="line">feedList[position] = feed</span><br><span class="line">item = feed</span><br></pre></td></tr></table></figure></p>
+<p>这里我只是想要点个赞，改变 Liked 的值，就需要将整个 item 对象重新构建一遍，你说麻烦不麻烦。而在 iOS 中就没有这个问题。<br>既然说到了这里，还有一个坑不得不提，apollo 中的所有数据和列表都是使用不可变的实现，也就是 <code>UnmodifiableRandomAccessList</code> 这个类，不支持添加和删除，所以也是比较坑，好在在实际使用中可以通过构造一个可变列表对象，然后把原有的数据添加到可变列表中，最后用可变列表把原有的列表对象替换掉就行了。</p>
+<p><code>schemaFilePath</code> 这个就是自定义 schema.json 的位置的。默认这个文件需要放置到 <code>app/src/main/graphql/</code> 路径下，同时这个路径也是默认的 xxx.graphql 文件的路径，所有的查询语句文件都放在这里。但其实这个路径好像只支持绝对路径，这样其实有点坑了，因为绝对路径每个人都不一样的，如果有 jenkins 自动打包环境，那么就更加不适用了，所以最好还是不要设置这个选项为好。</p>
+<p><code>outputPackageName</code> 在设置了 <code>schemaFilePath</code> 的情况下这个选项是必须设置的，但是也可以单独设置。当然最好设置一下，如果是默认的生成路径，会导致非基本类型无法 import，这样需要传入非基本类型的请求都会无法使用了。改变默认路径可以避免这一情况。</p>
+<h3 id="初始化"><a href="#初始化" class="headerlink" title="初始化"></a>初始化</h3><p>由于 GraphQL 的 Android 库中都是以 apollo 自居的，因此下面也换成 apollo 来替代 GrqphQL。</p>
+<p>apollo 有自己 HTTP 请求 Client，也就是 ApolloClient，这个类需要在程序入口处进行初始化，一般可以放在 Applicaiton 的 onCreate() 中，当然也可以通过单例模式在其它类文件中初始化。这里我使用 kotlin 在 Application 中初始化。</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">App</span> : <span class="type">Application</span></span>()&#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//静态变量</span></span><br><span class="line">    <span class="keyword">companion</span> <span class="keyword">object</span> &#123;</span><br><span class="line">        <span class="keyword">lateinit</span> <span class="keyword">var</span> instance: App</span><br><span class="line">            <span class="keyword">private</span> <span class="keyword">set</span></span><br><span class="line"></span><br><span class="line">        <span class="keyword">lateinit</span> <span class="keyword">var</span> apolloClient: ApolloClient</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">onCreate</span><span class="params">()</span></span> &#123;</span><br><span class="line">		<span class="keyword">super</span>.onCreate()</span><br><span class="line">		instance = <span class="keyword">this</span></span><br><span class="line">		<span class="comment">//...其他操作</span></span><br><span class="line">		initApollo()</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="function"><span class="keyword">fun</span> <span class="title">initApollo</span><span class="params">()</span></span> &#123;</span><br><span class="line">        apolloClient = ApolloClient.builder()</span><br><span class="line">                .serverUrl(Config.BASE_URL)</span><br><span class="line">                .okHttpClient(OkHttpClient</span><br><span class="line">                        .Builder()</span><br><span class="line">                        .connectTimeout(<span class="number">30</span>, TimeUnit.SECONDS)</span><br><span class="line">                        .addInterceptor(HostInterceptor())</span><br><span class="line">                        .build())</span><br><span class="line">                .build()</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>需要注意的是 serverUrl 必须以 “/” 结尾，通常来说是这种格式：“http://{url}/graphql/”。</p>
+<h3 id="query"><a href="#query" class="headerlink" title="query"></a>query</h3><p>现在我们就可以写一个 query 语句发起一个请求了，一个最简单的 query.graphql 长这样：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">query ContactQuery&#123;</span><br><span class="line">	contact&#123;</span><br><span class="line">		information</span><br><span class="line">		type</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>其中 <code>ContractQuery</code> 是生成的对应的类文件的类名，如果后缀没有 Query，框架会自动帮你添加，当然也可以配置不添加这个后缀，通过在框架配置一节中提到的 apollo 模块下加入 <code>useSemanticNaming = false</code> 即可。mutation 语句也是同理。</p>
+<p>其中 <code>contract</code> 对应于 schema 中的一个操作，大小写是固定的，可以通过 GraphQL IDE 来确定。<code>contract</code> 内部的属性表示返回类型的属性，这些属性只要是属于这个返回对象的，都可以随意添加，这也是 GraphQL 的特性之一。</p>
+<p>以上语句的返回结果如下：<br><figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">	<span class="attr">"data"</span>: &#123;</span><br><span class="line">		<span class="attr">"contact"</span>: [&#123;</span><br><span class="line">			<span class="attr">"__typename"</span>: <span class="string">"ContactType"</span>,</span><br><span class="line">			<span class="attr">"information"</span>: <span class="string">"138xxxxxxxx"</span>,</span><br><span class="line">			<span class="attr">"type"</span>: <span class="string">"callphone"</span></span><br><span class="line">		&#125;, &#123;</span><br><span class="line">			<span class="attr">"__typename"</span>: <span class="string">"ContactType"</span>,</span><br><span class="line">			<span class="attr">"information"</span>: <span class="string">"xxxxxxxxxxxx"</span>,</span><br><span class="line">			<span class="attr">"type"</span>: <span class="string">"wechat"</span></span><br><span class="line">		&#125;]</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>其中 <code>__typename</code> 是每个对象都会有的属性，值通常是 <code>类名+Type</code></p>
+<p>然后再写一个带有传入参数的 query 语句：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">query FeedsQuery($clazz_ids:[ID!],$limit:Int!,$offset:Int!,$teacher_id:ID!)&#123;</span><br><span class="line">  feeds(clazz_ids: $clazz_ids, limit:$limit, offset: $offset) &#123;</span><br><span class="line">    id</span><br><span class="line">    teacher &#123;</span><br><span class="line">      id</span><br><span class="line">      name</span><br><span class="line">      avatar</span><br><span class="line">    &#125;</span><br><span class="line">    title</span><br><span class="line">    content</span><br><span class="line">    gather&#123;</span><br><span class="line">      gathered_children&#123;</span><br><span class="line">        avatar</span><br><span class="line">        name</span><br><span class="line">      &#125;</span><br><span class="line">      not_gathered_children&#123;</span><br><span class="line">        avatar</span><br><span class="line">        name</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    liked(teacher_id:$teacher_id)</span><br><span class="line">    photos(photo_count:4,uploaded:true) &#123;</span><br><span class="line">      rotation</span><br><span class="line">      url</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>这个看起来就略微复杂一点了。最外层括号中是所有需要的参数的定义，<code>[]</code> 表示需要传入一个数组，<code>!</code> 表示非空类型，然后在 feeds 操作中引用这些参数，这里所有的参数名都需要与 GraphQL IDE 中的参数的大小写保持一致。如果 feeds 里面某个对象还需要参数，直接引用最外层的定义即可，不需要 feeds 操作向内传递。这些所有的参数都可以直接写死，这样也就不需要定义参数了，比如例子中的 <code>photo_count:4</code>。每个返回对象都必须跟一对大括号，即时你不需要任何属性。另外仅通过查询语句是没办法知道返回的是一个对象还是一个数组列表的，这些都是由服务端控制的，比如例子中 teacher 是一个对象，而 photos 是一个对象列表。不过好像看名字可以大概分辨出哦，毕竟 photos 带着个 <code>s</code> 嘛。</p>
+<p>返回结果：<br><figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">	<span class="attr">"data"</span>: &#123;</span><br><span class="line">		<span class="attr">"feeds"</span>: [&#123;</span><br><span class="line">			<span class="attr">"__typename"</span>: <span class="string">"FeedType"</span>,</span><br><span class="line">			<span class="attr">"id"</span>: <span class="string">"ba20784f-fee2-4ea9-bec1-a6a93c5f59a5"</span>,</span><br><span class="line">			<span class="attr">"teacher"</span>: &#123;</span><br><span class="line">				<span class="attr">"__typename"</span>: <span class="string">"UserType"</span>,</span><br><span class="line">				<span class="attr">"id"</span>: <span class="string">"721bd480-3d2c-4b38-873d-7550853d8b93"</span>,</span><br><span class="line">				<span class="attr">"name"</span>: <span class="string">"Kobe"</span>,</span><br><span class="line">				<span class="attr">"avatar"</span>: <span class="string">"http://8adf0d6806f9943afdff525b6651a2a4.jpg"</span></span><br><span class="line">			&#125;,</span><br><span class="line">			<span class="attr">"title"</span>: <span class="string">"as"</span>,</span><br><span class="line">			<span class="attr">"content"</span>: <span class="literal">null</span>,</span><br><span class="line">			<span class="attr">"gather"</span>: &#123;</span><br><span class="line">				<span class="attr">"__typename"</span>: <span class="string">"GatherType"</span>,</span><br><span class="line">				<span class="attr">"gathered_children"</span>: [],</span><br><span class="line">				<span class="attr">"not_gathered_children"</span>: [&#123;</span><br><span class="line">					<span class="attr">"__typename"</span>: <span class="string">"ChildType"</span>,</span><br><span class="line">					<span class="attr">"avatar"</span>: <span class="string">"http://dsdsaf-fsafa-fag-ag-asgsaf.jpg"</span>,</span><br><span class="line">					<span class="attr">"name"</span>: <span class="string">"Jack"</span></span><br><span class="line">				&#125;, &#123;</span><br><span class="line">					<span class="attr">"__typename"</span>: <span class="string">"ChildType"</span>,</span><br><span class="line">					<span class="attr">"avatar"</span>: <span class="literal">null</span>,</span><br><span class="line">					<span class="attr">"name"</span>: <span class="string">"Jenny"</span></span><br><span class="line">				&#125;]</span><br><span class="line">			&#125;,</span><br><span class="line">			<span class="attr">"liked"</span>: <span class="literal">true</span>,</span><br><span class="line">			<span class="attr">"photos"</span>: [&#123;</span><br><span class="line">				<span class="attr">"__typename"</span>: <span class="string">"PhotoType"</span>,</span><br><span class="line">				<span class="attr">"rotation"</span>: <span class="number">0</span>,</span><br><span class="line">				<span class="attr">"url"</span>: <span class="string">"http://f2161f3b-7816-4c42-bdd9-d70b677dc383.jpg"</span></span><br><span class="line">			&#125;]</span><br><span class="line">		&#125;, &#123;</span><br><span class="line">			<span class="attr">"__typename"</span>: <span class="string">"FeedType"</span>,</span><br><span class="line">			<span class="attr">"id"</span>: <span class="string">"2e973021-39f0-4178-a3be-c5f3474b99a0"</span>,</span><br><span class="line">			<span class="attr">"teacher"</span>: &#123;</span><br><span class="line">				<span class="attr">"__typename"</span>: <span class="string">"UserType"</span>,</span><br><span class="line">				<span class="attr">"id"</span>: <span class="string">"67982f14-2951-4533-a61b-c047b5e8d2d2"</span>,</span><br><span class="line">				<span class="attr">"name"</span>: <span class="string">"James"</span>,</span><br><span class="line">				<span class="attr">"avatar"</span>: <span class="string">"976c6d4f93cbdac4462e8a7f5cdd68da.jpg"</span></span><br><span class="line">			&#125;,</span><br><span class="line">			<span class="attr">"title"</span>: <span class="string">"富贵花"</span>,</span><br><span class="line">			<span class="attr">"content"</span>: <span class="string">""</span>,</span><br><span class="line">			<span class="attr">"gather"</span>: &#123;</span><br><span class="line">				<span class="attr">"__typename"</span>: <span class="string">"GatherType"</span>,</span><br><span class="line">				<span class="attr">"gathered_children"</span>: [],</span><br><span class="line">				<span class="attr">"not_gathered_children"</span>: [&#123;</span><br><span class="line">					<span class="attr">"__typename"</span>: <span class="string">"ChildType"</span>,</span><br><span class="line">					<span class="attr">"avatar"</span>: <span class="string">"http://dsdsaf-fsafa-fag-ag-asgsaf.jpg"</span>,</span><br><span class="line">					<span class="attr">"name"</span>: <span class="string">"Jack"</span></span><br><span class="line">				&#125;,&#123;</span><br><span class="line">					<span class="attr">"__typename"</span>: <span class="string">"ChildType"</span>,</span><br><span class="line">					<span class="attr">"avatar"</span>: <span class="literal">null</span>,</span><br><span class="line">					<span class="attr">"name"</span>: <span class="string">"Jenny"</span></span><br><span class="line">				&#125;]</span><br><span class="line">			&#125;,</span><br><span class="line">			<span class="attr">"liked"</span>: <span class="literal">false</span>,</span><br><span class="line">			<span class="attr">"photos"</span>: [&#123;</span><br><span class="line">				<span class="attr">"__typename"</span>: <span class="string">"PhotoType"</span>,</span><br><span class="line">				<span class="attr">"rotation"</span>: <span class="number">0</span>,</span><br><span class="line">				<span class="attr">"url"</span>: <span class="string">"http://9f511880-ccec-4617-af59-cf589287a709.jpg"</span></span><br><span class="line">			&#125;, &#123;</span><br><span class="line">				<span class="attr">"__typename"</span>: <span class="string">"PhotoType"</span>,</span><br><span class="line">				<span class="attr">"rotation"</span>: <span class="number">0</span>,</span><br><span class="line">				<span class="attr">"url"</span>: <span class="string">"http://cb5d4896-a70d-48ef-8a95-47fc0f4d67fb.jpg"</span></span><br><span class="line">			&#125;]</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>写完这个查询语句，只需要把这个文件放在合适的地方，目前好像只支持默认路径，也就是 <code>app/src/main/graphql/...</code>,最好是在 graphql 之后添加合适的包名路径。</p>
+<p>现在只要 make 一下 app，就可以看到生成的类文件了，如果报 nodejs 错误，说明你的查询语句中有不正确的地方，这里的报错也没有 iOS 中来的精确，只是说明错误，但并没有指出具体错在哪里，只有通过前面提到的 IDEA 插件可以检测与 schema 文件不符合地方。所以还是希望 apollo-android 的库能够快速迭代，早日达到 iOS 库的体验。</p>
+<h3 id="mutation"><a href="#mutation" class="headerlink" title="mutation"></a>mutation</h3><p>mutation 与 query 在大前端基本没有太大差别，语句结构也是类似的，只是可能会传入非基本类型，需要注意修改默认的生成路径即可。</p>
+<h3 id="请求"><a href="#请求" class="headerlink" title="请求"></a>请求</h3><p>下面就来看如何进行请求，就以上面的 FeedsQuery 为例：<br><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">getFeeds</span><span class="params">(class_ids: <span class="type">List</span>&lt;<span class="type">String</span>&gt;, teacher_id: <span class="type">String</span>, limit: <span class="type">Int</span>, offset: <span class="type">Int</span>, listener: <span class="type">DataListener</span>&lt;<span class="type">FeedsQuery</span>.<span class="type">Data</span>?&gt;)</span></span> &#123;</span><br><span class="line">    <span class="keyword">val</span> query = FeedsQuery</span><br><span class="line">            .builder()</span><br><span class="line">            .clazz_ids(class_ids)</span><br><span class="line">            .limit(limit)</span><br><span class="line">            .teacher_id(teacher_id)</span><br><span class="line">            .offset(offset)</span><br><span class="line">            .build()</span><br><span class="line">    App.apolloClient.query(query).enqueue(<span class="keyword">object</span> : ApolloCall.Callback&lt;FeedsQuery.Data?&gt;() &#123;</span><br><span class="line">        <span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">onFailure</span><span class="params">(e: <span class="type">ApolloException</span>)</span></span> &#123;</span><br><span class="line">            listener.onComplete(<span class="literal">null</span>)</span><br><span class="line">            <span class="comment">//ToastUtils.toast(e.toString())</span></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">onResponse</span><span class="params">(response: <span class="type">Response</span>&lt;<span class="type">FeedsQuery</span>.<span class="type">Data</span>?&gt;)</span></span> &#123;</span><br><span class="line">            listener.onComplete(response.<span class="keyword">data</span>())</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>这个方法可以随意定义在某个类中。带有参数的查询都会按照流式 API 的构建者模式调用，然后生成 Query 对象，使用 <code>apolloClient.query()</code> 方法即可发起请求。这里同样支持同步请求(execute)和异步请求(enqueue),不过我想没人会使用同步请求的吧。而且看 apollo-android 的 release note，从 0.4.2 版本开始，已经<code>不支持同步</code>请求了。</p>
+<p>如果是 mutation，通过 <code>build()</code> 方法会得到一个 mutation 对象，然后调用 <code>apolloClient.mutate()</code> 方法即可，其他与 query 都是相同的。</p>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>目前半个多月使用下来，感觉 GraphQL 虽然是新一代请求框架，潜力确实很大，只是目前还在发展中，尚未稳定，尤其是 Android 中还存在很多不足之处，相比 iOS 下的使用体验还是差了很多，并没有比通过 REST 方式来的更容易。如果你觉得 OK，甚至可以通过 REST 框架来构造 GraphQL 请求，我就干过这事，甚至觉得体验要比单纯 GrqphQL 要更好。。。</p>
+<p>当然好处也很多，如果后台 API 接口写好了，只需要通过 GrqphQL-IDE 就可以自己任意定制参数来发起请求，也可以直接使用 iOS 的查询文件，不需要再写一遍。</p>
+<p>然后 GraphQL 隐藏了具体的请求细节，通过 ApolloClient 可以直接发起请求，基本不用怎么关注 Http 协议的部分。</p>
+<p>通过 GraphQL 可以合并很多细小的接口，只需要在请求中加入某个参数，一次请求就能拿到 REST 好几次才能拿到的完整的数据结构。</p>
+<p>目前的坏处也是目前我所体验到的，不过由于当前的使用仍然处在最简单的层面，很多高级特性并没有用到，例如 fragment，repositroy 等，所以并不能够客观的评价这个框架，但事实是越来越多的公司都开始使用 GraphQL，未来会有更多的公司加入，逐渐组成一个完整的生态圈，也会促使各个语言中的实现越来越完善，所以早日拥抱变化并不是一件坏事。</p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/GrqphQL/" rel="tag"># GrqphQL</a>
+          
+            <a href="/tags/REST/" rel="tag"># REST</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/09/02/some-gain-in-two-weeks-in-beginning/" rel="next" title="入职两周后">
+                <i class="fa fa-chevron-left"></i> 入职两周后
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/01/14/graphql-and-apollo-android/" rel="prev" title="GraphQL & Apollo Client for Android">
+                GraphQL & Apollo Client for Android <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+    <div class="comments" id="comments">
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Alpha Gao</p>
+              <div class="site-description motion-element" itemprop="description">You will be what you want.</div>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">50</span>
+                    <span class="site-state-item-name">posts</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  
+                    
+                      <a href="/categories/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">11</span>
+                    <span class="site-state-item-name">categories</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                      <a href="/tags/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">93</span>
+                    <span class="site-state-item-name">tags</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#使用准备"><span class="nav-number">1.</span> <span class="nav-text">使用准备</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#框架配置"><span class="nav-number">2.</span> <span class="nav-text">框架配置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#初始化"><span class="nav-number">3.</span> <span class="nav-text">初始化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#query"><span class="nav-number">4.</span> <span class="nav-text">query</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#mutation"><span class="nav-number">5.</span> <span class="nav-text">mutation</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#请求"><span class="nav-number">6.</span> <span class="nav-text">请求</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#总结"><span class="nav-number">7.</span> <span class="nav-text">总结</span></a></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+        <div class="back-to-top">
+          <i class="fa fa-arrow-up"></i>
+          
+            <span id="scrollpercent"><span>0</span>%</span>
+          
+        </div>
+      
+
+    </div>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">  <a href="http://www.miitbeian.gov.cn" rel="noopener" target="_blank">陇ICP备17000389号 </a>&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-Alpha Gao"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Alpha Gao</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> v3.8.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> v7.0.1</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/src/utils.js?v=7.0.1"></script>
+
+  <script src="/js/src/motion.js?v=7.0.1"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/src/schemes/muse.js?v=7.0.1"></script>
+
+
+
+  
+  <script src="/js/src/scrollspy.js?v=7.0.1"></script>
+<script src="/js/src/post-details.js?v=7.0.1"></script>
+
+
+
+  
+
+
+  <script src="/js/src/next-boot.js?v=7.0.1"></script>
+
+
+  
+  
+  
+
+<script src="//cdn1.lncld.net/static/js/3.11.1/av-min.js"></script>
+
+
+
+<script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+
+<script>
+  var GUEST = ['nick', 'mail', 'link'];
+  var guest = 'nick,mail,link';
+  guest = guest.split(',').filter(function(item) {
+    return GUEST.indexOf(item) > -1;
+  });
+  new Valine({
+    el: '#comments',
+    verify: false,
+    notify: false,
+    appId: 'H96xxLo0hzG4azqx9XRPBLGe-gzGzoHsz',
+    appKey: 'NPnxUKfUoUn6iIlWOyvA1WgE',
+    placeholder: 'Just say anything',
+    avatar: 'mm',
+    meta: guest,
+    pageSize: '10' || 10,
+    visitor: false
+  });
+</script>
+
+
+
+
+  
+
+
+  
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

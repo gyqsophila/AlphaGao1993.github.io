@@ -1,0 +1,1173 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
+
+<link rel="stylesheet" href="/css/main.css?v=7.0.1">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.0.1">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.0.1">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.0.1">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.0.1" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '7.0.1',
+    sidebar: {"position":"left","display":"hide","offset":12,"b2t":true,"scrollpercent":true,"onmobile":false,"dimmer":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="原理 每个应用程序的数据都是自己私有的，一般不会开放公有权限，但是当应用的使用规模较大，并衍生出其他以此为基础开发的应用，那么就需要为额外的应用开放一些权限，分享自己的一些数据供二次开发或使用。而 ContentProvider 的原理就是在自己的应用内部开放一个接口供其它应用调用，同时为了保证安全性，使用该接口需要进行安全验证。 其中接口的使用是基于 sqlite 的增删改查方法实现的。">
+<meta name="keywords" content="Provider,message,call-log">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ContentProvider之读写联系人、短信、通话记录">
+<meta property="og:url" content="alphagao.com/2016/07/15/read-write-contacts-calllog/index.html">
+<meta property="og:site_name" content="Here&#39;s to Change">
+<meta property="og:description" content="原理 每个应用程序的数据都是自己私有的，一般不会开放公有权限，但是当应用的使用规模较大，并衍生出其他以此为基础开发的应用，那么就需要为额外的应用开放一些权限，分享自己的一些数据供二次开发或使用。而 ContentProvider 的原理就是在自己的应用内部开放一个接口供其它应用调用，同时为了保证安全性，使用该接口需要进行安全验证。 其中接口的使用是基于 sqlite 的增删改查方法实现的。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://oa3wvfmvl.bkt.clouddn.com/01.jpg">
+<meta property="og:updated_time" content="2017-08-07T09:48:44.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="ContentProvider之读写联系人、短信、通话记录">
+<meta name="twitter:description" content="原理 每个应用程序的数据都是自己私有的，一般不会开放公有权限，但是当应用的使用规模较大，并衍生出其他以此为基础开发的应用，那么就需要为额外的应用开放一些权限，分享自己的一些数据供二次开发或使用。而 ContentProvider 的原理就是在自己的应用内部开放一个接口供其它应用调用，同时为了保证安全性，使用该接口需要进行安全验证。 其中接口的使用是基于 sqlite 的增删改查方法实现的。">
+<meta name="twitter:image" content="http://oa3wvfmvl.bkt.clouddn.com/01.jpg">
+
+
+
+
+
+
+  <link rel="canonical" href="alphagao.com/2016/07/15/read-write-contacts-calllog/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>ContentProvider之读写联系人、短信、通话记录 | Here's to Change</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Here's to Change</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">请问你真的有在努力吗 ？</p>
+      
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="Toggle navigation bar">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>Home</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>About</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>Tags</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>Categories</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>Archives</a>
+
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="alphagao.com/2016/07/15/read-write-contacts-calllog/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Alpha Gao">
+      <meta itemprop="description" content="You will be what you want.">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Here's to Change">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">ContentProvider之读写联系人、短信、通话记录
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2016-07-15 12:54:34" itemprop="dateCreated datePublished" datetime="2016-07-15T12:54:34+08:00">2016-07-15</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="Modified: 2017-08-07 17:48:44" itemprop="dateModified" datetime="2017-08-07T17:48:44+08:00">2017-08-07</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Android/" itemprop="url" rel="index"><span itemprop="name">Android</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+              
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+            
+                <span class="post-meta-item-text">Comments: </span>
+                <a href="/2016/07/15/read-write-contacts-calllog/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2016/07/15/read-write-contacts-calllog/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h2><blockquote>
+<p>每个应用程序的数据都是自己私有的，一般不会开放公有权限，但是当应用的使用规模较大，并衍生出其他以此为基础开发的应用，那么就需要为额外的应用开放一些权限，分享自己的一些数据供二次开发或使用。而 ContentProvider 的原理就是在自己的应用内部开放一个接口供其它应用调用，同时为了保证安全性，使用该接口需要进行安全验证。</p>
+<p>其中接口的使用是基于 sqlite 的增删改查方法实现的。</p>
+</blockquote>
+<a id="more"></a>
+<p>在使用 ContentProvider 读写数据之前，先来看如何定义一个数据开放接口，之后我们使用起来就会更加清晰有条理。</p>
+<h2 id="实现-ContentProvider-开放接口"><a href="#实现-ContentProvider-开放接口" class="headerlink" title="实现 ContentProvider 开放接口"></a>实现 ContentProvider 开放接口</h2><p>假设该应用本地已经建立一个数据库名为 <code>data.db</code>，数据库中有一张名为 <code>user</code> 的表。</p>
+<ol>
+<li><p>新建一个类<code>MyDbProvider</code>继承<code>ContentProvider</code>，该类默认实现数据库操作的四个方法，也就是增、删、改、查。同时还有两个额外的方法： <code>onCreate()</code>和<code>getType(Uri uri)</code>，前者大家都很熟悉，是该对象被创建时执行的方法，后者我们暂且不提，后面会讲到。（暂且不去实现增删改查的逻辑）</p>
+</li>
+<li><p>在清单文件中配置：<br><code>&lt;provider name=&quot;.MyDbProvider&quot; authority=&quot;com.alpha.db&quot; android:exported=&quot;true&quot;&gt;</code><br>其中<code>authority</code>里写你自己定义的主机名，一般为自己 app 的包名，但也可以自由命名，如 google 的通话记录分享者主机名为 <code>call_log</code>；<code>exported=&quot;true&quot;</code>是 Android6.0 开始必须添加的属性，代表该组件可以被外部访问。</p>
+</li>
+<li><p>新建一个静态<code>UriMatcher</code>类，用于设置接口的匹配规则。传入的参数代表匹配失败返回-1，是固定的用法。</p>
+ <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> UriMatcher mUriMatcher = <span class="keyword">new</span> UriMatcher(UriMatcher.NO_MATCH);</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<ol start="4">
+<li><p>添加匹配规则(不必在 <code>UriMatcher</code> 类中添加)：</p>
+ <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">static</span> &#123;</span><br><span class="line">    uriMatcher.addURI(<span class="string">"com.alpha.db"</span>,<span class="string">"user"</span>,User_ALL);</span><br><span class="line">    uriMatcher.addURI(<span class="string">"com.alpha.db"</span>,<span class="string">"user/#"</span>,User_Single);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p> 第一个参数为在清单文件中定义的主机名（同时也是 uri 的前缀），第二参数为匹配规则(<code>null</code>代表匹配所有)，第三参数为自定义的匹配后返回值，必须为正整数。</p>
+<p> 例如：<br> <code>&quot;content://com.alpha.db/user&quot;</code>   表示匹配user表中所有数据   设定返回值为1<br> <code>&quot;content://com.alpha.db/user/#&quot;</code> 表示匹配user表中的某一行数据  设定返回值为2</p>
+</li>
+<li><p>实现 MyDbProvider 中的增删改查方法</p>
+<p> 具体的数据库操作逻辑这里不提；在进行数据库操纵之前，应该对得到的 Uri 进行匹配，是否与已定义的匹配类型吻合，若吻合则继续执行，否则应该抛出匹配失败的异常。</p>
+<p> 同时在前面提到的 <code>getType(Uri uri)</code> 方法里写入以下逻辑：(按需求在数据操纵方法中添加适当判断)</p>
+ <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> code =uriMatcher.match(uri);</span><br><span class="line"><span class="keyword">if</span> (code==User_ALL)&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="string">"vnd.android.cursor.dir/"</span>;<span class="comment">//"vnd.android.cursor.dir/"表示该路径为一个目录</span></span><br><span class="line">&#125;<span class="keyword">else</span> <span class="keyword">if</span> (code==User_Single)&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="string">"vnd.android.cursor.item/user"</span>;<span class="comment">//"vnd.android.cursor.item/..."表示该路径为一个行或项</span></span><br><span class="line">&#125;<span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="keyword">throw</span> <span class="keyword">new</span> IllegalArgumentException(<span class="string">"匹配失败"</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>通过以上五步就定义好了一个 ContentProvider 开放接口，接下来就是在外部应用中使用这个接口了。</p>
+<h2 id="使用ContentProvider开放接口"><a href="#使用ContentProvider开放接口" class="headerlink" title="使用ContentProvider开放接口"></a>使用ContentProvider开放接口</h2><ol>
+<li><p>获取 ContentProvider 的解析器 ContentResolver：</p>
+<p> <code>ContentResolver resolver = getContentResolver();</code></p>
+</li>
+<li><p>设置需要操作的数据库的路径：</p>
+<p> <code>Uri uri = Uri.parse(&quot;content://com.alpha.db/user&quot;);</code></p>
+<p> 以上为获取user表的全部数据，若只需要某一行，则为(12表示行数)：</p>
+<p> <code>Uri uri = Uri.parse(&quot;content://com.alpha.db/user/12&quot;);</code></p>
+</li>
+<li><p>使用 resolver 的增删改查方法就可以对目标数据表进行操作</p>
+<p> 通过 resolver 的 <code>query()</code> 方法会返回一个 Cursor 对象，我理解为通过 sql 语句生成的游标在本地的引用，既然有了 Cursor 对象，那么 Cursor 中的数据你也是了然于胸了吧，毕竟 sql 语句可是你自己定义的。</p>
+<p> 同样，resolver 的 <code>insert()</code> 方法会返回一个 uri，表示插入数据在该表中的位置；<br>  <code>update()</code> 和 <code>delete()</code> 会返回一个 int 数据，表示操作影响了几行。</p>
+<p> 另外还可以通过 resolver 的 <code>getType()</code> 方法得到路径的类型，你可以分别对不同的路径类型执行不同的操作。</p>
+</li>
+</ol>
+<h2 id="通过-ContentProvider-读写手机联系人"><a href="#通过-ContentProvider-读写手机联系人" class="headerlink" title="通过 ContentProvider 读写手机联系人"></a>通过 ContentProvider 读写手机联系人</h2><p>首先必须知道手机联系人的 ContentProvider 的主机名，表名，如果你看过 Android 上层应用的源码，你应该知道 Android 原生应用的联系人开放主机名为“com.android.contacts”，但是表就稍有点复杂，存储联系人涉及到三张表：</p>
+<ul>
+<li><p>raw_contacts  保存联系人的 id,每一个联系人都有一个不同的id,名字叫 contact_id</p>
+</li>
+<li><p>data  保存联系人的数据,通过 raw_contact_id 来去识别这个数据属于哪个联系人</p>
+</li>
+<li><p>mimetype  保存数据的类型</p>
+</li>
+</ul>
+<h3 id="查询联系人信息的步骤"><a href="#查询联系人信息的步骤" class="headerlink" title="查询联系人信息的步骤."></a>查询联系人信息的步骤.</h3><ol>
+<li>查询 raw_contacts 表, 得到每个联系人的 contact_id.</li>
+<li>根据 contact_id 查询 data 表,把联系人的数据取出来.</li>
+<li>根据联系人数据的 mimetype,获取数据代表什么含义.</li>
+</ol>
+<p>原理明白了，下面直接上代码：（在这里我只查询 data 表中的 data1 列，和 mimetype 列）</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ContactsUtils</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> List&lt;ContactsInfo&gt; <span class="title">getAllContactInfo</span><span class="params">(Context context)</span></span>&#123;</span><br><span class="line">        ContentResolver resolver=context.getContentResolver();</span><br><span class="line">        Uri uri=Uri.parse(<span class="string">"content://com.android.contacts/raw_contacts"</span>);</span><br><span class="line">        Cursor cursor=resolver.query(uri,<span class="keyword">new</span> String[]&#123;<span class="string">"contact_id"</span>&#125;,<span class="keyword">null</span>,<span class="keyword">null</span>,<span class="keyword">null</span>);</span><br><span class="line">        List &lt;ContactsInfo&gt; contactsInfoList=<span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">        <span class="keyword">if</span> (cursor!=<span class="keyword">null</span>)&#123;</span><br><span class="line">            <span class="keyword">while</span> (cursor.moveToNext())&#123;</span><br><span class="line">                String id=cursor.getString(<span class="number">0</span>);</span><br><span class="line">                <span class="keyword">if</span> (!TextUtils.isEmpty(id))&#123;</span><br><span class="line">                    ContactsInfo info = <span class="keyword">new</span> ContactsInfo();</span><br><span class="line">                    Uri datauri=Uri.parse(<span class="string">"content://com.android.contacts/data"</span>);</span><br><span class="line">                    Cursor dataCursor=resolver.query(datauri,<span class="keyword">new</span> String[]&#123;<span class="string">"data1"</span>,<span class="string">"mimetype"</span>&#125;</span><br><span class="line">                            ,<span class="string">"raw_contact_id=?"</span></span><br><span class="line">                            ,<span class="keyword">new</span> String[]&#123;id&#125;,<span class="keyword">null</span>);</span><br><span class="line">                    <span class="keyword">if</span> (dataCursor!=<span class="keyword">null</span>)&#123;</span><br><span class="line">                        <span class="keyword">while</span> (dataCursor.moveToNext())&#123;</span><br><span class="line">                            String data1=dataCursor.getString(<span class="number">0</span>);</span><br><span class="line">                            String mimetype=dataCursor.getString(<span class="number">1</span>);</span><br><span class="line">                            <span class="keyword">if</span> (<span class="string">"vnd.android.cursor.item/phone_v2"</span>.equals(mimetype))&#123;</span><br><span class="line">                                info.setNumber(data1);</span><br><span class="line">                            &#125;<span class="keyword">else</span> <span class="keyword">if</span> (<span class="string">"vnd.android.cursor.item/email_v2"</span>.equals(mimetype))&#123;</span><br><span class="line">                                info.setEmail(data1);</span><br><span class="line">                            &#125;<span class="keyword">else</span> <span class="keyword">if</span> (<span class="string">"vnd.android.cursor.item/name"</span>.equals(mimetype))&#123;</span><br><span class="line">                                info.setName(data1);</span><br><span class="line">                            &#125;<span class="keyword">else</span> <span class="keyword">if</span> (<span class="string">"vnd.android.cursor.item/im"</span>.equals(mimetype))&#123;</span><br><span class="line">                                info.setQq(data1);</span><br><span class="line">                            &#125;</span><br><span class="line">                        &#125;</span><br><span class="line">                        dataCursor.close();</span><br><span class="line">                        contactsInfoList.add(info);</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            cursor.close();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> contactsInfoList;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>联系人实体类：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ContactsInfo</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> String name;</span><br><span class="line">    <span class="keyword">private</span> String number;</span><br><span class="line">    <span class="keyword">private</span> String email;</span><br><span class="line">    <span class="keyword">private</span> String qq;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getName</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> name;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setName</span><span class="params">(String name)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.name = name;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getNumber</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> number;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setNumber</span><span class="params">(String number)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.number = number;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getEmail</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> email;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setEmail</span><span class="params">(String email)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.email = email;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getQq</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> qq;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setQq</span><span class="params">(String qq)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.qq = qq;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">toString</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">"[name="</span>+name+<span class="string">",number="</span>+number+<span class="string">",email="</span>+email+<span class="string">",qq="</span>+qq+<span class="string">"]"</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>之后需要查询联系人就只需要一行代码：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">List&lt;ContactsInfo&gt; contactsInfoList= ContactsUtils.getAllContactInfo(<span class="keyword">this</span>);</span><br></pre></td></tr></table></figure>
+<p><strong>注意</strong><br>如果是 Android6.0，则最好先获得运行时权限：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//6.0需要申请运行时权限</span></span><br><span class="line">        <span class="keyword">if</span> (ContextCompat.checkSelfPermission(<span class="keyword">this</span>, android.Manifest.permission.READ_CONTACTS)</span><br><span class="line">                != PackageManager.PERMISSION_GRANTED) &#123;</span><br><span class="line">            ActivityCompat.requestPermissions(<span class="keyword">this</span>,</span><br><span class="line">                    <span class="keyword">new</span> String[]&#123;android.Manifest.permission.READ_CONTACTS&#125;, <span class="number">1</span>);</span><br><span class="line">        &#125;</span><br></pre></td></tr></table></figure>
+<h3 id="写入联系人的步骤"><a href="#写入联系人的步骤" class="headerlink" title="写入联系人的步骤"></a>写入联系人的步骤</h3><p>因为涉及到3张表的关系，我们需要分别插入几张表，最后达到插入一个完整的联系人的目的。</p>
+<ol>
+<li>在 raw_contacts 表里面添加联系人的 id。</li>
+<li>根据这个添加的 id,在 data 表里面添加联系人的数据。</li>
+</ol>
+<p>具体代码如下：（你可以把 info 对象替换为通过用户输入获取的信息）</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">addContact</span><span class="params">(View view)</span> </span>&#123;</span><br><span class="line">    ContactsInfo info=<span class="keyword">new</span> ContactsInfo();</span><br><span class="line">    info.setName(<span class="string">"alphagao"</span>);</span><br><span class="line">    info.setEmail(<span class="string">"alphagao@github.com"</span>);</span><br><span class="line">    info.setNumber(<span class="string">"12345678910"</span>);</span><br><span class="line">    info.setQq(<span class="string">"123456789"</span>);</span><br><span class="line">    <span class="comment">//利用内容提供者添加联系人的数据到系统的数据库内部</span></span><br><span class="line">    Uri uri = Uri.parse(<span class="string">"content://com.android.contacts/raw_contacts"</span>);</span><br><span class="line">    Uri dataUri = Uri.parse(<span class="string">"content://com.android.contacts/data"</span>);</span><br><span class="line">    ContentResolver resolver = getContentResolver();</span><br><span class="line">    <span class="comment">//1. 在raw_contact表里面添加联系人的id</span></span><br><span class="line">    Cursor cursor = resolver.query(uri, <span class="keyword">null</span>, <span class="keyword">null</span>, <span class="keyword">null</span>, <span class="keyword">null</span>);</span><br><span class="line">    <span class="keyword">int</span> new_id = cursor.getCount()+<span class="number">1</span>;</span><br><span class="line">    ContentValues values = <span class="keyword">new</span> ContentValues();</span><br><span class="line">    values.put(<span class="string">"contact_id"</span>, new_id);</span><br><span class="line">    resolver.insert(uri, values);</span><br><span class="line">    <span class="comment">//2. 在data表里面添加联系人的数据.</span></span><br><span class="line">    ContentValues namevalues = <span class="keyword">new</span> ContentValues();</span><br><span class="line">    namevalues.put(<span class="string">"raw_contact_id"</span>, new_id);</span><br><span class="line">    namevalues.put(<span class="string">"data1"</span>, info.getName());</span><br><span class="line">    namevalues.put(<span class="string">"mimetype"</span>, <span class="string">"vnd.android.cursor.item/name"</span>);</span><br><span class="line">    resolver.insert(dataUri, namevalues);</span><br><span class="line">    </span><br><span class="line">    ContentValues phonevalues = <span class="keyword">new</span> ContentValues();</span><br><span class="line">    phonevalues.put(<span class="string">"raw_contact_id"</span>, new_id);</span><br><span class="line">    phonevalues.put(<span class="string">"data1"</span>, info.getNumber());</span><br><span class="line">    phonevalues.put(<span class="string">"mimetype"</span>, <span class="string">"vnd.android.cursor.item/phone_v2"</span>);</span><br><span class="line">    resolver.insert(dataUri, phonevalues);</span><br><span class="line">    </span><br><span class="line">    ContentValues emailvalues = <span class="keyword">new</span> ContentValues();</span><br><span class="line">    emailvalues.put(<span class="string">"raw_contact_id"</span>, new_id);</span><br><span class="line">    emailvalues.put(<span class="string">"data1"</span>, info.getEmail());</span><br><span class="line">    emailvalues.put(<span class="string">"mimetype"</span>, <span class="string">"vnd.android.cursor.item/email_v2"</span>);</span><br><span class="line">    resolver.insert(dataUri, emailvalues);</span><br><span class="line">    </span><br><span class="line">    Toast.makeText(<span class="keyword">this</span>, <span class="string">"添加信息成功"</span>, Toast.LENGTH_SHORT).show();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>如图：<br><img src="http://oa3wvfmvl.bkt.clouddn.com/01.jpg" alt="添加联系人成功示例"></p>
+<h2 id="读写通话记录和短信"><a href="#读写通话记录和短信" class="headerlink" title="读写通话记录和短信"></a>读写通话记录和短信</h2><p>其实如果你已经明白和理解读写联系人，那么通话记录就是小菜一碟，毕竟通话记录是存在一张表中的。所以这里不再放具体的读写代码，仅放出对应的路径和表名。</p>
+<ul>
+<li>通话记录 <code>URI：&quot;content://call_log/calls&quot;</code> 其中“call_log”为主机名，前文已经提过，calls为匹配规则，表示查询所有数据，关键数据列有”number”,”date”,”type”，分表表示号码、日期、呼叫类型；</li>
+<li>短信 <code>URI：&quot;content://sms/&quot;</code>这里没有匹配规则，代表查询表中所有数据，包含发送的，接受的，草稿，发送失败等等。。关键数据列有”address”,”date”,”type”,”body”,分别表示对方号码，日期，短信类型（发送，接受，草稿，发送失败），以及短信内容。</li>
+</ul>
+<blockquote>
+<p>以上读写联系人、短信、通话记录仅适用于 google 原生应用，第三方 rom 因为定制了出厂应用，内容提供者已经不再是原生的了。</p>
+</blockquote>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Provider/" rel="tag"># Provider</a>
+          
+            <a href="/tags/message/" rel="tag"># message</a>
+          
+            <a href="/tags/call-log/" rel="tag"># call-log</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/07/11/http-mult-thread-download-with-breakpoint/" rel="next" title="HTTP多线程断点下载">
+                <i class="fa fa-chevron-left"></i> HTTP多线程断点下载
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/07/20/network-programming/" rel="prev" title="网络编程之整体认知">
+                网络编程之整体认知 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+    <div class="comments" id="comments">
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Alpha Gao</p>
+              <div class="site-description motion-element" itemprop="description">You will be what you want.</div>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">50</span>
+                    <span class="site-state-item-name">posts</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  
+                    
+                      <a href="/categories/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">11</span>
+                    <span class="site-state-item-name">categories</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                      <a href="/tags/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">93</span>
+                    <span class="site-state-item-name">tags</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#原理"><span class="nav-number">1.</span> <span class="nav-text">原理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#实现-ContentProvider-开放接口"><span class="nav-number">2.</span> <span class="nav-text">实现 ContentProvider 开放接口</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用ContentProvider开放接口"><span class="nav-number">3.</span> <span class="nav-text">使用ContentProvider开放接口</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#通过-ContentProvider-读写手机联系人"><span class="nav-number">4.</span> <span class="nav-text">通过 ContentProvider 读写手机联系人</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#查询联系人信息的步骤"><span class="nav-number">4.1.</span> <span class="nav-text">查询联系人信息的步骤.</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#写入联系人的步骤"><span class="nav-number">4.2.</span> <span class="nav-text">写入联系人的步骤</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#读写通话记录和短信"><span class="nav-number">5.</span> <span class="nav-text">读写通话记录和短信</span></a></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+        <div class="back-to-top">
+          <i class="fa fa-arrow-up"></i>
+          
+            <span id="scrollpercent"><span>0</span>%</span>
+          
+        </div>
+      
+
+    </div>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">  <a href="http://www.miitbeian.gov.cn" rel="noopener" target="_blank">陇ICP备17000389号 </a>&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-Alpha Gao"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Alpha Gao</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> v3.8.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> v7.0.1</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/src/utils.js?v=7.0.1"></script>
+
+  <script src="/js/src/motion.js?v=7.0.1"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/src/schemes/muse.js?v=7.0.1"></script>
+
+
+
+  
+  <script src="/js/src/scrollspy.js?v=7.0.1"></script>
+<script src="/js/src/post-details.js?v=7.0.1"></script>
+
+
+
+  
+
+
+  <script src="/js/src/next-boot.js?v=7.0.1"></script>
+
+
+  
+  
+  
+
+<script src="//cdn1.lncld.net/static/js/3.11.1/av-min.js"></script>
+
+
+
+<script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+
+<script>
+  var GUEST = ['nick', 'mail', 'link'];
+  var guest = 'nick,mail,link';
+  guest = guest.split(',').filter(function(item) {
+    return GUEST.indexOf(item) > -1;
+  });
+  new Valine({
+    el: '#comments',
+    verify: false,
+    notify: false,
+    appId: 'H96xxLo0hzG4azqx9XRPBLGe-gzGzoHsz',
+    appKey: 'NPnxUKfUoUn6iIlWOyvA1WgE',
+    placeholder: 'Just say anything',
+    avatar: 'mm',
+    meta: guest,
+    pageSize: '10' || 10,
+    visitor: false
+  });
+</script>
+
+
+
+
+  
+
+
+  
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

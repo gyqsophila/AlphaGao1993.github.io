@@ -1,0 +1,1133 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
+
+<link rel="stylesheet" href="/css/main.css?v=7.0.1">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.0.1">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.0.1">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.0.1">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.0.1" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '7.0.1',
+    sidebar: {"position":"left","display":"hide","offset":12,"b2t":true,"scrollpercent":true,"onmobile":false,"dimmer":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="0. 闪屏流程分析要说到闪屏，几乎已经是所有 App 的标配了。但是各家对于闪屏的理解和应用方式各不相同。比如 Google 自己并不建议在闪屏页中设置过长的停留时间，而只是作为冷启动过程的一种变相缓冲，以就是仅在背景上设置一个 APP Logo 来避免屏幕留白。但在中国，几乎所有的流量还不错的 App 都会在闪屏页中加入广告，或者自己应用中某个主题活动的宣传，在增强品牌效应。这其中又有不同的使用">
+<meta name="keywords" content="Splash">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Splash 闪屏页流程与功能分析">
+<meta property="og:url" content="alphagao.com/2017/08/13/analysis-of-splash-in-flow-and-functions/index.html">
+<meta property="og:site_name" content="Here&#39;s to Change">
+<meta property="og:description" content="0. 闪屏流程分析要说到闪屏，几乎已经是所有 App 的标配了。但是各家对于闪屏的理解和应用方式各不相同。比如 Google 自己并不建议在闪屏页中设置过长的停留时间，而只是作为冷启动过程的一种变相缓冲，以就是仅在背景上设置一个 APP Logo 来避免屏幕留白。但在中国，几乎所有的流量还不错的 App 都会在闪屏页中加入广告，或者自己应用中某个主题活动的宣传，在增强品牌效应。这其中又有不同的使用">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://oa3wvfmvl.bkt.clouddn.com/slpash_flow.png">
+<meta property="og:updated_time" content="2017-08-13T08:16:56.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Splash 闪屏页流程与功能分析">
+<meta name="twitter:description" content="0. 闪屏流程分析要说到闪屏，几乎已经是所有 App 的标配了。但是各家对于闪屏的理解和应用方式各不相同。比如 Google 自己并不建议在闪屏页中设置过长的停留时间，而只是作为冷启动过程的一种变相缓冲，以就是仅在背景上设置一个 APP Logo 来避免屏幕留白。但在中国，几乎所有的流量还不错的 App 都会在闪屏页中加入广告，或者自己应用中某个主题活动的宣传，在增强品牌效应。这其中又有不同的使用">
+<meta name="twitter:image" content="http://oa3wvfmvl.bkt.clouddn.com/slpash_flow.png">
+
+
+
+
+
+
+  <link rel="canonical" href="alphagao.com/2017/08/13/analysis-of-splash-in-flow-and-functions/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>Splash 闪屏页流程与功能分析 | Here's to Change</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Here's to Change</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">请问你真的有在努力吗 ？</p>
+      
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="Toggle navigation bar">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>Home</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>About</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>Tags</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>Categories</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>Archives</a>
+
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="alphagao.com/2017/08/13/analysis-of-splash-in-flow-and-functions/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Alpha Gao">
+      <meta itemprop="description" content="You will be what you want.">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Here's to Change">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Splash 闪屏页流程与功能分析
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2017-08-13 12:14:53 / Modified: 16:16:56" itemprop="dateCreated datePublished" datetime="2017-08-13T12:14:53+08:00">2017-08-13</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Android/" itemprop="url" rel="index"><span itemprop="name">Android</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+              
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+            
+                <span class="post-meta-item-text">Comments: </span>
+                <a href="/2017/08/13/analysis-of-splash-in-flow-and-functions/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2017/08/13/analysis-of-splash-in-flow-and-functions/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="0-闪屏流程分析"><a href="#0-闪屏流程分析" class="headerlink" title="0. 闪屏流程分析"></a>0. 闪屏流程分析</h3><p>要说到闪屏，几乎已经是所有 App 的标配了。但是各家对于闪屏的理解和应用方式各不相同。比如 Google 自己并不建议在闪屏页中设置过长的停留时间，而只是作为冷启动过程的一种变相缓冲，以就是仅在背景上设置一个 APP Logo 来避免屏幕留白。但在中国，几乎所有的流量还不错的 App 都会在闪屏页中加入广告，或者自己应用中某个主题活动的宣传，在增强品牌效应。这其中又有不同的使用流派，但基本都可以归为一个流程：<br><a id="more"></a><br><img src="http://oa3wvfmvl.bkt.clouddn.com/slpash_flow.png" alt></p>
+<p>部分 App 会直接省略 Logo 这一环，直接加载闪屏页。观察了几个常用 App 后，我发现<strong>网易云音乐的闪屏逻辑是最好的</strong>，这不是说网易云音乐的闪屏流程与上面的图片有什么不同，而是网易优化了冷启动过程。一般来说，App 在点击 back 退出以后，再次打开会重新进入冷启动流程，也就是会再次进入闪屏显示流程，但是网易云音乐就不会：它只会在你第一次打开该 App 的时候加载 Loge 和 Splash，然后即使你按了 back 退出到屏幕，再次打开就不会再走闪屏流程了。这样即使用户多次退出打开也只会显示一次 Splash 页面，那么就算网易云的 Splash 时间稍微长一点你也不会在乎的吧（斜眼笑）。</p>
+<h3 id="1-闪屏流程优化"><a href="#1-闪屏流程优化" class="headerlink" title="1. 闪屏流程优化"></a>1. 闪屏流程优化</h3><p>那么这种模式是如何实现的呢？开始我以为是因为是通过检测后台服务是否运行栏判断是否跳过 splash 逻辑，但是我实际实验后发现，这个方法虽然可行，但是在此打开时的页面动画就不是那么舒服了，有点生硬的感觉，而且不是所有的 App 都有后台服务的。不管简单的搜索就找到了我觉得正确的方式：</p>
+<p>Activity 类中有一个方法：<code>moveTaskToBack</code>，接受一个 boolean 类型参数，传入 true 就会让 App 退出进入后台，但是不会停止该进程。这不就是我们想要的方式么？试了下果然跟网易云一毛一样，这样也是变相的避免了 App 冷启动，减少了用户的等待时间，提升了那么一点用户体验吧。</p>
+<p>除了这个方法还有另一种办法：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Intent intent = <span class="keyword">new</span> Intent(Intent.ACTION_MAIN);</span><br><span class="line">intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);</span><br><span class="line">intent.addCategory(Intent.CATEGORY_HOME);</span><br><span class="line">startActivity(intent);</span><br></pre></td></tr></table></figure></p>
+<p>效果与 <code>moveTaskToBack</code> 是相同的。</p>
+<p>但是这两个方法都有一个共同的弊端，如果 App 处于后台超过一定时间没有任务执行也会被杀死的。而且这个时间非常短。我在自己手机上测试是 7 秒左右。不过这大概是因为我手机打开了某些清理工具的原因，毕竟写在 <code>onDestroy</code> 里的 log 都没打出来，可见是被强制杀死的。所以我又在虚拟机上测试了下，点击返回以后等了三分钟发现还是处于存活状态我就没有继续测试了，基本已经证明如果没有第三方干涉，应用应该会在后台存活较长时间，直到内存不足被系统杀死。当然作为一个有尊严的 App 应该在用户退出后开个定时器，十分钟用户还没有回来就自毁吧，毕竟占着内存不工作也不太好是吧。</p>
+<p>不过相比于很多 App 用 <code>再按一次返回退出</code> 来挽留用户，我觉得这种方式可能更加舒服一点。</p>
+<h3 id="2-闪屏页需求分析"><a href="#2-闪屏页需求分析" class="headerlink" title="2. 闪屏页需求分析"></a>2. 闪屏页需求分析</h3><p>首先要说的是，我这里所说的闪屏页并不包括<code>引导页</code>，这相对是另一个功能了。一般对闪屏而言，无外乎就这么几个功能：</p>
+<ul>
+<li>显示 Logo，增强品牌效应</li>
+<li>打广告，挣点零花钱</li>
+<li>内部活动推广，会带有内链</li>
+</ul>
+<h4 id="2-1-显示-Logo"><a href="#2-1-显示-Logo" class="headerlink" title="2.1 显示 Logo"></a>2.1 显示 Logo</h4><p>首先说显示 Logo，如果 App 的 Logo 与开始的图片上的流程是一样的，那么 Logo 是可以有两种方式来显示的。</p>
+<ol>
+<li><p>通过 windowBackground 来设置：可以在屏幕背景里放一个非全屏显示的图片，作为打开的留白的间隙的替代，当正常内容加载完就会被覆盖掉。Logo 的显示时间取决于正常内容的加载时间，如果加载很快，Logo 就会一闪而过。但为什么是非全屏显示呢，对于 windowBackgroung，很难设置图片的拉伸模式，那么屏幕适配就非常麻烦。所以放一个非全屏图片，设置个背景色或许是个不错的选择。这种方式也是 Google Photos 在用的。至于一闪而过对于用户的体验是否良好就仁者见仁了。另外值得一提的是网易云应该也是使用这种方式，因为 Logo 的显示时间并不总是相同而且没有丝毫的留白间隙，但是它的 Logo 是全屏的，这就得佩服下网易的技术水平了（微笑脸）。</p>
+</li>
+<li><p>除了这种方式就是常规的用一个单独的页面来显示 Logo 了，这种没什么好说的，全屏往里面放图片就行了。</p>
+</li>
+</ol>
+<h4 id="2-2-显示广告"><a href="#2-2-显示广告" class="headerlink" title="2.2 显示广告"></a>2.2 显示广告</h4><p>然后说打广告，这里的广告是指接的外部广告，比如网易的闪屏经常会放某某车的广告，或者天猫什么节的，还是有很酷炫的动画和声音的那种，简单的图片动态加载比较简单，但是带有多媒体效果的广告就略复杂了，这里就只说动态下拉图片广告吧。</p>
+<p>动态下拉图片广告需要后台 API 的配合。比如检测是不是要下载新的广告，广告的过期时间，紧急停用某个广告等。因为我不是后台，所以自己写了个简单的后台广告接口，勉强够用：</p>
+<ul>
+<li>请求<ul>
+<li>地址：</li>
+<li>方法：GET</li>
+<li>格式：&lt;K,V&gt;</li>
+<li>参数：<ul>
+<li>Long : splashId               //当前 splash id，为空则返回最新 splash 信息</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>返回</p>
+<ul>
+<li>数据：闪屏信息</li>
+<li>格式：json</li>
+<li>例子：  <figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="attr">"splash"</span>:</span><br><span class="line">    &#123;</span><br><span class="line">        "id":1,                 //闪屏识别 id</span><br><span class="line">        "imgUrl":"",            //闪屏图片下载地址</span><br><span class="line">        "eventUrl":"",          //闪屏活动地址</span><br><span class="line">        "eventTitle":"",        //闪屏活动标题</span><br><span class="line">        "deadDate":0,           //有效期至（Long 毫秒值）</span><br><span class="line">        "disable":true          //是否停用，用于紧急下线闪屏</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<ul>
+<li>服务器行为：<ul>
+<li>根据 id 检查是否存在新的 splash 信息，存在则返回 splash 对象，不存在返回空，停用该 splash 则返回 id 相同、 disable=true 的 splash 对象</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p>如果 App 某段时间内只维持一个 Splash，也就是显示同一个广告，那么对象信息可以存在 SP 里，如果要维持多个 Splash，那还是单独建个数据表来存储比较方便。我这个接口只适合维持一个 Splash，因此也不存在考虑显示频次的问题，如果要适配多 Splash 的需求，我想你们肯定能做到的（斜眼笑）。</p>
+<p>对移动端来说，每次打开 App 都要请求该接口，以保证 Splash 的最新。当发送 id 与接收到的 id 不同，那么就要开启子线程与下载新的 Splash 图片了。如果相同，但 disable=true，下次冷启动就不会再显示这个 Splash 了。</p>
+<h4 id="2-3-显示活动推广"><a href="#2-3-显示活动推广" class="headerlink" title="2.3 显示活动推广"></a>2.3 显示活动推广</h4><p>本来我以为只有 App 自己的活动推广才会带有内链，不过网易显然又刷新了我的认知，它竟然在网易云里面加载天猫某某节的页面！不愧是网易，果然有态度。其实看上一小节的 API 文档，就知道 Splash 里还带有两个 url 属性的，imgUrl 是广告图片的下载地址，eventUrl 是活动页面地址，至于 eventTitle 就是活动页面的标题了。</p>
+<p>这个其实只要给 Splash 图片设置个点击事件就行了，不过有一点还是要说下：点击图片进入了活动页面，如果 Splash 页面已经 finish 掉了，那么 App 不是就直接退出了么，如果推广是给别家推广的，有种给别人做了嫁衣裳的感觉啊。因此，对于活动页面的退出，还得加一层判断逻辑。考虑到内链不仅会是 web 页面，也可能是内部的某个常规 Activity，因此需要在所有可能由 Splash 跳转而来的页面里进行判断：</p>
+<p>首先在开启 Activity 的传入参数：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">actionStart</span><span class="params">(Context context, String url, String title, <span class="keyword">boolean</span> isFromSplash)</span> </span>&#123;</span><br><span class="line">    Intent intent = <span class="keyword">new</span> Intent(context, CommonWebActivity.class);</span><br><span class="line">    intent.putExtra(<span class="string">"url"</span>, url);</span><br><span class="line">    intent.putExtra(<span class="string">"title"</span>, title);</span><br><span class="line">    intent.putExtra(<span class="string">"isFromSplash"</span>, isFromSplash);</span><br><span class="line">    context.startActivity(intent);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>然后在需要做退出判断的地方：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onBackPressed</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (webView.canGoBack()) &#123;<span class="comment">//优先让内置浏览器返回至上一页</span></span><br><span class="line">        webView.goBack();</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (isFromSplash) &#123;<span class="comment">//如果从闪屏跳转而来，则关闭返回至首页</span></span><br><span class="line">        MainActivity.actionStart(<span class="keyword">this</span>);</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="keyword">super</span>.onBackPressed();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>如果你有抽取 BaseActivity，那么在 BaseActivty 中判断更好：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onBackPressed</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (isFromSplash) &#123;<span class="comment">//如果从闪屏跳转而来，则关闭返回至首页</span></span><br><span class="line">        MainActivity.actionStart(<span class="keyword">this</span>);</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="keyword">super</span>.onBackPressed();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>至此，闪屏的分析就结束了，一般来说 Splash 页面就这么些功能了，这里我没有贴上完整的实现代码，因为测试 API 是用 SpringBoot 建的，而且大家的后台并不一定是自己可以控制的，因此主要还是提供个思路，具体的实现方式还是要因公司（需求）而异。</p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Splash/" rel="tag"># Splash</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/08/07/stragety-pattern-vs-state-pattern/" rel="next" title="策略模式 vs 状态模式">
+                <i class="fa fa-chevron-left"></i> 策略模式 vs 状态模式
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/09/02/some-gain-in-two-weeks-in-beginning/" rel="prev" title="入职两周后">
+                入职两周后 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+    <div class="comments" id="comments">
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Alpha Gao</p>
+              <div class="site-description motion-element" itemprop="description">You will be what you want.</div>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">50</span>
+                    <span class="site-state-item-name">posts</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  
+                    
+                      <a href="/categories/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">11</span>
+                    <span class="site-state-item-name">categories</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                      <a href="/tags/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">93</span>
+                    <span class="site-state-item-name">tags</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#0-闪屏流程分析"><span class="nav-number">1.</span> <span class="nav-text">0. 闪屏流程分析</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-闪屏流程优化"><span class="nav-number">2.</span> <span class="nav-text">1. 闪屏流程优化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-闪屏页需求分析"><span class="nav-number">3.</span> <span class="nav-text">2. 闪屏页需求分析</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#2-1-显示-Logo"><span class="nav-number">3.1.</span> <span class="nav-text">2.1 显示 Logo</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-2-显示广告"><span class="nav-number">3.2.</span> <span class="nav-text">2.2 显示广告</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-3-显示活动推广"><span class="nav-number">3.3.</span> <span class="nav-text">2.3 显示活动推广</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+        <div class="back-to-top">
+          <i class="fa fa-arrow-up"></i>
+          
+            <span id="scrollpercent"><span>0</span>%</span>
+          
+        </div>
+      
+
+    </div>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">  <a href="http://www.miitbeian.gov.cn" rel="noopener" target="_blank">陇ICP备17000389号 </a>&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-Alpha Gao"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Alpha Gao</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> v3.8.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> v7.0.1</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/src/utils.js?v=7.0.1"></script>
+
+  <script src="/js/src/motion.js?v=7.0.1"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/src/schemes/muse.js?v=7.0.1"></script>
+
+
+
+  
+  <script src="/js/src/scrollspy.js?v=7.0.1"></script>
+<script src="/js/src/post-details.js?v=7.0.1"></script>
+
+
+
+  
+
+
+  <script src="/js/src/next-boot.js?v=7.0.1"></script>
+
+
+  
+  
+  
+
+<script src="//cdn1.lncld.net/static/js/3.11.1/av-min.js"></script>
+
+
+
+<script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+
+<script>
+  var GUEST = ['nick', 'mail', 'link'];
+  var guest = 'nick,mail,link';
+  guest = guest.split(',').filter(function(item) {
+    return GUEST.indexOf(item) > -1;
+  });
+  new Valine({
+    el: '#comments',
+    verify: false,
+    notify: false,
+    appId: 'H96xxLo0hzG4azqx9XRPBLGe-gzGzoHsz',
+    appKey: 'NPnxUKfUoUn6iIlWOyvA1WgE',
+    placeholder: 'Just say anything',
+    avatar: 'mm',
+    meta: guest,
+    pageSize: '10' || 10,
+    visitor: false
+  });
+</script>
+
+
+
+
+  
+
+
+  
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

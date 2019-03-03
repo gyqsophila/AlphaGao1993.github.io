@@ -1,0 +1,1107 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
+
+<link rel="stylesheet" href="/css/main.css?v=7.0.1">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.0.1">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.0.1">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.0.1">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.0.1" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '7.0.1',
+    sidebar: {"position":"left","display":"hide","offset":12,"b2t":true,"scrollpercent":true,"onmobile":false,"dimmer":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="为什么这么做：公司的 jenkins 是搭建在阿里云上的，处于外网，但是 jenkins 服务器本身配置较低，最开始只是为了服务端自动化构建搭建起来，后来配置 Android 打包后就一直处于性能不够的情况，频繁打包失败，甚至会导致服务器直接卡死，影响其他的项目构建，就这还是在服务器从 1 核 2G 升到了 1 核 4G 的条件下了。但是为了 Android 打包继续增加服务器的配置，明显是不划">
+<meta name="keywords" content="jenkins,gradle">
+<meta property="og:type" content="article">
+<meta property="og:title" content="利用 frp 为 jenkins 配置内网打包节点">
+<meta property="og:url" content="alphagao.com/2018/05/05/config-native-package-node-for-jenkins-server/index.html">
+<meta property="og:site_name" content="Here&#39;s to Change">
+<meta property="og:description" content="为什么这么做：公司的 jenkins 是搭建在阿里云上的，处于外网，但是 jenkins 服务器本身配置较低，最开始只是为了服务端自动化构建搭建起来，后来配置 Android 打包后就一直处于性能不够的情况，频繁打包失败，甚至会导致服务器直接卡死，影响其他的项目构建，就这还是在服务器从 1 核 2G 升到了 1 核 4G 的条件下了。但是为了 Android 打包继续增加服务器的配置，明显是不划">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://oluujmx7v.bkt.clouddn.com/Screen%20Shot%202018-05-05%20at%201.13.47%20PM.png">
+<meta property="og:image" content="http://oluujmx7v.bkt.clouddn.com/Screen%20Shot%202018-05-05%20at%201.19.12%20PM.png">
+<meta property="og:image" content="http://oluujmx7v.bkt.clouddn.com/Screen%20Shot%202018-05-05%20at%201.22.50%20PM.png">
+<meta property="og:updated_time" content="2018-05-05T07:36:49.758Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="利用 frp 为 jenkins 配置内网打包节点">
+<meta name="twitter:description" content="为什么这么做：公司的 jenkins 是搭建在阿里云上的，处于外网，但是 jenkins 服务器本身配置较低，最开始只是为了服务端自动化构建搭建起来，后来配置 Android 打包后就一直处于性能不够的情况，频繁打包失败，甚至会导致服务器直接卡死，影响其他的项目构建，就这还是在服务器从 1 核 2G 升到了 1 核 4G 的条件下了。但是为了 Android 打包继续增加服务器的配置，明显是不划">
+<meta name="twitter:image" content="http://oluujmx7v.bkt.clouddn.com/Screen%20Shot%202018-05-05%20at%201.13.47%20PM.png">
+
+
+
+
+
+
+  <link rel="canonical" href="alphagao.com/2018/05/05/config-native-package-node-for-jenkins-server/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>利用 frp 为 jenkins 配置内网打包节点 | Here's to Change</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Here's to Change</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">请问你真的有在努力吗 ？</p>
+      
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="Toggle navigation bar">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>Home</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>About</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>Tags</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>Categories</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>Archives</a>
+
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="alphagao.com/2018/05/05/config-native-package-node-for-jenkins-server/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Alpha Gao">
+      <meta itemprop="description" content="You will be what you want.">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Here's to Change">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">利用 frp 为 jenkins 配置内网打包节点
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2018-05-05 10:41:32 / Modified: 15:36:49" itemprop="dateCreated datePublished" datetime="2018-05-05T10:41:32+08:00">2018-05-05</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Linux/" itemprop="url" rel="index"><span itemprop="name">Linux</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+              
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+            
+                <span class="post-meta-item-text">Comments: </span>
+                <a href="/2018/05/05/config-native-package-node-for-jenkins-server/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2018/05/05/config-native-package-node-for-jenkins-server/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <blockquote>
+<p>为什么这么做：公司的 jenkins 是搭建在阿里云上的，处于外网，但是 jenkins 服务器本身配置较低，最开始只是为了服务端自动化构建搭建起来，后来配置 Android 打包后就一直处于性能不够的情况，频繁打包失败，甚至会导致服务器直接卡死，影响其他的项目构建，就这还是在服务器从 1 核 2G 升到了 1 核 4G 的条件下了。但是为了 Android 打包继续增加服务器的配置，明显是不划算的。正好公司的文件共享主机性能不错，4 核 16G，用来打包绰绰有余。一开始计划在内网机器上也配置 jenkins ，但这种方式 gitlab 的 webhook 貌似没办法调到位于内网的 jenkins ，即使做了内网穿透也无济于事，具体原因不明。后来在搜索中看到了这篇博文：<a href="https://www.jianshu.com/p/c3fa77e85025" target="_blank" rel="noopener">远端GitLab+Jenkins(CentOS)+本地Mac 做CI自动打包iOS上传到蒲公英</a>， 受到启发，也决定通过配置内网节点的方式来做。</p>
+</blockquote>
+<a id="more"></a>
+<p>有几个先决条件，但不是本次主讲点，在此列出来，请大家另行查询：</p>
+<ol>
+<li>需要公网机器的 ssh 免密登录权限（pc 登录，用于配置 frp）；</li>
+<li>有配置公网机器安全组的权限或途径（需要配置 frp 使用的端口）；</li>
+</ol>
+<h1 id="内网机器配置-frp"><a href="#内网机器配置-frp" class="headerlink" title="内网机器配置 frp"></a>内网机器配置 frp</h1><p>jenkins 和 gitlab 都是位于外网的，gitlab 要 hook 到 jenkins 是很简单的，但是 jenkins 把构建任务分配到内网节点，就必须要做内网穿透了。内网穿透的方式很多，这里我是使用 frp 。frp 是一个开源的可用于内网穿透的高性能的反向代理应用，支持 tcp, udp, http, https 协议。</p>
+<p>使用 frp 需要一台拥有公网 ip 的服务器，如果有 jenkins， 那么使用这个服务器的 ip 也是可以的。</p>
+<p>首先要下载 <a href="https://github.com/fatedier/frp/releases" target="_blank" rel="noopener">frp</a> ,根据你内网机器的系统下载对应版本，我这里 jenkins 和 内网机器都是 linux（一台 mint linux，一台 ubuntu， 内网机器和外网机器都需要运行 frp ），因此下载 linux_amd64 版本，之后也都是在这两个系统的进行配置。</p>
+<p>ssh 登录内网机器，解压 frp 文件夹，并 cd 到 frp 目录中；<br>配置 frpc.ini (client 端的配置文件)：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">[common]</span><br><span class="line">server_addr = 47.101.58.183   //公网机器 ip</span><br><span class="line">server_port = 7000            //默认绑定 端口</span><br><span class="line"></span><br><span class="line">[ssh]</span><br><span class="line">type = tcp</span><br><span class="line">local_ip = 127.0.0.1</span><br><span class="line">local_port = 22               //本地 ssh 端口</span><br><span class="line">remote_port = 6000            //映射到外网的 ssh 端口</span><br></pre></td></tr></table></figure></p>
+<h1 id="外网机器配置-frp"><a href="#外网机器配置-frp" class="headerlink" title="外网机器配置 frp"></a>外网机器配置 frp</h1><p>与内网机器相同，解压，进入目录下，配置 frps.ini :<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[common]</span><br><span class="line">bind_port = 7000              //默认绑定端口，与 client 保持一致</span><br><span class="line">vhost_http_port = 8080        //http 访问端口，需要在安全组中设置允许通过</span><br><span class="line">vhost_https_port = 443        //https 端口</span><br></pre></td></tr></table></figure></p>
+<p>frp 两端的基本配置就完了，首先运行位于 server 上的 frp：<br><code>./frps -c ./frps.ini</code></p>
+<p>然后运行位于 client 上的 frp ：<br><code>./frpc -c ./frpc.ini</code></p>
+<p>如果一切顺利，并且先决条件已经满足，那么即使在外网，也能通过 ssh 登录到内网机器了：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"># alpha @ gaoyanqangdeMBP in ~ [12:09:13]</span><br><span class="line">$ ssh -oPort=6000 alpha@47.101.58.183</span><br><span class="line">Welcome to Linux Mint 18.2 Sonya (GNU/Linux 4.10.0-33-generic x86_64)</span><br><span class="line"></span><br><span class="line"> * Documentation:  https://www.linuxmint.com</span><br><span class="line">Last login: Sat May  5 12:08:56 2018 from 127.0.0.1</span><br><span class="line">alpha@kid17-drive ~ $</span><br></pre></td></tr></table></figure></p>
+<h1 id="jenkins-创建本地节点"><a href="#jenkins-创建本地节点" class="headerlink" title="jenkins 创建本地节点"></a>jenkins 创建本地节点</h1><p>从左侧 <code>Manage Jenkins</code> -&gt; <code>Manage Nodes</code> -&gt; <code>New Node</code> 进入到创建 node 页面，输入 node name，并选择 <code>Permanent Agent</code>，点击 OK 进入到 node config 页面：<br>其中：</p>
+<p><strong># of executors</strong> ：表示并发线程数，可以同时执行的构建任务数量，超过需要排队，默认是 1<br><strong>Remote root directory</strong> ：必填，表示作为 jenkins 节点的工作目录，我的值是 <code>/home/alpha/jenkins_home</code>, 注意该目录需要设置 root 为 owner，并授予 777 的权限。<br><strong>Launch method</strong> ：选择 <code>Launch slave agents via SSH</code><br><strong>Host</strong> ：公网服务器的 ip，比如我的就是 47.101.58.183<br><strong>Credentials</strong> ：创建能够登录 gitlab 的密钥（注意，这里可以选择 none，但是必须在你的 gitlab 个人 ssh keys 添加本地节点的 ssh 公钥并在对应仓库下的 depoly keys 中启用）</p>
+<p><strong>Host Key Verification Strategy</strong> ：选择 <code>Non verifying Verification Strategy</code><br><strong>Port</strong> : 点击 高级/Advanced 可以看到该配置，填入之前在 frpc.ini 中配置的 6000 端口，否则就会连接到公网机器而不是内网节点了。</p>
+<p>此外还需要在 <code>Node Properties</code> 中配置 <code>JAVA_HOME</code>:<br><img src="http://oluujmx7v.bkt.clouddn.com/Screen%20Shot%202018-05-05%20at%201.13.47%20PM.png" alt></p>
+<p>当然你的实际 jdk 也得在这个目录下才行哟。</p>
+<p>此时点击保存，进入到节点列表，点击 Launch agent 就会连接该 Node 了。如果连接成功就会显示 <code>In sync</code> 的状态：<br><img src="http://oluujmx7v.bkt.clouddn.com/Screen%20Shot%202018-05-05%20at%201.19.12%20PM.png" alt></p>
+<p>接下里需要做的就是把 build task 分配给这个节点了：<br><img src="http://oluujmx7v.bkt.clouddn.com/Screen%20Shot%202018-05-05%20at%201.22.50%20PM.png" alt></p>
+<p>注意点击待选后需要删除多余的空格，否则会报错。</p>
+<p>保存后，点击项目的 Build Now 就会开始构建了。当然在此之前，你需要在内网机器上安装 Android SDK。具体的 Android SDK 安装步骤过了好几天也几乎忘记了，记得中间也遇到几次坑，不过还是请大家自行搜索安装咯。</p>
+<p>在配置了内网本地节点之后，jenkins 服务器又降到了 1 核 2G 的配置，又给公司省钱了呢 ~</p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/jenkins/" rel="tag"># jenkins</a>
+          
+            <a href="/tags/gradle/" rel="tag"># gradle</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/03/14/summary-2017/" rel="next" title="2017 年总结">
+                <i class="fa fa-chevron-left"></i> 2017 年总结
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/06/10/input-filter-size-and-type/" rel="prev" title="让 Android 输入框只能输入固定长度的中英文">
+                让 Android 输入框只能输入固定长度的中英文 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+    <div class="comments" id="comments">
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Alpha Gao</p>
+              <div class="site-description motion-element" itemprop="description">You will be what you want.</div>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">50</span>
+                    <span class="site-state-item-name">posts</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  
+                    
+                      <a href="/categories/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">11</span>
+                    <span class="site-state-item-name">categories</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                      <a href="/tags/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">93</span>
+                    <span class="site-state-item-name">tags</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#内网机器配置-frp"><span class="nav-number">1.</span> <span class="nav-text">内网机器配置 frp</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#外网机器配置-frp"><span class="nav-number">2.</span> <span class="nav-text">外网机器配置 frp</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#jenkins-创建本地节点"><span class="nav-number">3.</span> <span class="nav-text">jenkins 创建本地节点</span></a></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+        <div class="back-to-top">
+          <i class="fa fa-arrow-up"></i>
+          
+            <span id="scrollpercent"><span>0</span>%</span>
+          
+        </div>
+      
+
+    </div>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">  <a href="http://www.miitbeian.gov.cn" rel="noopener" target="_blank">陇ICP备17000389号 </a>&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-Alpha Gao"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Alpha Gao</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> v3.8.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> v7.0.1</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/src/utils.js?v=7.0.1"></script>
+
+  <script src="/js/src/motion.js?v=7.0.1"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/src/schemes/muse.js?v=7.0.1"></script>
+
+
+
+  
+  <script src="/js/src/scrollspy.js?v=7.0.1"></script>
+<script src="/js/src/post-details.js?v=7.0.1"></script>
+
+
+
+  
+
+
+  <script src="/js/src/next-boot.js?v=7.0.1"></script>
+
+
+  
+  
+  
+
+<script src="//cdn1.lncld.net/static/js/3.11.1/av-min.js"></script>
+
+
+
+<script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+
+<script>
+  var GUEST = ['nick', 'mail', 'link'];
+  var guest = 'nick,mail,link';
+  guest = guest.split(',').filter(function(item) {
+    return GUEST.indexOf(item) > -1;
+  });
+  new Valine({
+    el: '#comments',
+    verify: false,
+    notify: false,
+    appId: 'H96xxLo0hzG4azqx9XRPBLGe-gzGzoHsz',
+    appKey: 'NPnxUKfUoUn6iIlWOyvA1WgE',
+    placeholder: 'Just say anything',
+    avatar: 'mm',
+    meta: guest,
+    pageSize: '10' || 10,
+    visitor: false
+  });
+</script>
+
+
+
+
+  
+
+
+  
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

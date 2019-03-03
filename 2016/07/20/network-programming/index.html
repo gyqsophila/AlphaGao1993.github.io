@@ -1,0 +1,1167 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
+
+<link rel="stylesheet" href="/css/main.css?v=7.0.1">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.0.1">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.0.1">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.0.1">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.0.1" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '7.0.1',
+    sidebar: {"position":"left","display":"hide","offset":12,"b2t":true,"scrollpercent":true,"onmobile":false,"dimmer":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="网络编程 注：本博客由 Stormzhang 邪教群内讲课整理而来。  主要指Http和socket  Http 协议跟 Socket 有什么区别？">
+<meta name="keywords" content="Android,REST,HTTP,SOCKET,Cache">
+<meta property="og:type" content="article">
+<meta property="og:title" content="网络编程之整体认知">
+<meta property="og:url" content="alphagao.com/2016/07/20/network-programming/index.html">
+<meta property="og:site_name" content="Here&#39;s to Change">
+<meta property="og:description" content="网络编程 注：本博客由 Stormzhang 邪教群内讲课整理而来。  主要指Http和socket  Http 协议跟 Socket 有什么区别？">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2017-08-07T09:48:34.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="网络编程之整体认知">
+<meta name="twitter:description" content="网络编程 注：本博客由 Stormzhang 邪教群内讲课整理而来。  主要指Http和socket  Http 协议跟 Socket 有什么区别？">
+
+
+
+
+
+
+  <link rel="canonical" href="alphagao.com/2016/07/20/network-programming/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>网络编程之整体认知 | Here's to Change</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Here's to Change</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">请问你真的有在努力吗 ？</p>
+      
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="Toggle navigation bar">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>Home</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>About</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>Tags</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>Categories</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>Archives</a>
+
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="alphagao.com/2016/07/20/network-programming/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Alpha Gao">
+      <meta itemprop="description" content="You will be what you want.">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Here's to Change">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">网络编程之整体认知
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2016-07-20 22:26:34" itemprop="dateCreated datePublished" datetime="2016-07-20T22:26:34+08:00">2016-07-20</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="Modified: 2017-08-07 17:48:34" itemprop="dateModified" datetime="2017-08-07T17:48:34+08:00">2017-08-07</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Network/" itemprop="url" rel="index"><span itemprop="name">Network</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+              
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+            
+                <span class="post-meta-item-text">Comments: </span>
+                <a href="/2016/07/20/network-programming/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2016/07/20/network-programming/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="网络编程"><a href="#网络编程" class="headerlink" title="网络编程"></a>网络编程</h3><blockquote>
+<p>注：本博客由 Stormzhang 邪教群内讲课整理而来。</p>
+</blockquote>
+<p>主要指Http和socket</p>
+<blockquote>
+<p>Http 协议跟 Socket 有什么区别？</p>
+</blockquote>
+<a id="more"></a>
+<h3 id="HTTP-特性"><a href="#HTTP-特性" class="headerlink" title="HTTP 特性"></a>HTTP 特性</h3><ol>
+<li>Http 是无状态的协议，每次发出请求第一步都是客户端与服务端建立连接，连接成功之后把数据传过去，服务器收到数据进行响应，然后再回传结果给客户端。这一次请求结束之后连接就断开了，下次再发新的请求就会再重新建立连接。</li>
+<li>假设有 1W 个用户，用 Http 则同时连接服务器用户可能只有1K个。因为其他用户请求完就断开连接了。Http 每次都要重新建立连接，导致效率上没有 Socket 高效</li>
+<li>Http 也可以实现长连接</li>
+<li>Http 包含请求（request：url、method、参数、header）和响应（response）两大块</li>
+<li>Http 请求方法包含get、post、delete、put、head、patch、trace、options，常见的为get和post，后6种为post衍生出来的，需要关注了解 put 和 delete 方法，这四种方法对应 REST 原则，也就是 RESTful 架构，类似于数据库增删改查</li>
+<li>get 请求参数可以为 url 问号后的字符拼接（<a href="http://www.baidu.com/?key1=value&amp;key2=value2）" target="_blank" rel="noopener">http://www.baidu.com/?key1=value&amp;key2=value2）</a></li>
+<li>post请求参数为键值对形式，不会直接显示，在 form 或者 body params 里传递</li>
+</ol>
+<h3 id="SOCKET-特性"><a href="#SOCKET-特性" class="headerlink" title="SOCKET 特性"></a>SOCKET 特性</h3><ol>
+<li>socket协议意思就是长连接，言外之意就是发数据之后，连接不会断开，会一直保持连接。</li>
+<li>如果用socket可能同时会有1w个人连接服务器，这个就比较浪费服务器资源，消耗带宽。但是socket的优势也很明显，因为一直保持连接，每次用户发送数据都很快，不用重新建立连接的过程。</li>
+</ol>
+<h4 id="http与socket都是基于tcp-ip协议"><a href="#http与socket都是基于tcp-ip协议" class="headerlink" title="http与socket都是基于tcp/ip协议"></a>http与socket都是基于tcp/ip协议</h4><h4 id="Http-使用场景"><a href="#Http-使用场景" class="headerlink" title="Http 使用场景"></a>Http 使用场景</h4><ol>
+<li>留言、页面加载</li>
+</ol>
+<h4 id="Socket-应用场景"><a href="#Socket-应用场景" class="headerlink" title="Socket 应用场景"></a>Socket 应用场景</h4><ol>
+<li>IM（即时通讯）</li>
+<li>长连接</li>
+</ol>
+<h3 id="REST架构"><a href="#REST架构" class="headerlink" title="REST架构"></a>REST架构</h3><p>Http请求的 get 、post、delete、put这四种方法对应 REST 原则，也就是 RESTful 架构，类似于数据库增删改查</p>
+<p>假设我们有如下需求：查询学生数量，创建新学生，修改学生信息，删除学生</p>
+<p>原始接口实现（仅使用了 ge t和 post 方法）：</p>
+<pre><code>get  /api/student/index  查询接口
+post  /api/student/   携带一些 params 是创建接口
+post  /api/student/update  携带一些参数   修改接口
+post  /api/student/delete 携带参数  删除接口
+</code></pre><p>基于REST实现：</p>
+<pre><code>get  /api/student/index  查询接口   不变
+post  /api/student/   携带一些 params 是创建接口  不变
+put  /api/student/ 携带一些参数   修改接口
+delete  /api/student/携带参数  删除接口
+</code></pre><p><strong>二者区别：</strong></p>
+<p>修改跟删除直接用 http 的 method 来指定，url 哪怕一样，就可以轻松知道你的动作，这就是所谓的 restful 概念最重要的一个理念</p>
+<h3 id="header的概念"><a href="#header的概念" class="headerlink" title="header的概念"></a>header的概念</h3><p>header的作用有很多，比如客户端告诉服务端，我发起的请求是什么语言，我发起的请求带的参数是什么格式的，是json还是哈希，我发起的请求需不需要带缓存，我发起的请求需要压缩等，这些信息都是通过header 传递的。</p>
+<p>服务端在返回结果的时候也有一些信息告诉客户端的，同样在 header 里传递，比如我返回的数据是什么格式的，我这次请求是不支持缓存的，我这次返回的数据没有压缩等。</p>
+<p>header 里的信息都是一个个的哈希，即 key value 对。比如大家常见的一些 header 里的信息：</p>
+<ol>
+<li>Content-Type: application/json</li>
+<li>Cache-Control : true 等</li>
+</ol>
+<p>header里默认的有很多字段，这是规定，当然你也可以自定义一些字段在里面传递，只要跟你们服务端约定好就行</p>
+<h4 id="这里有个字段叫做-Connection-keep-alive"><a href="#这里有个字段叫做-Connection-keep-alive" class="headerlink" title="这里有个字段叫做  Connection: keep-alive"></a>这里有个字段叫做  Connection: keep-alive</h4><p>http如果每次都请求断开未免太没效率了，后来有人就发现  一般我在发起一个请求之后，可能紧接着就发起第二个请求了，于是就有了这个字段这个字段顾名思义，就是声明连接的类型</p>
+<p>这个字段有两个值：close 和 keep-live<br>如果你指定 close，那么每次请求就会立马断开连接<br>如果你指明了 keep-live，就可以在一段时间内保持长连接，这个时间服务端可以自行配置，但是时间也不会太长，不然服务器会很吃紧，比如设置个30s，意味着这30s的时间内不会重新断开重连<br>默认值是keep-alive</p>
+<h3 id="Response"><a href="#Response" class="headerlink" title="Response"></a>Response</h3><p>response 意为服务端返回的值， response也会有header，以及返回值<br>比如你请求百度，返回的就是一段 html 代码，只不过浏览器渲染成了一个页面而已，网页源代码才是真正的返回结果<br>对于app中，目前大部分的response都是json格式的数据<br>Android中有各种各样的json数据解析器，如gson、jackson、FastJson等等</p>
+<h4 id="状态码（http-status）"><a href="#状态码（http-status）" class="headerlink" title="状态码（http status）"></a>状态码（http status）</h4><p>一般是 200—500<br>比如正常的时候返回的 status 就是200，代表成功<br>大家常见的status code有 404 找不到<br>500 服务器挂了<br>一般是200开头的大多是成功<br>30x代表重定向，其中304是服务端告诉你内容没有改变，意为缓存的内容</p>
+<h3 id="http缓存"><a href="#http缓存" class="headerlink" title="http缓存"></a>http缓存</h3><p>缓存是开发中最常见的一环，可以算是性能优化的一个大点了。</p>
+<p>缓存有两部分，客户端和服务端。</p>
+<p>做客户端的会以为缓存只有客户端才有，其实服务端更有，因为假设你每查一个数据，服务端都要到数据库重新查询一遍，那服务器压力得有多大，所以服务器会有一个缓存机制。</p>
+<p>缓存有两种机制，第一种最常见的就是时间缓存，比如我查询中国的城市信息，对于这部分假设我就设置7天的缓存时间，意味着客户端每次请求，服务端一次查询数据库，7天之内都不会再查询数据库，直接返回给你上一次的结果，对应的 status code 就是304，这对服务器性能优化是很大的一环。</p>
+<p>缓存有没有生效一般用 header里的 cache-control 字段控制。<br>如果客户端传递 cache-control 字段为 true 那么服务端有缓存的话就会启动缓存，<br>如果传递 false 那么会强制服务端每次都去数据库里查询，<br>缓存的时间有一个字段叫做  expired 字段，告诉你缓存过期的时间。</p>
+<p>所以一般来说，如果性能优化的话会有这么一个点，客户端发起一个请求，服务端返回数据，并且告诉客户端我这个请求有缓存的，缓存时间是7天，那么客户端就可以把这个请求结果缓存在本地，然后7天之内都不再发起请求，直接读取本地的缓存数据，那么会极大的节省服务器资源。<br>以时间为缓存的大多为那些请求数据不常变化的。</p>
+<p>但大多数场景是数据经常变化，比如我刷个微博，微博变化很快，可能1小时不会变化，但也可能1分钟就有更新，这种缓存就没法用固定的时间来进行衡量了，所以第二种缓存叫做 <strong>Etag缓存</strong>。</p>
+<p>Etag 你们可以理解成就是一个唯一的字符串。<br>这个字符串是服务端根据时间、用户标识、内容索引等生成的一个字符串。<br>一旦用户的内容变化，这个Etag就会变化，如果用户内容不变化，那么Etag也不会变化</p>
+<p>所以刷微博的话机制就是这样的，客户端发起一个请求，服务端返回了一个数据，告诉客户端，我是有缓存的，缓存的 Etag 值也返回给你了，然后我把返回的数据以及 Etag 缓存到本地<br>这样下次请求的话如果数据没有变化，那么服务端不会返回给你数据了，而只会返回一个 Etag值，拿到这个Etag值之后到本地去找这个Etag缓存对应的数据，直接渲染。</p>
+<p><strong>注意：</strong> Etag的比较和对应的数据包都是在服务端完成的。</p>
+<p>Etag的缓存其实才是目前使用最多的缓存策略<br>主流网络库都会默认支持这两种缓存，也就说volley或者okhttp都会支持的</p>
+<p>以volley为例，他内部实现了缓存机制，每次请求之后如果服务端支持缓存的话，他自己只直接在本地进行缓存的。<br>也就是说  如果服务端返回了 304 ，并返回了Etag，volley会自动去本地寻找上次缓存过的数据进行渲染。</p>
+<blockquote>
+<p>客户端一般使用文件缓存，如volley</p>
+</blockquote>
+<p>volley的缓存机制是这样的，下次发起请求，服务端返回 304 ，那么volley就默认直接到本地缓存去找，问题是，如果用户没有网，那么发起请求，服务端根本没有响应，这时候volley默认的是不知道去本地去找的，因为他没有接受到304的信号，所以说如果想要没网的时候去本地读取缓存，这样用户体验会更好点，这个时候需要自己去做处理的。</p>
+<p>第一次请求肯定没有 Etag 的，第一次也没有缓存，服务端会直接返回给你数据以及Etag。</p>
+<p>第二次之后会把Etag请求给服务端，但是把Etag提交给服务端网络库会自动携带的，一般不需要关心。</p>
+<p>如果分页做缓存的话最好用数据库了，一般只做了单页缓存，没网的时候起码让用户看到内容，也就是说用户一进来最好能让他看到一些数据做占位符。</p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Android/" rel="tag"># Android</a>
+          
+            <a href="/tags/REST/" rel="tag"># REST</a>
+          
+            <a href="/tags/HTTP/" rel="tag"># HTTP</a>
+          
+            <a href="/tags/SOCKET/" rel="tag"># SOCKET</a>
+          
+            <a href="/tags/Cache/" rel="tag"># Cache</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/07/15/read-write-contacts-calllog/" rel="next" title="ContentProvider之读写联系人、短信、通话记录">
+                <i class="fa fa-chevron-left"></i> ContentProvider之读写联系人、短信、通话记录
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/07/21/customize-ToggleButton/" rel="prev" title="Android自定义view之ToggleButton">
+                Android自定义view之ToggleButton <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+    <div class="comments" id="comments">
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Alpha Gao</p>
+              <div class="site-description motion-element" itemprop="description">You will be what you want.</div>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">50</span>
+                    <span class="site-state-item-name">posts</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  
+                    
+                      <a href="/categories/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">11</span>
+                    <span class="site-state-item-name">categories</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                      <a href="/tags/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">93</span>
+                    <span class="site-state-item-name">tags</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#网络编程"><span class="nav-number">1.</span> <span class="nav-text">网络编程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#HTTP-特性"><span class="nav-number">2.</span> <span class="nav-text">HTTP 特性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#SOCKET-特性"><span class="nav-number">3.</span> <span class="nav-text">SOCKET 特性</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#http与socket都是基于tcp-ip协议"><span class="nav-number">3.1.</span> <span class="nav-text">http与socket都是基于tcp/ip协议</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Http-使用场景"><span class="nav-number">3.2.</span> <span class="nav-text">Http 使用场景</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Socket-应用场景"><span class="nav-number">3.3.</span> <span class="nav-text">Socket 应用场景</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#REST架构"><span class="nav-number">4.</span> <span class="nav-text">REST架构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#header的概念"><span class="nav-number">5.</span> <span class="nav-text">header的概念</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#这里有个字段叫做-Connection-keep-alive"><span class="nav-number">5.1.</span> <span class="nav-text">这里有个字段叫做  Connection: keep-alive</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Response"><span class="nav-number">6.</span> <span class="nav-text">Response</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#状态码（http-status）"><span class="nav-number">6.1.</span> <span class="nav-text">状态码（http status）</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#http缓存"><span class="nav-number">7.</span> <span class="nav-text">http缓存</span></a></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+        <div class="back-to-top">
+          <i class="fa fa-arrow-up"></i>
+          
+            <span id="scrollpercent"><span>0</span>%</span>
+          
+        </div>
+      
+
+    </div>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">  <a href="http://www.miitbeian.gov.cn" rel="noopener" target="_blank">陇ICP备17000389号 </a>&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-Alpha Gao"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Alpha Gao</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> v3.8.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> v7.0.1</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/src/utils.js?v=7.0.1"></script>
+
+  <script src="/js/src/motion.js?v=7.0.1"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/src/schemes/muse.js?v=7.0.1"></script>
+
+
+
+  
+  <script src="/js/src/scrollspy.js?v=7.0.1"></script>
+<script src="/js/src/post-details.js?v=7.0.1"></script>
+
+
+
+  
+
+
+  <script src="/js/src/next-boot.js?v=7.0.1"></script>
+
+
+  
+  
+  
+
+<script src="//cdn1.lncld.net/static/js/3.11.1/av-min.js"></script>
+
+
+
+<script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+
+<script>
+  var GUEST = ['nick', 'mail', 'link'];
+  var guest = 'nick,mail,link';
+  guest = guest.split(',').filter(function(item) {
+    return GUEST.indexOf(item) > -1;
+  });
+  new Valine({
+    el: '#comments',
+    verify: false,
+    notify: false,
+    appId: 'H96xxLo0hzG4azqx9XRPBLGe-gzGzoHsz',
+    appKey: 'NPnxUKfUoUn6iIlWOyvA1WgE',
+    placeholder: 'Just say anything',
+    avatar: 'mm',
+    meta: guest,
+    pageSize: '10' || 10,
+    visitor: false
+  });
+</script>
+
+
+
+
+  
+
+
+  
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

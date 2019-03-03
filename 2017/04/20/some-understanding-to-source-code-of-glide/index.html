@@ -1,0 +1,1077 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
+
+<link rel="stylesheet" href="/css/main.css?v=7.0.1">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.0.1">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.0.1">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.0.1">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.0.1" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '7.0.1',
+    sidebar: {"position":"left","display":"hide","offset":12,"b2t":true,"scrollpercent":true,"onmobile":false,"dimmer":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="Glide 里一句简单的 Glide.with(this).load(url).into(imageview) 背后其实有着非常复杂的逻辑和工作，这次正好碰巧有郭霖的博客在前方带路，我也顺便来看看 Glide 的源码实现。  在这篇文章里我不打算贴上大段的代码，我不会去仔细分析某段代码的作用，因为我自己或许都不太清楚，这篇文章我打算讲讲 Glide 实现的大体思路，通过这篇文章，你可以很快地知道">
+<meta name="keywords" content="Glide,Scouce">
+<meta property="og:type" content="article">
+<meta property="og:title" content="阅读 Glide 源码的一些浅薄认识">
+<meta property="og:url" content="alphagao.com/2017/04/20/some-understanding-to-source-code-of-glide/index.html">
+<meta property="og:site_name" content="Here&#39;s to Change">
+<meta property="og:description" content="Glide 里一句简单的 Glide.with(this).load(url).into(imageview) 背后其实有着非常复杂的逻辑和工作，这次正好碰巧有郭霖的博客在前方带路，我也顺便来看看 Glide 的源码实现。  在这篇文章里我不打算贴上大段的代码，我不会去仔细分析某段代码的作用，因为我自己或许都不太清楚，这篇文章我打算讲讲 Glide 实现的大体思路，通过这篇文章，你可以很快地知道">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2017-08-07T09:42:14.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="阅读 Glide 源码的一些浅薄认识">
+<meta name="twitter:description" content="Glide 里一句简单的 Glide.with(this).load(url).into(imageview) 背后其实有着非常复杂的逻辑和工作，这次正好碰巧有郭霖的博客在前方带路，我也顺便来看看 Glide 的源码实现。  在这篇文章里我不打算贴上大段的代码，我不会去仔细分析某段代码的作用，因为我自己或许都不太清楚，这篇文章我打算讲讲 Glide 实现的大体思路，通过这篇文章，你可以很快地知道">
+
+
+
+
+
+
+  <link rel="canonical" href="alphagao.com/2017/04/20/some-understanding-to-source-code-of-glide/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>阅读 Glide 源码的一些浅薄认识 | Here's to Change</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Here's to Change</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">请问你真的有在努力吗 ？</p>
+      
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="Toggle navigation bar">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>Home</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>About</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>Tags</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>Categories</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>Archives</a>
+
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="alphagao.com/2017/04/20/some-understanding-to-source-code-of-glide/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Alpha Gao">
+      <meta itemprop="description" content="You will be what you want.">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Here's to Change">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">阅读 Glide 源码的一些浅薄认识
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2017-04-20 16:09:33" itemprop="dateCreated datePublished" datetime="2017-04-20T16:09:33+08:00">2017-04-20</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="Modified: 2017-08-07 17:42:14" itemprop="dateModified" datetime="2017-08-07T17:42:14+08:00">2017-08-07</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Android/" itemprop="url" rel="index"><span itemprop="name">Android</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+              
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+            
+                <span class="post-meta-item-text">Comments: </span>
+                <a href="/2017/04/20/some-understanding-to-source-code-of-glide/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2017/04/20/some-understanding-to-source-code-of-glide/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <blockquote>
+<p>Glide 里一句简单的 <code>Glide.with(this).load(url).into(imageview)</code> 背后其实有着非常复杂的逻辑和工作，这次正好碰巧有郭霖的博客在前方带路，我也顺便来看看 Glide 的源码实现。</p>
+</blockquote>
+<p>在这篇文章里我不打算贴上大段的代码，我不会去仔细分析某段代码的作用，因为我自己或许都不太清楚，这篇文章我打算讲讲 Glide 实现的大体思路，通过这篇文章，你可以很快地知道 Glide 的大体架构，而不会深陷于代码的泥潭（主要还是源码实在太多太复杂了-_-||）。<br> <a id="more"></a><br>首先说说 <code>with()</code> 方法，这个方法可以传入任何类型的 Context，Activity，Fragment，虽说是传进去了上下文的引用，但 Glide 并不持有这个引用，所以并不会造成内存泄露。这是为什么呢？我们知道，无论是 Activity 还是 Fragment，里面是可以继续持有 Fragment 的，而 Glide 很聪明，它向传进来的 Activity、Fragment 里面再添加一个 Fragment，因为 Fragment 与持有它的类的生命周期是绑定的，当外部 Activity、Fragment 的生命周期发生变化的时候，Glide 通过它添加的 Fragment 就可以感知到，从而及时停止或取消图片的加载，所以不会造成内存泄露。而如果你传入的是一个 Application 类型的 Context，那么这个图片加载的生命周期就会和 Application 保持一致，所以如果不是一个一直存在的图片，那么最好不要传入 Application 类型的 Context，因为过于长的生命周期会增加 App 同一时间内的负荷，占用更多的资源。总的来说 <code>with()</code> 方法就是用来预设这个图片加载的生命周期的。</p>
+<p>然后就是 load() 方法：这个方法支持传入很多类型的资源，无论是 url、uri，还是 File，资源 ID，甚至是 byte 数组。在调用这个方法之后可以继续调用 <code>asBitmap()</code> 或者 <code>asGif()</code> 来设置图片的类型，这两个类型一动一静，始终贯穿在整个 load 过程中，如果不调用这两个方法，那么 load 方法就会自动识别，而一旦设定了具体的图片的类型，那么如果最后得到的图片与你的预设不相同，就会抛出异常。除了设置图片的类型，还可以设置图片的占位符（placeHolder）、错误提示图片（error），在 load 加载的过程中，会先后检查这两个变量的内容，在开始加载之前提供给 into 方法的是 placeHolder 图像，在加载出错的时候提供给 into 的是 error 图像。如果你还设置了变形、缩放、动画等，在 load 过程中其实并不会有什么特殊的处理，因为这些参数和设置只会在 into 过程中被真正的使用，load 过程就像烹饪之前的准备过程，知道我们要做什么菜，为了做这个菜需要哪些食材、需要什么调料、要做成什么口味等，都算是一个准备过程，并不会有具体的加工过程。load 过程中设置的所有参数最后一股脑地抛给 into 过程，由 into 过程来进行具体的解析、加载、加工、裁剪、转换等工作。</p>
+<p>既然这样，那么最重要的东西都会在 into 过程中了。按照我的理解，我把这个过程分成以下几个步骤：</p>
+<ul>
+<li>构建：我们在 load 过程里设置了那么多的参数，图片类型，图片缩放、动画、翻转、占位符、错误提示等，都会在这里被调用，用这些参数构建出一个完整的 Glide 请求，是的，构建的结果是一个请求，什么请求呢，就是将某个图片加载出来的请求。</li>
+<li>解析：请求其实就是一个具体的目标，有了目标，就能够大步向前了。而解析的过程就是执行这个请求，在执行的一开始，就会在 imageview 上显示占位符，而如果执行出错就会显示预设的错误提示图片。在具体的执行过程中，根据不同的资源类型，会执行不同的图片加载过程，比如一开始传进去的是一个 url ，这里就会进行网络请求，获取结果流（inputStream），然后对这个流进行一系列的解码和封装。在这里还会判断图片是静态图还是动态图，分别有不同的解码过程。通过对流的解码会得到具体的 bitmap 对象，这个时候，请求里的其他参数就派上用场了，是否需要缩放，是否要旋转，是否设置动画，都会在这里得到具体的实现。</li>
+<li>包装：到这个时候，一个成熟的 bitmap /Gif 就做出来了，虽然这个图片可能就是我们需要的图片，但是还不能直接就显示出来。因为加载出来图片可能是动态地，也可能是静态的，这两种图片的设置的方法可不太一样。所以就需要我前面说到的封装了，而且是一系列的封装，以适应通用的设置图片的过程。</li>
+<li>转码：现在到我们手里的就是一个被包装了好几层的图片，而包装类并不直接或间接的继承于可以直接显示的 Drawable 和 Bitmap，那么还怎么显示呢？那就需要转码了。转码的作用的是从包装类中取出里面的 Drawable 或者 Bitmap 对象。那么我们不禁要问了，这又是包装的，又是转码的，最后不还是要用 Drawable 和 Bitmap 对象么？那么包装和转码到底有什么意义呢？问得好，因为 Glide 把你要显示图片的 imageView 也进行了一些封装，用来适应多种不同格式的图片，而为了适应封装过后的 ImageView，就得对图片进行转码。</li>
+<li>显示：这个时候就真的可以调用 setImageDrawable 或者 SetImageBitmap 将图片显示出来了，如果图片是 gif，就会不间断的播放 gif 的每一帧。</li>
+</ul>
+<p>以上就是一个基本的 Glide 加载图片的完整流程。在这个流程里，完全没有提到图片缓存，就只是一个新图片第一次加载的过程。在郭霖博客的帮助下，我也花了差不多一天的时间来走完这一个流程，不得不说 Glide 的源码真的非常庞杂，随着方法的一层层深入，各种接口的实现，一不小心就会迷失在代码的海洋里，而忘记了一开始追溯到了哪一步。就像 Glide 文档说的，它背后默默完成了成吨的工作量。而阅读源码，不能过于深入，最好不要纠结于具体某一行代码的作用或逻辑，就像郭霖说的，抽丝剥茧，点到为止。先认准一个功能点，围绕这个功能点的流程具体是如何执行和实现的来展开调查，一点一点地进行渗透，最后慢慢的整个框架的思路和架构就会出现在你的脑海里。</p>
+<p>希望我这篇很短的小文章对你理解 Glide 有一点点的帮助，如果文中描述有什么不对的，热切期望你能提出来，共同进步。要查看郭霖的更详细的解析，请移步 <a href="http://blog.csdn.net/guolin_blog/article/details/53939176" target="_blank" rel="noopener">郭霖的博客</a>。</p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Glide/" rel="tag"># Glide</a>
+          
+            <a href="/tags/Scouce/" rel="tag"># Scouce</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/04/01/the-interview-experience-to-the-net-circle/" rel="next" title="记一次德企英文面试的经历">
+                <i class="fa fa-chevron-left"></i> 记一次德企英文面试的经历
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/04/21/the-things-behind-setContentView-in-activity/" rel="prev" title="setContentView 背后那些事儿">
+                setContentView 背后那些事儿 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+    <div class="comments" id="comments">
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <div class="site-overview-wrap sidebar-panel sidebar-panel-active">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Alpha Gao</p>
+              <div class="site-description motion-element" itemprop="description">You will be what you want.</div>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">50</span>
+                    <span class="site-state-item-name">posts</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  
+                    
+                      <a href="/categories/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">11</span>
+                    <span class="site-state-item-name">categories</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                      <a href="/tags/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">93</span>
+                    <span class="site-state-item-name">tags</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+
+      
+        <div class="back-to-top">
+          <i class="fa fa-arrow-up"></i>
+          
+            <span id="scrollpercent"><span>0</span>%</span>
+          
+        </div>
+      
+
+    </div>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">  <a href="http://www.miitbeian.gov.cn" rel="noopener" target="_blank">陇ICP备17000389号 </a>&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-Alpha Gao"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Alpha Gao</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> v3.8.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> v7.0.1</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/src/utils.js?v=7.0.1"></script>
+
+  <script src="/js/src/motion.js?v=7.0.1"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/src/schemes/muse.js?v=7.0.1"></script>
+
+
+
+  
+  <script src="/js/src/scrollspy.js?v=7.0.1"></script>
+<script src="/js/src/post-details.js?v=7.0.1"></script>
+
+
+
+  
+
+
+  <script src="/js/src/next-boot.js?v=7.0.1"></script>
+
+
+  
+  
+  
+
+<script src="//cdn1.lncld.net/static/js/3.11.1/av-min.js"></script>
+
+
+
+<script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+
+<script>
+  var GUEST = ['nick', 'mail', 'link'];
+  var guest = 'nick,mail,link';
+  guest = guest.split(',').filter(function(item) {
+    return GUEST.indexOf(item) > -1;
+  });
+  new Valine({
+    el: '#comments',
+    verify: false,
+    notify: false,
+    appId: 'H96xxLo0hzG4azqx9XRPBLGe-gzGzoHsz',
+    appKey: 'NPnxUKfUoUn6iIlWOyvA1WgE',
+    placeholder: 'Just say anything',
+    avatar: 'mm',
+    meta: guest,
+    pageSize: '10' || 10,
+    visitor: false
+  });
+</script>
+
+
+
+
+  
+
+
+  
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

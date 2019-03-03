@@ -1,0 +1,1518 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
+
+<link rel="stylesheet" href="/css/main.css?v=7.0.1">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.0.1">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.0.1">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.0.1">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.0.1" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '7.0.1',
+    sidebar: {"position":"left","display":"hide","offset":12,"b2t":true,"scrollpercent":true,"onmobile":false,"dimmer":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="为啥突然想要折腾 Ubuntu 来玩了呢，哎，最近心中烦躁，还是得换个方面来玩玩，才能有兴致走得更远啊哈哈。写这个文章也是给自己以后再折腾留一个参考依据。之前为了尝试在虚拟机上已经安装过了 Ubuntu 16.04，但是虚拟机毕竟是虚拟机，再说windows下虚拟机的速度真是卡的要命。然而，我这次实体机安装Ubuntu简直是差点让我撞墙。">
+<meta name="keywords" content="Ubuntu,Soft">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Ubuntu折腾手记">
+<meta property="og:url" content="alphagao.com/2016/08/25/160825/index.html">
+<meta property="og:site_name" content="Here&#39;s to Change">
+<meta property="og:description" content="为啥突然想要折腾 Ubuntu 来玩了呢，哎，最近心中烦躁，还是得换个方面来玩玩，才能有兴致走得更远啊哈哈。写这个文章也是给自己以后再折腾留一个参考依据。之前为了尝试在虚拟机上已经安装过了 Ubuntu 16.04，但是虚拟机毕竟是虚拟机，再说windows下虚拟机的速度真是卡的要命。然而，我这次实体机安装Ubuntu简直是差点让我撞墙。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2017-08-07T09:49:26.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Ubuntu折腾手记">
+<meta name="twitter:description" content="为啥突然想要折腾 Ubuntu 来玩了呢，哎，最近心中烦躁，还是得换个方面来玩玩，才能有兴致走得更远啊哈哈。写这个文章也是给自己以后再折腾留一个参考依据。之前为了尝试在虚拟机上已经安装过了 Ubuntu 16.04，但是虚拟机毕竟是虚拟机，再说windows下虚拟机的速度真是卡的要命。然而，我这次实体机安装Ubuntu简直是差点让我撞墙。">
+
+
+
+
+
+
+  <link rel="canonical" href="alphagao.com/2016/08/25/160825/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>Ubuntu折腾手记 | Here's to Change</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Here's to Change</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">请问你真的有在努力吗 ？</p>
+      
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="Toggle navigation bar">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>Home</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>About</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>Tags</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>Categories</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>Archives</a>
+
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="alphagao.com/2016/08/25/160825/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Alpha Gao">
+      <meta itemprop="description" content="You will be what you want.">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Here's to Change">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Ubuntu折腾手记
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2016-08-25 11:05:17" itemprop="dateCreated datePublished" datetime="2016-08-25T11:05:17+08:00">2016-08-25</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="Modified: 2017-08-07 17:49:26" itemprop="dateModified" datetime="2017-08-07T17:49:26+08:00">2017-08-07</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Linux/" itemprop="url" rel="index"><span itemprop="name">Linux</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+              
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+            
+                <span class="post-meta-item-text">Comments: </span>
+                <a href="/2016/08/25/160825/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2016/08/25/160825/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>为啥突然想要折腾 Ubuntu 来玩了呢，哎，最近心中烦躁，还是得换个方面来玩玩，才能有兴致走得更远啊哈哈。写这个文章也是给自己以后再折腾留一个参考依据。<br>之前为了尝试在虚拟机上已经安装过了 Ubuntu 16.04，但是虚拟机毕竟是虚拟机，再说windows下虚拟机的速度真是卡的要命。<br>然而，我这次实体机安装Ubuntu简直是差点让我撞墙。<br><a id="more"></a></p>
+<blockquote>
+<p>注意：安装顺序最好按照以下的行文顺序，很多软件前后是有依赖关系的。另外本文会不定期更新。</p>
+</blockquote>
+<h3 id="安装Ubuntu系统"><a href="#安装Ubuntu系统" class="headerlink" title="安装Ubuntu系统"></a>安装Ubuntu系统</h3><p>一开始我是打算直接硬盘安装的，但是通过 easyBCD 引导的 neoGrub 总是无法加载映像文件，一直报错。<br>因为我电脑上有一块固态硬盘，一快机械硬盘，不太好分得清 ISO 文件在那个盘中。后来发现大概是安装的 easyBCD 可能有点问题。<br>然后我就打算U盘安装了。为了制作启动盘，尝试了几个启动盘制作软件。比如 Urtra ISO，Universal Image Loader，Rufus 等。</p>
+<p>然后就是这里的问题最奇葩，差点让我撞墙。每次制作好的启动盘都可以直接进入，但是却一直卡在系统 Logo 的下载页面。既然卡了我就果断重新制作启动盘了。<br>换了几个制作软件，每个软件上尝试了几次，说说大概情况吧。</p>
+<ul>
+<li>用 Universal Image Loader 和 Rufus 制作的启动盘如果运气好了可以进入安装向导，但是安装到拷贝文件哪里就会奔溃掉，也就是无法完成安装的。</li>
+<li>用 Urtra ISO制作的启动盘想要进入到安装向导也是需要运气的，有时候莫名其妙就进去了，而且到安装向导里也不会卡，可以一直到安装完成。</li>
+</ul>
+<p>因此还是推荐使用 Urtra ISO 来制作启动盘。另外，我安装的是 Ubuntu 16.04 X64 LTS 版本。</p>
+<h3 id="设置-root-密码"><a href="#设置-root-密码" class="headerlink" title="设置 root 密码"></a>设置 root 密码</h3><ul>
+<li>sudo su -</li>
+<li>输入当前账户密码</li>
+<li>passwd</li>
+<li>输入root密码</li>
+<li>确认root密码</li>
+</ul>
+<h3 id="安装zsh和oh-my-zsh（绝对是第一个应该安装的）"><a href="#安装zsh和oh-my-zsh（绝对是第一个应该安装的）" class="headerlink" title="安装zsh和oh-my-zsh（绝对是第一个应该安装的）"></a>安装zsh和oh-my-zsh（绝对是第一个应该安装的）</h3><ul>
+<li>sudo apt-get install zsh git wget</li>
+<li>wget –no-check-certificate <a href="https://github.com/robbyrussell/oh-my-zsh/raw/master/tools/install.sh" target="_blank" rel="noopener">https://github.com/robbyrussell/oh-my-zsh/raw/master/tools/install.sh</a> -0 - | sh</li>
+<li>chsh -s /bin/zsh</li>
+<li>reboot</li>
+</ul>
+<h3 id="安装-uGet-下载工具"><a href="#安装-uGet-下载工具" class="headerlink" title="安装 uGet 下载工具"></a>安装 uGet 下载工具</h3><ul>
+<li>sudo add-apt-repository ppa:plushuang-tw/uget-stable</li>
+<li>sudo apt-get update</li>
+<li>sudo apt-get install uget</li>
+<li>sudo add-apt-repository ppa:t-tujikawa/ppa</li>
+<li>sudo apt-get update</li>
+<li>sudo apt-get install aria2</li>
+<li>安装 FireFox 的 flashGot 插件:<ul>
+<li>按快捷键 <code>Ctrl+Shift+A</code>（或：工具-附件组件）打开附加组件管理 在搜索栏中输入 flashgot，回车发起搜索或者点击后面的所搜符号进行搜索,安装、重启 firefox 再次打开“附加组件”从“我的附加组件”中找到 flashgot，单击首选项,在常规中选择 uget</li>
+</ul>
+</li>
+<li>配置 flashGot 插件<ul>
+<li>在终端中输入<code>sudo uget-gtk</code>打开 uget 右击全部分类、分类,在“新下载的默认设置1”选项卡下，对下载进行默认设置。如图，将连接数设置到最大16</li>
+</ul>
+</li>
+<li>配置aria2<ul>
+<li>在终端中输入<code>sudo uget-gtk</code>打开uget 选择<code>edit–settings–plugin–Plug in matching order</code>，选择aria2</li>
+</ul>
+</li>
+</ul>
+<h3 id="卸载无用软件"><a href="#卸载无用软件" class="headerlink" title="卸载无用软件"></a>卸载无用软件</h3><ul>
+<li>删除 libreoffice<ul>
+<li>sudo apt-get remove libreoffice-common</li>
+</ul>
+</li>
+<li>删除 Amazon 的链接(但是删除后貌似还有-_-||)<ul>
+<li>sudo apt-get remove unity-webapps-common </li>
+</ul>
+</li>
+<li>删掉基本不用的自带软件(用的时候再装)<ul>
+<li>sudo apt-get remove thunderbird totem rhythmbox empathy brasero simple-scan gnome-mahjongg aisleriot gnome-mines cheese transmission-common gnome-orca webbrowser-app gnome-sudoku  landscape-client-ui-install</li>
+<li>sudo apt-get remove onboard deja-dup </li>
+</ul>
+</li>
+</ul>
+<h3 id="添加网易软件源-阿里源也不错"><a href="#添加网易软件源-阿里源也不错" class="headerlink" title="添加网易软件源(阿里源也不错)"></a>添加网易软件源(阿里源也不错)</h3><ul>
+<li>执行： <code>sudo gedit /etc/apt/sources.list</code></li>
+<li>在文件开始添加：<pre><code>deb http://mirrors.163.com/ubuntu/ precise-updates main restricted
+deb-src http://mirrors.163.com/ubuntu/ precise-updates main restricted
+deb http://mirrors.163.com/ubuntu/ precise universe
+deb-src http://mirrors.163.com/ubuntu/ precise universe
+deb http://mirrors.163.com/ubuntu/ precise-updates universe
+deb-src http://mirrors.163.com/ubuntu/ precise-updates universe
+deb http://mirrors.163.com/ubuntu/ precise multiverse
+deb-src http://mirrors.163.com/ubuntu/ precise multiverse
+deb http://mirrors.163.com/ubuntu/ precise-updates multiverse
+deb-src http://mirrors.163.com/ubuntu/ precise-updates multiverse
+deb http://mirrors.163.com/ubuntu/ precise-backports main restricted universe multiverse
+deb-src http://mirrors.163.com/ubuntu/ precise-backports main restricted universe multiverse
+</code></pre></li>
+</ul>
+<h3 id="安装-unrar-（解压rar工具）"><a href="#安装-unrar-（解压rar工具）" class="headerlink" title="安装 unrar （解压rar工具）"></a>安装 unrar （解压rar工具）</h3><ul>
+<li>sudo apt-get install unrar </li>
+<li>用法： <code>unrar x test.rar</code></li>
+</ul>
+<h3 id="安装搜狗输入法"><a href="#安装搜狗输入法" class="headerlink" title="安装搜狗输入法"></a>安装搜狗输入法</h3><ul>
+<li>下载 <a href="http://pinyin.sogou.com/linux/?r=pinyin" target="_blank" rel="noopener">http://pinyin.sogou.com/linux/?r=pinyin</a></li>
+<li>解压后执行  <code>sudo dpkg -i sogoupinyin_2.0.0.0072_amd64.deb</code></li>
+<li>若提示依赖问题执行<ul>
+<li>apt-get install -f </li>
+<li>再次执行  <code>sudo dpkg -i sogoupinyin_2.0.0.0072_amd64.deb</code></li>
+</ul>
+</li>
+</ul>
+<h3 id="安装-Vim"><a href="#安装-Vim" class="headerlink" title="安装 Vim"></a>安装 Vim</h3><ul>
+<li>sudo apt-get install vim </li>
+</ul>
+<h3 id="安装-Chrome-浏览器"><a href="#安装-Chrome-浏览器" class="headerlink" title="安装 Chrome 浏览器"></a>安装 Chrome 浏览器</h3><ul>
+<li>下载 <a href="https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb" target="_blank" rel="noopener">https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb</a></li>
+<li>sudo apt-get install libappindicator1 libindicator7  </li>
+<li>sudo dpkg -i google-chrome-stable_current_amd64.deb   </li>
+<li>sudo apt-get -f install </li>
+</ul>
+<h3 id="安装-Oracle-Java"><a href="#安装-Oracle-Java" class="headerlink" title="安装 Oracle Java"></a>安装 Oracle Java</h3><ul>
+<li>sudo add-apt-repository ppa:webupd8team/java    </li>
+<li>sudo apt-get update    </li>
+<li>sudo apt-get install oracle-java8-installer  </li>
+<li>查看版本<ul>
+<li><code>java -version</code></li>
+</ul>
+</li>
+</ul>
+<h3 id="安装-Sublime-Text-3"><a href="#安装-Sublime-Text-3" class="headerlink" title="安装 Sublime Text 3"></a>安装 Sublime Text 3</h3><ul>
+<li>sudo add-apt-repository ppa:webupd8team/sublime-text-3    </li>
+<li>sudo apt-get update    </li>
+<li>sudo apt-get install sublime-text </li>
+<li><p>安装插件</p>
+<ul>
+<li>Package Control（最新版）<ul>
+<li>import urllib.request,os,hashlib; h = ‘df21e130d211cfc94d9b0905775a7c0f’ + ‘1e3d39e33b79698005270310898eea76’; pf = ‘Package Control.sublime-package’; ipp = sublime.installed_packages_path(); urllib.request.install_opener( urllib.request.build_opener( urllib.request.ProxyHandler()) ); by = urllib.request.urlopen( ‘<a href="http://packagecontrol.io/&#39;" target="_blank" rel="noopener">http://packagecontrol.io/&#39;</a> + pf.replace(‘ ‘, ‘%20’)).read(); dh = hashlib.sha256(by).hexdigest(); print(‘Error validating download (got %s instead of %s), please try manual install’ % (dh, h)) if dh != h else open(os.path.join( ipp, pf), ‘wb’ ).write(by)</li>
+</ul>
+</li>
+<li>ConvertToUTF8</li>
+<li>MarkdownEditing</li>
+<li>Material Theme</li>
+<li><p>OmniMarkPreviewer</p>
+<ul>
+<li>无法在网页预览</li>
+<li><p>Sublime Text &gt; Preferences &gt; Package Settings &gt; OmniMarkupPreviewer &gt; Settings - User<br>  paste the following to remove the strikeout package.</p>
+<p>  {</p>
+<pre><code>&quot;renderer_options-MarkdownRenderer&quot;: {
+    &quot;extensions&quot;: [&quot;tables&quot;, &quot;fenced_code&quot;, &quot;codehilite&quot;]
+}
+</code></pre><p>  }</p>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>解决中文无法输入</p>
+<ul>
+<li>先执行 <code>sudo apt-get update &amp;&amp; sudo apt-get upgrade</code></li>
+<li>克隆 git clone <a href="https://github.com/lyfeyaj/sublime-text-imfix.git" target="_blank" rel="noopener">https://github.com/lyfeyaj/sublime-text-imfix.git</a></li>
+<li>执行 <code>cd sublime-text-imfix &amp;&amp; ./sublime-imfix</code> 重启就OK了</li>
+<li>参考 <a href="https://github.com/lyfeyaj/sublime-text-imfix" target="_blank" rel="noopener">https://github.com/lyfeyaj/sublime-text-imfix</a></li>
+</ul>
+</li>
+<li>解决中文下沉问题<ul>
+<li>在 Preferences 中选择<code>Setting-User</code>,在大括号中添加一行：”font_face”: “SourceHanSansSC”//这里字体可以换成你自己喜欢的等宽字体</li>
+<li>注意逗号分隔符</li>
+</ul>
+</li>
+</ul>
+<h3 id="安装-Git"><a href="#安装-Git" class="headerlink" title="安装 Git"></a>安装 Git</h3><ul>
+<li>sudo apt-get install git</li>
+<li>git config –global user.email “<a href="mailto:xxx@xx.com" target="_blank" rel="noopener">xxx@xx.com</a>“//配置邮箱</li>
+<li>git config –global user.name “alphaGao”//配置用户名</li>
+</ul>
+<h3 id="安装-XX-Net-（爬墙神器）"><a href="#安装-XX-Net-（爬墙神器）" class="headerlink" title="安装 XX-Net （爬墙神器）"></a>安装 XX-Net （爬墙神器）</h3><ul>
+<li>下载地址 <a href="https://github.com/XX-net/XX-Net/blob/master/code/default/download.md" target="_blank" rel="noopener">https://github.com/XX-net/XX-Net/blob/master/code/default/download.md</a></li>
+<li>安装依赖<ul>
+<li>sudo apt-get install python-openssl</li>
+<li>sudo apt-get install libffi-dev</li>
+<li>sudo apt-get install -y python-gtk2</li>
+<li>sudo apt-get install python-appindicator</li>
+<li>sudo apt-get install libnss3-tools</li>
+</ul>
+</li>
+<li>执行 xx_net.sh</li>
+<li>安装压缩包里的 SwitchyOmega 扩展</li>
+<li>恢复备份文件</li>
+<li>设置 APP-ID</li>
+<li>配置地址 127.0.0.1:8085</li>
+<li>配置 xx-net 开机自动运行<ul>
+<li>编辑 /etc/rc.local ,加入 <code>sudo /home/alpha/xx-net/code/default/xx_net.sh start</code>  前面是文件路径</li>
+</ul>
+</li>
+</ul>
+<h3 id="安装系统指示器-SysPeek"><a href="#安装系统指示器-SysPeek" class="headerlink" title="安装系统指示器 SysPeek"></a>安装系统指示器 SysPeek</h3><ul>
+<li>sudo add-apt-repository ppa:nilarimogard/webupd8    </li>
+<li>sudo apt-get update    </li>
+<li>sudo apt-get install syspeek  </li>
+</ul>
+<h3 id="安装-Nvidia显卡"><a href="#安装-Nvidia显卡" class="headerlink" title="安装 Nvidia显卡"></a>安装 Nvidia显卡</h3><ul>
+<li>禁止开源的 nouveau，因为 我们要安装官方的 NVIDIA 驱动<ul>
+<li>sudo gedit /etc/modprobe.d/blacklist.conf 在末尾加上 <code>blacklist nouveau</code></li>
+</ul>
+</li>
+<li>安装 Nvidia-361 显卡驱动<ul>
+<li>sudo apt-get install nvidia-361 nvidia-prime nvidia-361-dev nvidia-opencl-icd-361 nvidia-settings</li>
+<li>sudo reboot</li>
+</ul>
+</li>
+<li>查看当前显卡<ul>
+<li>sudo prime-select query</li>
+</ul>
+</li>
+<li>切换 NVIDIA 显卡<ul>
+<li>sudo prime-select nvidia</li>
+</ul>
+</li>
+<li>切换 Intel 集成显卡<ul>
+<li>sudo prime-select intel</li>
+</ul>
+</li>
+</ul>
+<h3 id="安装为知笔记"><a href="#安装为知笔记" class="headerlink" title="安装为知笔记"></a>安装为知笔记</h3><ul>
+<li>sudo add-apt-repository ppa:wiznote-team</li>
+<li>sudo apt-get update</li>
+<li>sudo apt-get install wiznote</li>
+</ul>
+<h3 id="安装-Wine-QQ-（最近改用-wine-qq-8-7-参考-http-phpcj-org-wineqq-）"><a href="#安装-Wine-QQ-（最近改用-wine-qq-8-7-参考-http-phpcj-org-wineqq-）" class="headerlink" title="安装 Wine-QQ （最近改用 wine-qq-8.7,参考 http://phpcj.org/wineqq/）"></a>安装 Wine-QQ （最近改用 wine-qq-8.7,参考 <a href="http://phpcj.org/wineqq/）" target="_blank" rel="noopener">http://phpcj.org/wineqq/）</a></h3><p>这应该是 Ubuntu 下最轻松的做法了，虽然这该死的 qq 经常卡死</p>
+<ul>
+<li>下载 <a href="http://www.ubuntukylin.com/application/show.php?lang=cn&amp;id=279" target="_blank" rel="noopener">http://www.ubuntukylin.com/application/show.php?lang=cn&amp;id=279</a></li>
+<li>解压后安装<ul>
+<li>sudo dpkg -i ./fonts-wqy-microhei_0.2.0-beta-2_all.deb</li>
+<li>sudo dpkg -i ./ttf-wqy-microhei_0.2.0-beta-2_all.deb</li>
+<li>sudo dpkg -i ./wine-qqintl_0.1.3-2_i386.deb</li>
+</ul>
+</li>
+<li>如果有依赖问题<ul>
+<li>sudo apt-get install -f</li>
+<li>重试 sudo dpkg -i ./wine-qqintl_0.1.3-2_i386.deb</li>
+</ul>
+</li>
+</ul>
+<h3 id="安装-Android-Studio"><a href="#安装-Android-Studio" class="headerlink" title="安装 Android Studio"></a>安装 Android Studio</h3><p>说到安装 Android Studio，真的应该按照官网的指引去做，而不是照着网上的各种乱七八糟的教程。一开始我按照教程，貌似还蛮顺利的。然而真的打开了一个工程，才发现 Gradle 是有问题的。正好安装包也是还几个月之间给虚拟机下载的。于是索性到官网下载了最新的安装包。直接解压然后移动到<code>/opt/</code>目录，运行<code>/bin/.studio</code>，搞定。</p>
+<p>不过我是之前已经安装了各种依赖包，而且前一次下载的 SDK 我也没删掉。然后新建了项目，由于我一直开着 xx-net，所以我也没修改配置文件，直接就坐等了。也没等多久，大概就十多分钟，就进去项目了，又等了大概十分钟，编译完成了。</p>
+<ul>
+<li>安装32为依赖：sudo apt-get install libc6:i386 libncurses5:i386 libstdc++6:i386 lib32z1</li>
+<li><h3 id="Android-Studio-设置"><a href="#Android-Studio-设置" class="headerlink" title="Android Studio 设置"></a>Android Studio 设置</h3></li>
+<li>设置编码（utf-8）</li>
+<li>显示行号</li>
+<li>字体，大小（包括菜单字体和大小）</li>
+<li>方法提示</li>
+<li>自动导包</li>
+<li>代码自动提示敏感度</li>
+<li>关闭退出确认（我觉得有点烦，反正都是自动保存的）</li>
+<li>添加到 Lancher</li>
+<li>安装插件<ul>
+<li>Androdid ButterKnife Zelezny 自动注入工具</li>
+<li>Material Theme UI 把工具栏图标换成MD风格，并且更改工具栏的颜色（该插件在 ubuntu 下会导致 AS 每次重启菜单字体回复初始化）</li>
+<li>ADB WiFi 无线调试工具</li>
+<li>ECTranslation AS里的即时翻译工具</li>
+<li>Lifecycle Sorter 将 Activity 的方法按照生命周期排序</li>
+<li>Statistics 统计代码行数的工具</li>
+<li>ChroMATERIAL 主题 （现在改用自己配的主题了）</li>
+</ul>
+</li>
+<li>安装中文字体作为第二字体<ul>
+<li>下载<a href="http://download.csdn.net/detail/enyusmile/8763047" target="_blank" rel="noopener">http://download.csdn.net/detail/enyusmile/8763047</a></li>
+<li>移动到/usr/share/fonts/myfonts(自建文件夹)</li>
+<li>设置权限/usr/share/fonts/myfonts$ sudo chmod 744 *</li>
+<li>生成字体<ul>
+<li>/usr/share/fonts/myfonts$ sudo mkfontscale</li>
+<li>/usr/share/fonts/myfonts$ sudo mkfontdir</li>
+<li>/usr/share/fonts/myfonts$ sudo fc-cache -f -v</li>
+</ul>
+</li>
+<li>注销后更换字体</li>
+</ul>
+</li>
+<li>创建虚拟机<ul>
+<li>执行 chmod 777 -R  /home/username/.android/    否则无法创建虚拟机</li>
+<li>按照一般套路创建虚拟机即可</li>
+</ul>
+</li>
+<li>配置ADB环境变量<ul>
+<li>执行 <code>sudo gedit /etc/profile</code></li>
+<li>在末尾添加 (前面是SDK的存放路径)<ul>
+<li>export PATH=$PATH:/home/alpha/Android/Sdk/tools/</li>
+<li>export PATH=$PATH:/home/alpha/Android/Sdk/platform-tools/</li>
+</ul>
+</li>
+<li>执行 <code>source /etc/profile</code> OK了</li>
+</ul>
+</li>
+<li>如果使用zsh和oh-my-zsh 还需要另外配置<ul>
+<li>执行 <code>vi .bash_profile</code>若不存在可以自己创建</li>
+<li>添加如下内容：<ul>
+<li>export PATH=/$PATH:/home/alpha/Android/Sdk/tools/</li>
+<li>export PATH=/$PATH:/home/alpha/Android/Sdk/platform-tools/</li>
+</ul>
+</li>
+<li>保存退出，执行 <code>vi .zshrc</code></li>
+<li>找到 # User configuration 在下方添加 <code>source ~/.bash_profile</code></li>
+<li>保存退出后执行 <code>source .zshrc</code> 这个时候应该搞定了</li>
+</ul>
+</li>
+<li>AS全局菜单（在最顶部状态栏显示）<ul>
+<li>Install Jayatana package:<ul>
+<li>sudo add-apt-repository ppa:danjaredg/jayatana</li>
+<li>sudo apt-get update</li>
+<li>sudo apt-get install jayatana</li>
+</ul>
+</li>
+<li>Append line to bin/idea64.vmoptions:<ul>
+<li>javaagent:/usr/share/java/jayatanaag.jar</li>
+<li>32为和64位配置文件都要加这一行哦，否则会打不开的</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="安装网易云音乐"><a href="#安装网易云音乐" class="headerlink" title="安装网易云音乐"></a>安装网易云音乐</h3><ul>
+<li>下载 <a href="http://s1.music.126.net/download/pc/netease-cloud-music_1.0.0_amd64_ubuntu16.04.deb" target="_blank" rel="noopener">http://s1.music.126.net/download/pc/netease-cloud-music_1.0.0_amd64_ubuntu16.04.deb</a></li>
+<li>执行 dpkg -i netease-cloud-music_1.0.0_amd64_ubuntu16.04.deb</li>
+<li>若出现依赖问题执行 sudo apt-get install -f 再次执行上一步指令</li>
+</ul>
+<h3 id="安装VLC-Media-Player"><a href="#安装VLC-Media-Player" class="headerlink" title="安装VLC Media Player"></a>安装VLC Media Player</h3><ul>
+<li>sudo add-apt-repository ppa:videolan/master-daily</li>
+<li>sudo apt-get update</li>
+<li>sudo apt-get install vlc</li>
+</ul>
+<h3 id="安装-MPV-（与-VLC-二选一）"><a href="#安装-MPV-（与-VLC-二选一）" class="headerlink" title="安装 MPV （与 VLC 二选一）"></a>安装 MPV （与 VLC 二选一）</h3><ul>
+<li>sudo add-apt-repository ppa:mc3man/mpv-tests</li>
+<li>sudo apt update</li>
+<li>sudo apt install mpv<br>使用参考<a href="https://intxt.net/meet-mpv/" target="_blank" rel="noopener">https://intxt.net/meet-mpv/</a></li>
+</ul>
+<h3 id="安装截图工具-Shutter"><a href="#安装截图工具-Shutter" class="headerlink" title="安装截图工具 Shutter"></a>安装截图工具 Shutter</h3><ul>
+<li>sudo apt-get install shutter</li>
+<li>设置快捷键 Ctrl + Q</li>
+</ul>
+<h3 id="安装主题（现在使用-macbuntu-的主题）"><a href="#安装主题（现在使用-macbuntu-的主题）" class="headerlink" title="安装主题（现在使用 macbuntu 的主题）"></a>安装主题（现在使用 macbuntu 的主题）</h3><ul>
+<li>安装 Ubuntu tweak tool（也可以用Unity tweak tool）<ul>
+<li>sudo add-apt-repository ppa:tualatrix/ppa</li>
+<li>sudo apt-get update</li>
+<li>sudo apt-get install ubuntu-tweak</li>
+</ul>
+</li>
+<li>安装 Flatabulous 主题<ul>
+<li>下载主题 <a href="https://github.com/anmoljagetia/Flatabulous/archive/master.zip" target="_blank" rel="noopener">https://github.com/anmoljagetia/Flatabulous/archive/master.zip</a></li>
+<li>将主题移动到 /usr/share/themes/</li>
+</ul>
+</li>
+<li>安装图标<ul>
+<li>sudo add-apt-repository ppa:noobslab/icons</li>
+<li>sudo apt-get update</li>
+<li>sudo apt-get install ultra-flat-icons</li>
+</ul>
+</li>
+<li>更换主题<ul>
+<li>进入Ubuntu tweak tool 或 Unity tweak tool将主题设置为 Flatabulous（包括图标、指针）</li>
+</ul>
+</li>
+<li>下载特定图标集合主题<ul>
+<li>sudo add-apt-repository ppa:numix/ppa </li>
+<li>sudo apt update</li>
+<li>sudo apt-get install numix-gtk-theme numix-icon-theme-circle</li>
+</ul>
+</li>
+</ul>
+<h3 id="安装nvm再安装Node-js"><a href="#安装nvm再安装Node-js" class="headerlink" title="安装nvm再安装Node.js"></a>安装nvm再安装Node.js</h3><ul>
+<li>需要安装 git</li>
+<li>克隆项目：<ul>
+<li>git clone <a href="https://github.com/creationix/nvm.git" target="_blank" rel="noopener">https://github.com/creationix/nvm.git</a> ~/.nvm &amp;&amp; cd ~/.nvm &amp;&amp; git checkout <code>git describe --abbrev=0 --tags</code> 注意这里所有字符都是命令内容</li>
+</ul>
+</li>
+<li>执行  <code>./install.sh</code></li>
+<li>执行 <code>export NVM_DIR=&quot;/home/alpha/.nvm&quot;</code></li>
+<li>执行 <code>[ -s &quot;$NVM_DIR/nvm.sh&quot; ] &amp;&amp; . &quot;$NVM_DIR/nvm.sh&quot;   # This loads nvm</code></li>
+</ul>
+<h3 id="安装Node-js"><a href="#安装Node-js" class="headerlink" title="安装Node.js"></a>安装Node.js</h3><ul>
+<li>nvm ls-remote 查看所有版本</li>
+<li>nvm install <version> 安装目标版本</version></li>
+<li>nvm alias default <version> 设置默认版本</version></li>
+<li>设置淘宝镜像源： <code>npm install -g cnpm --registry=https://registry.npm.taobao.org</code><ul>
+<li>用法： <code>cnpm install [package name]</code></li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p>其实安装 nodejs 的方法有四种，之所以要使用这种方法，是因为其他方法都需要执行 ./configure 指令，而本机从事无法找到该指令和文件。解压后的安装包内也找不到，但是安装说明里却一本正经的说要执行该指令。。我真是。。算了，反正我最后还是装好了。</p>
+</blockquote>
+<h3 id="安装-Electronic-微信"><a href="#安装-Electronic-微信" class="headerlink" title="安装 Electronic 微信"></a>安装 Electronic 微信</h3><ul>
+<li>克隆  <code>git clone https://github.com/geeeeeeeeek/electronic-wechat.git</code></li>
+<li>进入项目  <code>cd electronic-wechat</code></li>
+<li>安装依赖并运行  <code>cnpm install &amp;&amp; cnpm start</code>（多试几次，只要连接成功速度是很快的）</li>
+<li>或者直接下载：<a href="https://github.com/geeeeeeeeek/electronic-wechat/releases" target="_blank" rel="noopener">https://github.com/geeeeeeeeek/electronic-wechat/releases</a></li>
+</ul>
+<h3 id="安装-Hexo-博客"><a href="#安装-Hexo-博客" class="headerlink" title="安装 Hexo 博客"></a>安装 Hexo 博客</h3><ul>
+<li>执行  <code>npm install hexo-cli -g</code></li>
+<li>在目标路径下执行  <code>mkdir Blog</code> （创建博客的根文件夹）</li>
+<li>执行  <code>hexo init</code> 初始化博客仓库，之后只要进行一般配置，设置主题，正常提交就可以</li>
+<li>如果 执行 hexo -d 的时候报错 <ul>
+<li>ERROR Deployer not found: git</li>
+<li>执行  <code>npm install hexo-deployer-git --save</code>  再正常提交就可以了</li>
+</ul>
+</li>
+<li>hexo d 每次都要输入username 和 password 怎么办<ul>
+<li>在<code>/home/username/</code>下创建目录 .ssh</li>
+<li>执行  <code>ssh-keygen -t rsa -C &quot;username@example.com&quot;</code></li>
+<li>提示输入文件名直接回车使用默认文件名</li>
+<li>输入两次密码，这里的密码并不是 github 的密码哦，而是你密钥的访问密码，可要记牢了</li>
+<li>执行  <code>gedit id_rsa.pub</code> 复制所有内容</li>
+<li>在 XXXXXXXX.github.io 的首页菜单栏中点击 Settings –&gt; Deploy keys –&gt; Add deploy key，然后将生成的 id_rsa.pub 中的内容全选复制到 key 输入框中，然后点击 Add key 完成添加公钥,记得一定要勾选读写权限</li>
+<li>执行 <code>start the ssh-agent in the background</code></li>
+<li>执行 <code>ssh-add ~/.ssh/id_rsa</code></li>
+<li>执行 <code>ssh -T git@github.com</code>  可能需要输入<code>访问</code>密码，输入后再试一次即可<ul>
+<li>提示信息：Hi AlphaGao1993/AlphaGao1993.github.io! You’ve successfully authenticated, but GitHub does not provide shell access.</li>
+</ul>
+</li>
+<li>修改 hexo 根目录的  <code>_config.yml</code>  文件的 git 部分为以下形式：<pre><code>deploy:
+    type: git
+    repo: git@github.com:AlphaGao1993/AlphaGao1993.github.io.git
+    branch: master
+</code></pre>现在再执行 <code>hexo d</code> 就不会再让你输密码啦</li>
+</ul>
+</li>
+</ul>
+<h3 id="清理系统缓存"><a href="#清理系统缓存" class="headerlink" title="清理系统缓存"></a>清理系统缓存</h3><ul>
+<li>清理下载包缓存：<code>sudo apt-get autoclean</code> 或 <code>sudo apt-get clean</code></li>
+<li>清理废弃的依赖包：<code>sudo apt-get autoremove</code> </li>
+</ul>
+<h3 id="更改用户目录文件夹名为英文"><a href="#更改用户目录文件夹名为英文" class="headerlink" title="更改用户目录文件夹名为英文"></a>更改用户目录文件夹名为英文</h3><p>输入：<br><code>export LANG=en_US</code><br><code>xdg-user-dirs-gtk-update</code><br><code>export LANG=zh-CN</code><br>如果提示更换了语言是否要改回文件名选择否即可</p>
+<h3 id="安装albert-桌面搜索"><a href="#安装albert-桌面搜索" class="headerlink" title="安装albert (桌面搜索)"></a>安装albert (桌面搜索)</h3><ul>
+<li>sudo add-apt-repository ppa:noobslab/macbuntu</li>
+<li>sudo apt-get update</li>
+<li>sudo apt install albert</li>
+<li>设置快捷键为 ctrl + space</li>
+</ul>
+<h3 id="安装-slingcold-launcher"><a href="#安装-slingcold-launcher" class="headerlink" title="安装 slingcold (launcher)"></a>安装 slingcold (launcher)</h3><ul>
+<li>sudo add-apt-repository ppa:noobslab/macbuntu</li>
+<li>sudo apt-get update</li>
+<li>sudo apt-get install albert</li>
+<li>设置快捷键为 super</li>
+</ul>
+<h3 id="安装Mendeley（PDF阅读）"><a href="#安装Mendeley（PDF阅读）" class="headerlink" title="安装Mendeley（PDF阅读）"></a>安装Mendeley（PDF阅读）</h3><ul>
+<li><a href="https://www.mendeley.com/download-mendeley-desktop/debian/instructions/" target="_blank" rel="noopener">https://www.mendeley.com/download-mendeley-desktop/debian/instructions/</a></li>
+<li>sudo dpkg -i [pachage name]</li>
+</ul>
+<h3 id="安装WPS"><a href="#安装WPS" class="headerlink" title="安装WPS"></a>安装WPS</h3><ul>
+<li>下载地址 <a href="http://community.wps.cn/download/" target="_blank" rel="noopener">http://community.wps.cn/download/</a></li>
+<li>sudo dpkg -i [package name]</li>
+</ul>
+<h3 id="安装-Zeal-文档阅读器-类似与-mac-下的-Dash"><a href="#安装-Zeal-文档阅读器-类似与-mac-下的-Dash" class="headerlink" title="安装 Zeal 文档阅读器(类似与 mac 下的 Dash)"></a>安装 Zeal 文档阅读器(类似与 mac 下的 Dash)</h3><p>$ sudo add-apt-repository ppa:zeal-developers/ppa<br>$ sudo apt-get update<br>$ sudo apt-get install zeal</p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Ubuntu/" rel="tag"># Ubuntu</a>
+          
+            <a href="/tags/Soft/" rel="tag"># Soft</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/08/17/select-contacts/" rel="next" title="Android 选取手机联系人">
+                <i class="fa fa-chevron-left"></i> Android 选取手机联系人
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/08/30/view-mult-click/" rel="prev" title="View多次点击事件的判断">
+                View多次点击事件的判断 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+    <div class="comments" id="comments">
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Alpha Gao</p>
+              <div class="site-description motion-element" itemprop="description">You will be what you want.</div>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">50</span>
+                    <span class="site-state-item-name">posts</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  
+                    
+                      <a href="/categories/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">11</span>
+                    <span class="site-state-item-name">categories</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                      <a href="/tags/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">93</span>
+                    <span class="site-state-item-name">tags</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#安装Ubuntu系统"><span class="nav-number">1.</span> <span class="nav-text">安装Ubuntu系统</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#设置-root-密码"><span class="nav-number">2.</span> <span class="nav-text">设置 root 密码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#安装zsh和oh-my-zsh（绝对是第一个应该安装的）"><span class="nav-number">3.</span> <span class="nav-text">安装zsh和oh-my-zsh（绝对是第一个应该安装的）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#安装-uGet-下载工具"><span class="nav-number">4.</span> <span class="nav-text">安装 uGet 下载工具</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#卸载无用软件"><span class="nav-number">5.</span> <span class="nav-text">卸载无用软件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#添加网易软件源-阿里源也不错"><span class="nav-number">6.</span> <span class="nav-text">添加网易软件源(阿里源也不错)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#安装-unrar-（解压rar工具）"><span class="nav-number">7.</span> <span class="nav-text">安装 unrar （解压rar工具）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#安装搜狗输入法"><span class="nav-number">8.</span> <span class="nav-text">安装搜狗输入法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#安装-Vim"><span class="nav-number">9.</span> <span class="nav-text">安装 Vim</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#安装-Chrome-浏览器"><span class="nav-number">10.</span> <span class="nav-text">安装 Chrome 浏览器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#安装-Oracle-Java"><span class="nav-number">11.</span> <span class="nav-text">安装 Oracle Java</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#安装-Sublime-Text-3"><span class="nav-number">12.</span> <span class="nav-text">安装 Sublime Text 3</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#安装-Git"><span class="nav-number">13.</span> <span class="nav-text">安装 Git</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#安装-XX-Net-（爬墙神器）"><span class="nav-number">14.</span> <span class="nav-text">安装 XX-Net （爬墙神器）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#安装系统指示器-SysPeek"><span class="nav-number">15.</span> <span class="nav-text">安装系统指示器 SysPeek</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#安装-Nvidia显卡"><span class="nav-number">16.</span> <span class="nav-text">安装 Nvidia显卡</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#安装为知笔记"><span class="nav-number">17.</span> <span class="nav-text">安装为知笔记</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#安装-Wine-QQ-（最近改用-wine-qq-8-7-参考-http-phpcj-org-wineqq-）"><span class="nav-number">18.</span> <span class="nav-text">安装 Wine-QQ （最近改用 wine-qq-8.7,参考 http://phpcj.org/wineqq/）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#安装-Android-Studio"><span class="nav-number">19.</span> <span class="nav-text">安装 Android Studio</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Android-Studio-设置"><span class="nav-number">20.</span> <span class="nav-text">Android Studio 设置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#安装网易云音乐"><span class="nav-number">21.</span> <span class="nav-text">安装网易云音乐</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#安装VLC-Media-Player"><span class="nav-number">22.</span> <span class="nav-text">安装VLC Media Player</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#安装-MPV-（与-VLC-二选一）"><span class="nav-number">23.</span> <span class="nav-text">安装 MPV （与 VLC 二选一）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#安装截图工具-Shutter"><span class="nav-number">24.</span> <span class="nav-text">安装截图工具 Shutter</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#安装主题（现在使用-macbuntu-的主题）"><span class="nav-number">25.</span> <span class="nav-text">安装主题（现在使用 macbuntu 的主题）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#安装nvm再安装Node-js"><span class="nav-number">26.</span> <span class="nav-text">安装nvm再安装Node.js</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#安装Node-js"><span class="nav-number">27.</span> <span class="nav-text">安装Node.js</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#安装-Electronic-微信"><span class="nav-number">28.</span> <span class="nav-text">安装 Electronic 微信</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#安装-Hexo-博客"><span class="nav-number">29.</span> <span class="nav-text">安装 Hexo 博客</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#清理系统缓存"><span class="nav-number">30.</span> <span class="nav-text">清理系统缓存</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#更改用户目录文件夹名为英文"><span class="nav-number">31.</span> <span class="nav-text">更改用户目录文件夹名为英文</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#安装albert-桌面搜索"><span class="nav-number">32.</span> <span class="nav-text">安装albert (桌面搜索)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#安装-slingcold-launcher"><span class="nav-number">33.</span> <span class="nav-text">安装 slingcold (launcher)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#安装Mendeley（PDF阅读）"><span class="nav-number">34.</span> <span class="nav-text">安装Mendeley（PDF阅读）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#安装WPS"><span class="nav-number">35.</span> <span class="nav-text">安装WPS</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#安装-Zeal-文档阅读器-类似与-mac-下的-Dash"><span class="nav-number">36.</span> <span class="nav-text">安装 Zeal 文档阅读器(类似与 mac 下的 Dash)</span></a></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+        <div class="back-to-top">
+          <i class="fa fa-arrow-up"></i>
+          
+            <span id="scrollpercent"><span>0</span>%</span>
+          
+        </div>
+      
+
+    </div>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">  <a href="http://www.miitbeian.gov.cn" rel="noopener" target="_blank">陇ICP备17000389号 </a>&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-Alpha Gao"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Alpha Gao</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> v3.8.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> v7.0.1</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/src/utils.js?v=7.0.1"></script>
+
+  <script src="/js/src/motion.js?v=7.0.1"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/src/schemes/muse.js?v=7.0.1"></script>
+
+
+
+  
+  <script src="/js/src/scrollspy.js?v=7.0.1"></script>
+<script src="/js/src/post-details.js?v=7.0.1"></script>
+
+
+
+  
+
+
+  <script src="/js/src/next-boot.js?v=7.0.1"></script>
+
+
+  
+  
+  
+
+<script src="//cdn1.lncld.net/static/js/3.11.1/av-min.js"></script>
+
+
+
+<script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+
+<script>
+  var GUEST = ['nick', 'mail', 'link'];
+  var guest = 'nick,mail,link';
+  guest = guest.split(',').filter(function(item) {
+    return GUEST.indexOf(item) > -1;
+  });
+  new Valine({
+    el: '#comments',
+    verify: false,
+    notify: false,
+    appId: 'H96xxLo0hzG4azqx9XRPBLGe-gzGzoHsz',
+    appKey: 'NPnxUKfUoUn6iIlWOyvA1WgE',
+    placeholder: 'Just say anything',
+    avatar: 'mm',
+    meta: guest,
+    pageSize: '10' || 10,
+    visitor: false
+  });
+</script>
+
+
+
+
+  
+
+
+  
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

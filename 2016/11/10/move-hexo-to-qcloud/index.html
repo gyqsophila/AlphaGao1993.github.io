@@ -1,0 +1,1136 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
+
+<link rel="stylesheet" href="/css/main.css?v=7.0.1">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.0.1">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.0.1">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.0.1">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.0.1" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '7.0.1',
+    sidebar: {"position":"left","display":"hide","offset":12,"b2t":true,"scrollpercent":true,"onmobile":false,"dimmer":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="前言前两天 Github 不知道抽什么风，加载速度跟蜗牛爬行一般，同样的，部署到 GitPages 的 Hexo 博客也是慢的出奇，虽然我的博客到现在也没什么人看，但是我自己看啊，我自己就忍受不了这龟速，对于程序员来说，等待简直就是浪费青春啊。因此，有了想把博客迁移到访问速度快的地方。">
+<meta name="keywords" content="Ubuntu,Hexo,CVM,Git">
+<meta property="og:type" content="article">
+<meta property="og:title" content="迁移 Hexo 到腾讯云服务器 CVM">
+<meta property="og:url" content="alphagao.com/2016/11/10/move-hexo-to-qcloud/index.html">
+<meta property="og:site_name" content="Here&#39;s to Change">
+<meta property="og:description" content="前言前两天 Github 不知道抽什么风，加载速度跟蜗牛爬行一般，同样的，部署到 GitPages 的 Hexo 博客也是慢的出奇，虽然我的博客到现在也没什么人看，但是我自己看啊，我自己就忍受不了这龟速，对于程序员来说，等待简直就是浪费青春啊。因此，有了想把博客迁移到访问速度快的地方。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2017-08-07T09:46:18.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="迁移 Hexo 到腾讯云服务器 CVM">
+<meta name="twitter:description" content="前言前两天 Github 不知道抽什么风，加载速度跟蜗牛爬行一般，同样的，部署到 GitPages 的 Hexo 博客也是慢的出奇，虽然我的博客到现在也没什么人看，但是我自己看啊，我自己就忍受不了这龟速，对于程序员来说，等待简直就是浪费青春啊。因此，有了想把博客迁移到访问速度快的地方。">
+
+
+
+
+
+
+  <link rel="canonical" href="alphagao.com/2016/11/10/move-hexo-to-qcloud/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>迁移 Hexo 到腾讯云服务器 CVM | Here's to Change</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Here's to Change</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">请问你真的有在努力吗 ？</p>
+      
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="Toggle navigation bar">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>Home</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>About</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>Tags</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>Categories</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>Archives</a>
+
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="alphagao.com/2016/11/10/move-hexo-to-qcloud/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Alpha Gao">
+      <meta itemprop="description" content="You will be what you want.">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Here's to Change">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">迁移 Hexo 到腾讯云服务器 CVM
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2016-11-10 14:15:19" itemprop="dateCreated datePublished" datetime="2016-11-10T14:15:19+08:00">2016-11-10</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="Modified: 2017-08-07 17:46:18" itemprop="dateModified" datetime="2017-08-07T17:46:18+08:00">2017-08-07</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Linux/" itemprop="url" rel="index"><span itemprop="name">Linux</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+              
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+            
+                <span class="post-meta-item-text">Comments: </span>
+                <a href="/2016/11/10/move-hexo-to-qcloud/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2016/11/10/move-hexo-to-qcloud/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>前两天 Github 不知道抽什么风，加载速度跟蜗牛爬行一般，同样的，部署到 GitPages 的 Hexo 博客也是慢的出奇，虽然我的博客到现在也没什么人看，但是我自己看啊，我自己就忍受不了这龟速，对于程序员来说，等待简直就是浪费青春啊。因此，有了想把博客迁移到访问速度快的地方。</p>
+<a id="more"></a>
+<p>一开始没想到要部署到云服务器，我自己虽然搭着腾讯的学生优惠的车买了超级便宜的云服务器，但也就是放几个静态网页暗爽一下。所以刚开始是学着别人在 GitCafe 建立一个镜像，也就是现在的 coding.net ,这里还是得吐槽下 coding.net 的网站风格，各种不习惯啊。关于 coding.net 我就不多说了，因为在这个过程中我偶然看到有人说自己是 hexo + GitHook 自动部署到腾讯云服务器的，一想，我不是也有服务器么，然后看到 GitHook 好像很高端的样子，于是搜索了相关东西。</p>
+<p>关于 GitHook 我也不做过多介绍，在我看来这是一种类似于数据库触发器的一种机制，根据某种事件的发生来执行预定的脚本。实现网站的自动部署的原理也就是先在服务器建立一个远程仓库，然后在服务器的网站目录再克隆一下这个仓库，作为最终部署的目录，一般是 Tomcat 的 webapps 目录。远程仓库被预定的动作，比如本次就是收到提交代码，来使服务器本地仓库进行更新。说白了就是旁边的远程仓库有人提交代码哦，那我本地仓库也都得同步一下嘛，那就执行下 git pull origin master 不就行了嘛。就是这样咯。</p>
+<p>大致明白了实现的原理，就准备开工了。但是我的服务器之前安装的 windows 系统，一开始就打算在 windows 系统里开搞，但是不得不吐槽腾讯还是很小气，就 1G 的 RAM 开的东西稍微一多就卡的不行，因为实现自动部署需要安装 SSH 服务，在尝试安装 Cygwin 之后经历各种苦难，终于还是放弃 windows 了。索性立刻将服务器系统换成了 Ubuntu Server 14.04 LTS。</p>
+<h3 id="准备-CVM"><a href="#准备-CVM" class="headerlink" title="准备 CVM"></a>准备 CVM</h3><p>开始之前需要为 CVM 安装远程桌面，这里我不再多说，具体配置和过程参考 <a href="https://yq.aliyun.com/articles/43232" target="_blank" rel="noopener">https://yq.aliyun.com/articles/43232</a> 。</p>
+<p>接下来就是为 CVM 安装 SSH 服务，实现免密码登录 CVM ，这样上传文件也比较方便。<br>在 CVM 上执行：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install ssh</span><br></pre></td></tr></table></figure>
+<p>然后查看当前用户目录下隐藏的 .ssh 文件夹，如果不存在就自己创建，要确保 .ssh 文件夹属于当前用户，而不是 root 。</p>
+<p>安装了 SSH 之后，就可以通过 SSH 输入密码来登录 CVM ，使用 <code>scp</code> 命令将本地 rsa 公钥上传到 CVM ：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">scp /home/alpha/.ssh/id_rsa.pub ubuntu@XXXX.XXXX.XXXX.XXXX:/home/ubuntu/.ssh</span><br></pre></td></tr></table></figure></p>
+<p>然后在 CVM 里执行<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cp id_rsa.pub authorized_keys</span><br></pre></td></tr></table></figure></p>
+<p>如果不使用 scp 命令，也可以在 CVM 上安装 vim ，通过 vim 在 CVM 的 <code>.ssh</code> 目录中建立一个 <code>authorized_keys</code> 文件并打开，然后手工将本地的 rsa 公钥内容复制到 这个文件里面。</p>
+<p>在 <code>authorized_key</code> 文件建立完成后要记得修改这个文件的权限：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">chmod 600 authorized_keys</span><br></pre></td></tr></table></figure></p>
+<p>到这里就可以实现免密码登录 CVM 了，就不用再去面对难看又难用的 xfce4 了，之后的步骤也会轻松很多。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh ubuntu@XXXX.XXXX.XXXX.XXXX</span><br></pre></td></tr></table></figure>
+<h3 id="安装-JDK-和-Tomcat7"><a href="#安装-JDK-和-Tomcat7" class="headerlink" title="安装 JDK 和 Tomcat7"></a>安装 JDK 和 Tomcat7</h3><p>本来我在我本地的 Ubuntu 安装的时候是很简单的，执行一句代码就行。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt install oracle-java8-installer</span><br></pre></td></tr></table></figure></p>
+<p>但是在 CVM 上，其下载速度简直慢到没朋友，而且还出了一系列的错误，耽误了很长功夫。</p>
+<p>之后我在本地 Ubuntu 上下载 JDK 也是很慢，无法忍受就强行退出了。通过 wget 命令也只能返回一个错误的 html 网页，而用 uget 也下载不了，严重怀疑 oracle 官网宕机了。没办法，我切到 windows 系统使用迅雷大概几十秒就下载好了（不得不慨叹还是迅雷好用）。</p>
+<p>在使用 scp 将 jdk 上传到 CVM 之后，终于是安装好了，不过后来因为上面的过程留下了一个问题，就是在之后使用 <code>sudo apt-get install</code> 或者其他的 apt 命令都会导致一个错误：系统会自动连接之前的安装 jdk 的任务，然后又无法下载，就这样陷入死循环。。。</p>
+<p>解决办法：（如果出现问题的是 java7 ，就把下面的 java8 换成 java7）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sudo rm /var/lib/dpkg/info/oracle-java8-installer* </span><br><span class="line">sudo apt-get purge oracle-java8-installer* </span><br><span class="line">sudo rm /etc/apt/sources.list.d/*java*</span><br></pre></td></tr></table></figure>
+<p>然后就可以重新安装 JDK 或者其他软件了。通过本地安装 JDK 的配置过程就不在详述了，可以参考 <a href="http://www.linuxidc.com/Linux/2016-09/135403.htm" target="_blank" rel="noopener">http://www.linuxidc.com/Linux/2016-09/135403.htm</a></p>
+<p>安装 Tomcat 也是一样，通过 scp 上传到 CVM ，解压就可以了，这里我使用的是 Tomcat7。另外记得配置 tomcat 开机自启动，否则哪天随手一重启，你可不一定记得再开启 tomcat 了。关于 tomcat 自启动可以参考 <a href="http://blog.csdn.net/my2010sam/article/details/43987743" target="_blank" rel="noopener">http://blog.csdn.net/my2010sam/article/details/43987743</a> 。</p>
+<h3 id="实现自动部署-Hexo-到-Tomcat"><a href="#实现自动部署-Hexo-到-Tomcat" class="headerlink" title="实现自动部署 Hexo 到 Tomcat"></a>实现自动部署 Hexo 到 Tomcat</h3><p>在进行这一步之前，确保你的 CVM 安装了 Git，本地已经安装好 Hexo。</p>
+<p>由于之前已经可以通过 SSH 免密码登录 CVM 了（如果没有最好先实现免密码登录 CVM，否则提交代码需要输入密码），因此直接在 CVM 的用户目录下创建 Git 仓库：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ubuntu@VM-240-186-ubuntu:~$ mkdir blog.git</span><br><span class="line">ubuntu@VM-240-186-ubuntu:~$ cd blog.git/</span><br><span class="line">ubuntu@VM-240-186-ubuntu:~/blog.git$ git init --bare</span><br></pre></td></tr></table></figure>
+<p>这里的仓库就是 Hexo 配置文件里的 Deploy 仓库，在配置文件中修改如下(记得将 IP 地址换成自己 CVM 的 IP)：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">deploy:</span><br><span class="line">  type: git</span><br><span class="line">  repo: </span><br><span class="line">    github: git@github.com:AlphaGao1993/AlphaGao1993.github.io.git</span><br><span class="line">    qcloud: ubuntu@xxxx.xxxx.xxxx.xxxx:<span class="regexp">/home/u</span>buntu/blog.git</span><br><span class="line">  branch: master</span><br></pre></td></tr></table></figure>
+<p>此时就已经可以向 CVM 推送 Hexo 了，但还没有部署到 Tomcat 目录。</p>
+<p>那么继续呗，切换到 Tomcat 的 webapps 目录，然后克隆前面创建的远程仓库：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ubuntu@VM-240-186-ubuntu:~$ cd /home/ubuntu/tomcat7/webapps/</span><br><span class="line">ubuntu@VM-240-186-ubuntu:~/tomcat7/webapps$ git clone /home/ubuntu/blog.git/ blog</span><br></pre></td></tr></table></figure>
+<p>回到远程仓库，配置 GitHook：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ubuntu@VM-240-186-ubuntu:~/tomcat7/webapps$ cd /home/ubuntu/blog.git/</span><br><span class="line">ubuntu@VM-240-186-ubuntu:~/blog.git$ vim hooks/post-receive</span><br></pre></td></tr></table></figure>
+<p>在 <code>post-receive</code> 中添加如下代码：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#!/bin/sh</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">"Remote is updating code..."</span>  //这两句 <span class="built_in">echo</span> 也可以不要，但是会在你执行 hexo d 之后给你反馈</span><br><span class="line"><span class="built_in">cd</span> /home/ubuntu/tomcat7/webapps/blog  //注意这里是 Tomcat 下的路径，是克隆后的仓库</span><br><span class="line"><span class="built_in">unset</span> GIT_DIR</span><br><span class="line">git pull origin master //从远程仓库更新代码</span><br><span class="line"><span class="built_in">echo</span> <span class="string">"Update code finished"</span></span><br></pre></td></tr></table></figure>
+<p>保存退出，还得为这个文件添加可执行权限：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ubuntu@VM-240-186-ubuntu:~/blog.git$ chmod +x hooks/post-receive</span><br></pre></td></tr></table></figure></p>
+<p>现在在本地执行 <code>hexo d</code> 命令，就可以在看到 GitHooks 的反馈：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">remote: Remote is updating code...          //第一句 <span class="built_in">echo</span></span><br><span class="line">remote: From /home/ubuntu/blog  </span><br><span class="line">这里省略几十行。。。</span><br><span class="line">remote: Update code finished                //第二句 <span class="built_in">echo</span></span><br></pre></td></tr></table></figure>
+<p>然后到 CVM 的 <code>tomcat7/webapps</code> 下就可以看到自动部署过来的文件了：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">ubuntu@VM-240-186-ubuntu:~/tomcat7/webapps/blog$ ls -al</span><br><span class="line">total 108</span><br><span class="line">drwxrwxr-x 12 ubuntu ubuntu  4096 Nov 10 15:49 .</span><br><span class="line">drwxr-xr-x 10 ubuntu ubuntu  4096 Nov 10 14:00 ..</span><br><span class="line">drwxrwxr-x  8 ubuntu ubuntu  4096 Nov 10 15:49 .git</span><br><span class="line">drwxrwxr-x  6 ubuntu ubuntu  4096 Nov 10 13:10 2016</span><br><span class="line">-rw-rw-r--  1 ubuntu ubuntu 10346 Nov 10 15:49 404.html</span><br><span class="line">-rw-rw-r--  1 ubuntu ubuntu    13 Nov 10 13:10 CNAME</span><br><span class="line">drwxrwxr-x  2 ubuntu ubuntu  4096 Nov 10 15:49 about</span><br><span class="line">drwxrwxr-x  4 ubuntu ubuntu  4096 Nov 10 15:49 archives</span><br><span class="line">drwxrwxr-x  2 ubuntu ubuntu  4096 Nov 10 15:49 css</span><br><span class="line">drwxrwxr-x  2 ubuntu ubuntu  4096 Nov 10 13:10 images</span><br><span class="line">-rw-rw-r--  1 ubuntu ubuntu 44553 Nov 10 15:49 index.html</span><br><span class="line">drwxrwxr-x  3 ubuntu ubuntu  4096 Nov 10 13:10 js</span><br><span class="line">drwxrwxr-x  9 ubuntu ubuntu  4096 Nov 10 13:10 lib</span><br><span class="line">drwxrwxr-x  3 ubuntu ubuntu  4096 Nov 10 13:10 page</span><br><span class="line">drwxrwxr-x 30 ubuntu ubuntu  4096 Nov 10 15:49 tags</span><br><span class="line">ubuntu@VM-240-186-ubuntu:~/tomcat7/webapps/blog$</span><br></pre></td></tr></table></figure>
+<p>最后只需要修改 Tomcat 的相关配置，就可以通过 http 访问自己的博客啦，我想这个就不需要我再详细说明了把。</p>
+<p>测试一下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">→ ping alphagao.com</span><br><span class="line">PING alphagao.com (123.206.194.233) 56(84) bytes of data.</span><br><span class="line">64 bytes from 123.206.194.233: icmp_seq=1 ttl=54 time=19.8 ms</span><br><span class="line">64 bytes from 123.206.194.233: icmp_seq=2 ttl=54 time=12.2 ms</span><br><span class="line">64 bytes from 123.206.194.233: icmp_seq=3 ttl=54 time=5.16 ms</span><br><span class="line">64 bytes from 123.206.194.233: icmp_seq=4 ttl=54 time=4.66 ms</span><br><span class="line">64 bytes from 123.206.194.233: icmp_seq=5 ttl=54 time=7.34 ms</span><br><span class="line">64 bytes from 123.206.194.233: icmp_seq=6 ttl=54 time=5.77 ms</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">→ ping alphagao1993.github.io</span><br><span class="line">PING github.map.fastly.net (151.101.16.133) 56(84) bytes of data.</span><br><span class="line">64 bytes from 151.101.16.133: icmp_seq=1 ttl=43 time=377 ms</span><br><span class="line">64 bytes from 151.101.16.133: icmp_seq=4 ttl=43 time=369 ms</span><br><span class="line">64 bytes from 151.101.16.133: icmp_seq=5 ttl=43 time=370 ms</span><br><span class="line">64 bytes from 151.101.16.133: icmp_seq=6 ttl=43 time=369 ms</span><br><span class="line">64 bytes from 151.101.16.133: icmp_seq=17 ttl=43 time=369 ms</span><br></pre></td></tr></table></figure>
+<p>啧啧，差距是如此地明显，而且 GitPage 还有丢包呢。（貌似最后还是暴露了 IP 啊 -_-||）</p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Ubuntu/" rel="tag"># Ubuntu</a>
+          
+            <a href="/tags/Hexo/" rel="tag"># Hexo</a>
+          
+            <a href="/tags/CVM/" rel="tag"># CVM</a>
+          
+            <a href="/tags/Git/" rel="tag"># Git</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/11/07/notifyDataSetChanged-didnt-work/" rel="next" title="notifyDataSetChanged() 方法不更新数据的问题">
+                <i class="fa fa-chevron-left"></i> notifyDataSetChanged() 方法不更新数据的问题
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/11/14/add-shortcut/" rel="prev" title="桌面添加图标心碎二三事[摔]">
+                桌面添加图标心碎二三事[摔] <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+    <div class="comments" id="comments">
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Alpha Gao</p>
+              <div class="site-description motion-element" itemprop="description">You will be what you want.</div>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">50</span>
+                    <span class="site-state-item-name">posts</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  
+                    
+                      <a href="/categories/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">11</span>
+                    <span class="site-state-item-name">categories</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                      <a href="/tags/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">93</span>
+                    <span class="site-state-item-name">tags</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#准备-CVM"><span class="nav-number">2.</span> <span class="nav-text">准备 CVM</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#安装-JDK-和-Tomcat7"><span class="nav-number">3.</span> <span class="nav-text">安装 JDK 和 Tomcat7</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#实现自动部署-Hexo-到-Tomcat"><span class="nav-number">4.</span> <span class="nav-text">实现自动部署 Hexo 到 Tomcat</span></a></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+        <div class="back-to-top">
+          <i class="fa fa-arrow-up"></i>
+          
+            <span id="scrollpercent"><span>0</span>%</span>
+          
+        </div>
+      
+
+    </div>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">  <a href="http://www.miitbeian.gov.cn" rel="noopener" target="_blank">陇ICP备17000389号 </a>&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-Alpha Gao"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Alpha Gao</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> v3.8.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> v7.0.1</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/src/utils.js?v=7.0.1"></script>
+
+  <script src="/js/src/motion.js?v=7.0.1"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/src/schemes/muse.js?v=7.0.1"></script>
+
+
+
+  
+  <script src="/js/src/scrollspy.js?v=7.0.1"></script>
+<script src="/js/src/post-details.js?v=7.0.1"></script>
+
+
+
+  
+
+
+  <script src="/js/src/next-boot.js?v=7.0.1"></script>
+
+
+  
+  
+  
+
+<script src="//cdn1.lncld.net/static/js/3.11.1/av-min.js"></script>
+
+
+
+<script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+
+<script>
+  var GUEST = ['nick', 'mail', 'link'];
+  var guest = 'nick,mail,link';
+  guest = guest.split(',').filter(function(item) {
+    return GUEST.indexOf(item) > -1;
+  });
+  new Valine({
+    el: '#comments',
+    verify: false,
+    notify: false,
+    appId: 'H96xxLo0hzG4azqx9XRPBLGe-gzGzoHsz',
+    appKey: 'NPnxUKfUoUn6iIlWOyvA1WgE',
+    placeholder: 'Just say anything',
+    avatar: 'mm',
+    meta: guest,
+    pageSize: '10' || 10,
+    visitor: false
+  });
+</script>
+
+
+
+
+  
+
+
+  
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
