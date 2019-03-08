@@ -104,16 +104,16 @@
 <meta property="og:site_name" content="Here&#39;s to Change">
 <meta property="og:description" content="关于 IDEA 2016 maven web-app 速度缓慢的解决方式 这个问题的原因还是喜闻乐见的 GFW 的原因，maven 默认是从中央仓库更新依赖包和配置文件，所以下载非常缓慢。因此也导致项目无法正常生成，项目下的路径也不能正常创建。 好在中国还是有一些比较良心的公司，提供了maven的国内镜像，为我们这些屌丝开发者提供了可行的解决方案。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="http://oa3wvfmvl.bkt.clouddn.com/QQ%E6%88%AA%E5%9B%BE20161124223846.jpg">
-<meta property="og:image" content="http://oa3wvfmvl.bkt.clouddn.com/QQ%E6%88%AA%E5%9B%BE20161124231819.jpg">
-<meta property="og:image" content="http://oa3wvfmvl.bkt.clouddn.com/QQ%E6%88%AA%E5%9B%BE20161124231952.jpg">
-<meta property="og:image" content="http://oa3wvfmvl.bkt.clouddn.com/QQ%E6%88%AA%E5%9B%BE20161124231535.jpg">
-<meta property="og:image" content="http://oa3wvfmvl.bkt.clouddn.com/QQ%E6%88%AA%E5%9B%BE20161124232315.jpg">
-<meta property="og:updated_time" content="2017-08-07T09:49:14.000Z">
+<meta property="og:image" content="https://oa3wvfmvl.bkt.clouddn.com/QQ%E6%88%AA%E5%9B%BE20161124223846.jpg">
+<meta property="og:image" content="https://oa3wvfmvl.bkt.clouddn.com/QQ%E6%88%AA%E5%9B%BE20161124231819.jpg">
+<meta property="og:image" content="https://oa3wvfmvl.bkt.clouddn.com/QQ%E6%88%AA%E5%9B%BE20161124231952.jpg">
+<meta property="og:image" content="https://oa3wvfmvl.bkt.clouddn.com/QQ%E6%88%AA%E5%9B%BE20161124231535.jpg">
+<meta property="og:image" content="https://oa3wvfmvl.bkt.clouddn.com/QQ%E6%88%AA%E5%9B%BE20161124232315.jpg">
+<meta property="og:updated_time" content="2019-03-08T09:06:32.554Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="解决 IDEA 中 创建 maven 项目时下载缓慢的问题">
 <meta name="twitter:description" content="关于 IDEA 2016 maven web-app 速度缓慢的解决方式 这个问题的原因还是喜闻乐见的 GFW 的原因，maven 默认是从中央仓库更新依赖包和配置文件，所以下载非常缓慢。因此也导致项目无法正常生成，项目下的路径也不能正常创建。 好在中国还是有一些比较良心的公司，提供了maven的国内镜像，为我们这些屌丝开发者提供了可行的解决方案。">
-<meta name="twitter:image" content="http://oa3wvfmvl.bkt.clouddn.com/QQ%E6%88%AA%E5%9B%BE20161124223846.jpg">
+<meta name="twitter:image" content="https://oa3wvfmvl.bkt.clouddn.com/QQ%E6%88%AA%E5%9B%BE20161124223846.jpg">
 
 
 
@@ -410,7 +410,7 @@
                 
                   <span class="post-meta-item-text">Edited on</span>
                 
-                <time title="Modified: 2017-08-07 17:49:14" itemprop="dateModified" datetime="2017-08-07T17:49:14+08:00">2017-08-07</time>
+                <time title="Modified: 2019-03-08 17:06:32" itemprop="dateModified" datetime="2019-03-08T17:06:32+08:00">2019-03-08</time>
               
             
           </span>
@@ -479,20 +479,20 @@
 <p>这个问题的原因还是喜闻乐见的 GFW 的原因，maven 默认是从中央仓库更新依赖包和配置文件，所以下载非常缓慢。因此也导致项目无法正常生成，项目下的路径也不能正常创建。</p>
 <p>好在中国还是有一些比较良心的公司，提供了maven的国内镜像，为我们这些屌丝开发者提供了可行的解决方案。<br><a id="more"></a><br>由于我是使用 idea 自带的 maven 插件，所以只需要修改插件的默认仓库地址就能快速的创建 maven 项目了。</p>
 <p>首先打开idea的默认setting 页面，记住，是默认，不是当前项目，进入默认设置地方法就是在没有创建项目之前，有一个窗口，就是这个：</p>
-<p><img src="http://oa3wvfmvl.bkt.clouddn.com/QQ%E6%88%AA%E5%9B%BE20161124223846.jpg" alt></p>
+<p><img src="https://oa3wvfmvl.bkt.clouddn.com/QQ%E6%88%AA%E5%9B%BE20161124223846.jpg" alt></p>
 <p>点击 configure –&gt; settings –&gt; Build,Execption,Deployment –&gt; Build Tools –&gt; Maven<br>找到 <code>Maven home directory</code> , 其中应该已经有了三个选项：<code>Maven 2</code>,<code>Maven 3</code>,还有一个本地路径的选项，对，选择的就是这个本地路径的选项.</p>
-<p><img src="http://oa3wvfmvl.bkt.clouddn.com/QQ%E6%88%AA%E5%9B%BE20161124231819.jpg" alt></p>
+<p><img src="https://oa3wvfmvl.bkt.clouddn.com/QQ%E6%88%AA%E5%9B%BE20161124231819.jpg" alt></p>
 <p>然后在左侧选项卡当前选项下找到 <code>Runner</code> ,在 <code>VM Options</code> 中填写 <code>-DarchetypeCatalog=internal</code> ,点击 apply ，OK。</p>
-<p><img src="http://oa3wvfmvl.bkt.clouddn.com/QQ%E6%88%AA%E5%9B%BE20161124231952.jpg" alt></p>
+<p><img src="https://oa3wvfmvl.bkt.clouddn.com/QQ%E6%88%AA%E5%9B%BE20161124231952.jpg" alt></p>
 <p>当然这个时候还没有配置镜像地址，还记得刚才本地路径的 Maven 选项么，就是这个路径，如果你跟我一样是 windows 系统，是默认安装，那么路径就是 <code>C:/Program Files (x86)/JetBrains/IntelliJ IDEA/plugins/maven/lib/maven3</code> ，来到这个目录下，进入 <code>conf</code> 文件夹，首先不要着急更改 <code>setting.xml</code> 文件，因为即使你修改了也会因为没有读权限而无法保存。</p>
 <p>打开文件属性，在 <code>安全</code> 选项卡下为当前用户添加 <code>完全控制权限</code> ，然后点击确定保存。</p>
 <p>现在进入 <code>setting.xml</code> ,来到大约 160 行，在 <code>&lt;Mirrors&gt;</code> 标签内，就可以直接设置国内镜像的地址，例如我的就是：</p>
 <figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">mirror</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;<span class="name">id</span>&gt;</span>mirror2<span class="tag">&lt;/<span class="name">id</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;<span class="name">mirrorOf</span>&gt;</span>central<span class="tag">&lt;/<span class="name">mirrorOf</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;<span class="name">name</span>&gt;</span>ALiBaBa Group Mirror.<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;<span class="name">url</span>&gt;</span>http://maven.aliyun.com/nexus/content/groups/public/<span class="tag">&lt;/<span class="name">url</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">mirror</span>&gt;</span></span><br></pre></td></tr></table></figure>
 <p>你可以直接将我的配置复制进去保存即可，这里我使用的阿里的镜像源，实测速度还是很快的，新建 maven java web 项目大约十几秒就可以完全生成。<br>虽然理论上到这里就结束了，但是如果你和我一样为了保证万无一失，在创建新的项目的时候还需要添加一项配置：</p>
 <p>新建一个 maven-archetype-webapp 项目，在输入 group id 后的这个页面，可以看到我们刚才配置的默认 maven 的路径，在这里可以选择添加一个配置项，点击页面的 <code>+</code> 号，新建一个属性，属性名是 <code>achetypeCatalog</code> ,属性值是 <code>internal</code> ,然后一路创建就可以了。</p>
-<p><img src="http://oa3wvfmvl.bkt.clouddn.com/QQ%E6%88%AA%E5%9B%BE20161124231535.jpg" alt></p>
+<p><img src="https://oa3wvfmvl.bkt.clouddn.com/QQ%E6%88%AA%E5%9B%BE20161124231535.jpg" alt></p>
 <p>为什么说是选择添加这个属性呢，因为我们之前的设置就相当于全局配置所有的 maven 项目包含该属性，所以这里是否添加也无所谓了，如果你只是需要当前项目配置该属性，那么仅在这里添加就可以了。(在这里可以看到 <code>user settings files</code> 这个选项，然而我在对应的路径下根本找不到这个文件，所以只好直接修改 maven 的设置了 )。</p>
-<p><img src="http://oa3wvfmvl.bkt.clouddn.com/QQ%E6%88%AA%E5%9B%BE20161124232315.jpg" alt="实际项目路径"></p>
+<p><img src="https://oa3wvfmvl.bkt.clouddn.com/QQ%E6%88%AA%E5%9B%BE20161124232315.jpg" alt="实际项目路径"></p>
 <p>经过我实际测试，即使更改了镜像地址，如果不配置该属性，项目的生成还是非常缓慢的。</p>
 
       

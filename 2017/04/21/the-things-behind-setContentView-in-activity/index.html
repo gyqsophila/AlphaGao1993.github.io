@@ -104,13 +104,13 @@
 <meta property="og:site_name" content="Here&#39;s to Change">
 <meta property="og:description" content="一行简单的 setContentView() 背后也会有大量的底层工作。往常总是手快的敲下这一行代码，甚至使用 AS 自动创建 Activity 都不用自己敲这一行代码，但是你有没有想过这一行简单代码背后的机制呢？这次就一起来看看。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="http://oa3wvfmvl.bkt.clouddn.com/%E6%90%9C%E7%8B%97%E6%88%AA%E5%9B%BE20170420194642.png">
-<meta property="og:image" content="http://oa3wvfmvl.bkt.clouddn.com/acticity.jpg">
-<meta property="og:updated_time" content="2017-08-07T09:42:04.000Z">
+<meta property="og:image" content="https://oa3wvfmvl.bkt.clouddn.com/%E6%90%9C%E7%8B%97%E6%88%AA%E5%9B%BE20170420194642.png">
+<meta property="og:image" content="https://oa3wvfmvl.bkt.clouddn.com/acticity.jpg">
+<meta property="og:updated_time" content="2019-03-08T09:06:32.562Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="setContentView 背后那些事儿">
 <meta name="twitter:description" content="一行简单的 setContentView() 背后也会有大量的底层工作。往常总是手快的敲下这一行代码，甚至使用 AS 自动创建 Activity 都不用自己敲这一行代码，但是你有没有想过这一行简单代码背后的机制呢？这次就一起来看看。">
-<meta name="twitter:image" content="http://oa3wvfmvl.bkt.clouddn.com/%E6%90%9C%E7%8B%97%E6%88%AA%E5%9B%BE20170420194642.png">
+<meta name="twitter:image" content="https://oa3wvfmvl.bkt.clouddn.com/%E6%90%9C%E7%8B%97%E6%88%AA%E5%9B%BE20170420194642.png">
 
 
 
@@ -407,7 +407,7 @@
                 
                   <span class="post-meta-item-text">Edited on</span>
                 
-                <time title="Modified: 2017-08-07 17:42:04" itemprop="dateModified" datetime="2017-08-07T17:42:04+08:00">2017-08-07</time>
+                <time title="Modified: 2019-03-08 17:06:32" itemprop="dateModified" datetime="2019-03-08T17:06:32+08:00">2019-03-08</time>
               
             
           </span>
@@ -477,7 +477,7 @@
 </blockquote>
 <a id="more"></a>
 <h3 id="Hierarchy-View"><a href="#Hierarchy-View" class="headerlink" title="Hierarchy View"></a>Hierarchy View</h3><p>在对这行代码背后的机制进行分析之前，要先学会如何去看一个具体的 Activity 是由哪些部分构成的，这对我们接下来的理解有很大的帮助。Hierarchy View 可以用图形化的视图来展示界面的组成结构。打开 AS 的 DDMS 视图，也就是 Android Device Monitor 这个工具。点击顶部工具栏 DDMS 按钮左边的 <code>Open Perspective</code> 按钮，选择 <code>Hierarchy View</code> ，就可以进入了。点击左边的小手机图标就能选择具体的 Activity 来查看组成结构。不过这个工具只能用来看虚拟机上的 Activity，实体机目前还不支持。</p>
-<p><img src="http://oa3wvfmvl.bkt.clouddn.com/%E6%90%9C%E7%8B%97%E6%88%AA%E5%9B%BE20170420194642.png" alt></p>
+<p><img src="https://oa3wvfmvl.bkt.clouddn.com/%E6%90%9C%E7%8B%97%E6%88%AA%E5%9B%BE20170420194642.png" alt></p>
 <p>上面就是我的某个 App 的一个 Activity 界面的组成结构。其最左边，也就是最顶层的视图，是一个 PhoneWindow，同时也是一个 DecorView。记住这两个词，后面会用到。</p>
 <h3 id="Activity-setContentView"><a href="#Activity-setContentView" class="headerlink" title="Activity#setContentView()"></a>Activity#setContentView()</h3><p>我们知道，Activity 是所有类型的 Activity 的父类，那么自然 <code>setContentView</code> 这个方法最开始也是在 Activity 这个类中定义的。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setContentView</span><span class="params">(@LayoutRes <span class="keyword">int</span> layoutResID)</span> </span>&#123;</span><br><span class="line">    getWindow().setContentView(layoutResID);</span><br><span class="line">    initWindowDecorActionBar();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 <p>从代码里看得出来，（系统）拿到了一个 window 并把布局 id 设置到了这个 window 里，然后初始化了 window 的 Decor 和 ActionBar，就这么两件事情。首先看看拿到的 window 是什么：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> Window <span class="title">getWindow</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> mWindow;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
@@ -495,7 +495,7 @@
 </ul>
 <h3 id="Activity-initWindowDecorActionBar"><a href="#Activity-initWindowDecorActionBar" class="headerlink" title="Activity#initWindowDecorActionBar()"></a>Activity#initWindowDecorActionBar()</h3><p>到这里 PhoneWindow 的 <code>setContentView</code> 就解读完了，在开始的 Activity 里的 <code>setContentView</code> 方法中还有一句代码：<code>initWindowDecorActionBar();</code> 我们也来看看这个方法：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">initWindowDecorActionBar</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    Window window = getWindow();</span><br><span class="line"> </span><br><span class="line">    <span class="comment">// Initializing the window decor can change window feature flags.</span></span><br><span class="line">    <span class="comment">// Make sure that we have the correct set before performing the test below.</span></span><br><span class="line">    window.getDecorView();</span><br><span class="line"> </span><br><span class="line">    <span class="keyword">if</span> (isChild() || !window.hasFeature(Window.FEATURE_ACTION_BAR) || mActionBar != <span class="keyword">null</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    mActionBar = <span class="keyword">new</span> WindowDecorActionBar(<span class="keyword">this</span>);</span><br><span class="line">    mActionBar.setDefaultDisplayHomeAsUpEnabled(mEnableDefaultActionBarUp);</span><br><span class="line"> </span><br><span class="line">    mWindow.setDefaultIcon(mActivityInfo.getIconResource());</span><br><span class="line">    mWindow.setDefaultLogo(mActivityInfo.getLogoResource());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 <p>这个方法是对初始化布局的进一步补充，在 PhoneWindow 里知识加载出一些默认的布局比如标题栏，那么这里就是对默认的标题栏进行一些初始的设置，比如在 manifest 文件中给一个 Activity 设置 label 属性，那么打开 Activity 就会直接显示 label 的内容，这个 label 就是在这里被设置的。</p>
-<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>结合前面这些加载过程的详情和最开始的组织结构，能够得到下面这个更直观的视窗组织结构示意图：<br><img src="http://oa3wvfmvl.bkt.clouddn.com/acticity.jpg" alt></p>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>结合前面这些加载过程的详情和最开始的组织结构，能够得到下面这个更直观的视窗组织结构示意图：<br><img src="https://oa3wvfmvl.bkt.clouddn.com/acticity.jpg" alt></p>
 <ul>
 <li>系统 Launcher 界面：每一个 App 的图标都是在系统 Launcher 里面的一个按钮，通过按钮打开我们自己的 App，所以 Activity 外面就是 Launcher 的界面的了；</li>
 <li>应用窗口（mWindow）：这个就是一个 Activity 内容的容器，是区分不同的 Activity 界面的最小单位，也是 PhoneWindow 的一个实例，Activity 加载过程中调用 <code>attach</code>方法的时候被实例化;</li>

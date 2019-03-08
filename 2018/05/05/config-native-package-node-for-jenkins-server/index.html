@@ -104,14 +104,14 @@
 <meta property="og:site_name" content="Here&#39;s to Change">
 <meta property="og:description" content="为什么这么做：公司的 jenkins 是搭建在阿里云上的，处于外网，但是 jenkins 服务器本身配置较低，最开始只是为了服务端自动化构建搭建起来，后来配置 Android 打包后就一直处于性能不够的情况，频繁打包失败，甚至会导致服务器直接卡死，影响其他的项目构建，就这还是在服务器从 1 核 2G 升到了 1 核 4G 的条件下了。但是为了 Android 打包继续增加服务器的配置，明显是不划">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="http://oluujmx7v.bkt.clouddn.com/Screen%20Shot%202018-05-05%20at%201.13.47%20PM.png">
-<meta property="og:image" content="http://oluujmx7v.bkt.clouddn.com/Screen%20Shot%202018-05-05%20at%201.19.12%20PM.png">
-<meta property="og:image" content="http://oluujmx7v.bkt.clouddn.com/Screen%20Shot%202018-05-05%20at%201.22.50%20PM.png">
-<meta property="og:updated_time" content="2018-05-05T07:36:49.758Z">
+<meta property="og:image" content="https://oluujmx7v.bkt.clouddn.com/Screen%20Shot%202018-05-05%20at%201.13.47%20PM.png">
+<meta property="og:image" content="https://oluujmx7v.bkt.clouddn.com/Screen%20Shot%202018-05-05%20at%201.19.12%20PM.png">
+<meta property="og:image" content="https://oluujmx7v.bkt.clouddn.com/Screen%20Shot%202018-05-05%20at%201.22.50%20PM.png">
+<meta property="og:updated_time" content="2019-03-08T09:06:32.517Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="利用 frp 为 jenkins 配置内网打包节点">
 <meta name="twitter:description" content="为什么这么做：公司的 jenkins 是搭建在阿里云上的，处于外网，但是 jenkins 服务器本身配置较低，最开始只是为了服务端自动化构建搭建起来，后来配置 Android 打包后就一直处于性能不够的情况，频繁打包失败，甚至会导致服务器直接卡死，影响其他的项目构建，就这还是在服务器从 1 核 2G 升到了 1 核 4G 的条件下了。但是为了 Android 打包继续增加服务器的配置，明显是不划">
-<meta name="twitter:image" content="http://oluujmx7v.bkt.clouddn.com/Screen%20Shot%202018-05-05%20at%201.13.47%20PM.png">
+<meta name="twitter:image" content="https://oluujmx7v.bkt.clouddn.com/Screen%20Shot%202018-05-05%20at%201.13.47%20PM.png">
 
 
 
@@ -391,12 +391,24 @@
                 
               
 
-              <time title="Created: 2018-05-05 10:41:32 / Modified: 15:36:49" itemprop="dateCreated datePublished" datetime="2018-05-05T10:41:32+08:00">2018-05-05</time>
+              <time title="Created: 2018-05-05 10:41:32" itemprop="dateCreated datePublished" datetime="2018-05-05T10:41:32+08:00">2018-05-05</time>
             
 
             
               
 
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="Modified: 2019-03-08 17:06:32" itemprop="dateModified" datetime="2019-03-08T17:06:32+08:00">2019-03-08</time>
               
             
           </span>
@@ -481,10 +493,10 @@
 <h1 id="jenkins-创建本地节点"><a href="#jenkins-创建本地节点" class="headerlink" title="jenkins 创建本地节点"></a>jenkins 创建本地节点</h1><p>从左侧 <code>Manage Jenkins</code> -&gt; <code>Manage Nodes</code> -&gt; <code>New Node</code> 进入到创建 node 页面，输入 node name，并选择 <code>Permanent Agent</code>，点击 OK 进入到 node config 页面：<br>其中：</p>
 <p><strong># of executors</strong> ：表示并发线程数，可以同时执行的构建任务数量，超过需要排队，默认是 1<br><strong>Remote root directory</strong> ：必填，表示作为 jenkins 节点的工作目录，我的值是 <code>/home/alpha/jenkins_home</code>, 注意该目录需要设置 root 为 owner，并授予 777 的权限。<br><strong>Launch method</strong> ：选择 <code>Launch slave agents via SSH</code><br><strong>Host</strong> ：公网服务器的 ip，比如我的就是 47.101.58.183<br><strong>Credentials</strong> ：创建能够登录 gitlab 的密钥（注意，这里可以选择 none，但是必须在你的 gitlab 个人 ssh keys 添加本地节点的 ssh 公钥并在对应仓库下的 depoly keys 中启用）</p>
 <p><strong>Host Key Verification Strategy</strong> ：选择 <code>Non verifying Verification Strategy</code><br><strong>Port</strong> : 点击 高级/Advanced 可以看到该配置，填入之前在 frpc.ini 中配置的 6000 端口，否则就会连接到公网机器而不是内网节点了。</p>
-<p>此外还需要在 <code>Node Properties</code> 中配置 <code>JAVA_HOME</code>:<br><img src="http://oluujmx7v.bkt.clouddn.com/Screen%20Shot%202018-05-05%20at%201.13.47%20PM.png" alt></p>
+<p>此外还需要在 <code>Node Properties</code> 中配置 <code>JAVA_HOME</code>:<br><img src="https://oluujmx7v.bkt.clouddn.com/Screen%20Shot%202018-05-05%20at%201.13.47%20PM.png" alt></p>
 <p>当然你的实际 jdk 也得在这个目录下才行哟。</p>
-<p>此时点击保存，进入到节点列表，点击 Launch agent 就会连接该 Node 了。如果连接成功就会显示 <code>In sync</code> 的状态：<br><img src="http://oluujmx7v.bkt.clouddn.com/Screen%20Shot%202018-05-05%20at%201.19.12%20PM.png" alt></p>
-<p>接下里需要做的就是把 build task 分配给这个节点了：<br><img src="http://oluujmx7v.bkt.clouddn.com/Screen%20Shot%202018-05-05%20at%201.22.50%20PM.png" alt></p>
+<p>此时点击保存，进入到节点列表，点击 Launch agent 就会连接该 Node 了。如果连接成功就会显示 <code>In sync</code> 的状态：<br><img src="https://oluujmx7v.bkt.clouddn.com/Screen%20Shot%202018-05-05%20at%201.19.12%20PM.png" alt></p>
+<p>接下里需要做的就是把 build task 分配给这个节点了：<br><img src="https://oluujmx7v.bkt.clouddn.com/Screen%20Shot%202018-05-05%20at%201.22.50%20PM.png" alt></p>
 <p>注意点击待选后需要删除多余的空格，否则会报错。</p>
 <p>保存后，点击项目的 Build Now 就会开始构建了。当然在此之前，你需要在内网机器上安装 Android SDK。具体的 Android SDK 安装步骤过了好几天也几乎忘记了，记得中间也遇到几次坑，不过还是请大家自行搜索安装咯。</p>
 <p>在配置了内网本地节点之后，jenkins 服务器又降到了 1 核 2G 的配置，又给公司省钱了呢 ~</p>

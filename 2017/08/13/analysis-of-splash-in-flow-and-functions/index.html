@@ -104,12 +104,12 @@
 <meta property="og:site_name" content="Here&#39;s to Change">
 <meta property="og:description" content="0. 闪屏流程分析要说到闪屏，几乎已经是所有 App 的标配了。但是各家对于闪屏的理解和应用方式各不相同。比如 Google 自己并不建议在闪屏页中设置过长的停留时间，而只是作为冷启动过程的一种变相缓冲，以就是仅在背景上设置一个 APP Logo 来避免屏幕留白。但在中国，几乎所有的流量还不错的 App 都会在闪屏页中加入广告，或者自己应用中某个主题活动的宣传，在增强品牌效应。这其中又有不同的使用">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="http://oa3wvfmvl.bkt.clouddn.com/slpash_flow.png">
-<meta property="og:updated_time" content="2017-08-13T08:16:56.000Z">
+<meta property="og:image" content="https://oa3wvfmvl.bkt.clouddn.com/slpash_flow.png">
+<meta property="og:updated_time" content="2019-03-08T09:06:32.558Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Splash 闪屏页流程与功能分析">
 <meta name="twitter:description" content="0. 闪屏流程分析要说到闪屏，几乎已经是所有 App 的标配了。但是各家对于闪屏的理解和应用方式各不相同。比如 Google 自己并不建议在闪屏页中设置过长的停留时间，而只是作为冷启动过程的一种变相缓冲，以就是仅在背景上设置一个 APP Logo 来避免屏幕留白。但在中国，几乎所有的流量还不错的 App 都会在闪屏页中加入广告，或者自己应用中某个主题活动的宣传，在增强品牌效应。这其中又有不同的使用">
-<meta name="twitter:image" content="http://oa3wvfmvl.bkt.clouddn.com/slpash_flow.png">
+<meta name="twitter:image" content="https://oa3wvfmvl.bkt.clouddn.com/slpash_flow.png">
 
 
 
@@ -389,12 +389,24 @@
                 
               
 
-              <time title="Created: 2017-08-13 12:14:53 / Modified: 16:16:56" itemprop="dateCreated datePublished" datetime="2017-08-13T12:14:53+08:00">2017-08-13</time>
+              <time title="Created: 2017-08-13 12:14:53" itemprop="dateCreated datePublished" datetime="2017-08-13T12:14:53+08:00">2017-08-13</time>
             
 
             
               
 
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="Modified: 2019-03-08 17:06:32" itemprop="dateModified" datetime="2019-03-08T17:06:32+08:00">2019-03-08</time>
               
             
           </span>
@@ -459,7 +471,7 @@
       
 
       
-        <h3 id="0-闪屏流程分析"><a href="#0-闪屏流程分析" class="headerlink" title="0. 闪屏流程分析"></a>0. 闪屏流程分析</h3><p>要说到闪屏，几乎已经是所有 App 的标配了。但是各家对于闪屏的理解和应用方式各不相同。比如 Google 自己并不建议在闪屏页中设置过长的停留时间，而只是作为冷启动过程的一种变相缓冲，以就是仅在背景上设置一个 APP Logo 来避免屏幕留白。但在中国，几乎所有的流量还不错的 App 都会在闪屏页中加入广告，或者自己应用中某个主题活动的宣传，在增强品牌效应。这其中又有不同的使用流派，但基本都可以归为一个流程：<br><a id="more"></a><br><img src="http://oa3wvfmvl.bkt.clouddn.com/slpash_flow.png" alt></p>
+        <h3 id="0-闪屏流程分析"><a href="#0-闪屏流程分析" class="headerlink" title="0. 闪屏流程分析"></a>0. 闪屏流程分析</h3><p>要说到闪屏，几乎已经是所有 App 的标配了。但是各家对于闪屏的理解和应用方式各不相同。比如 Google 自己并不建议在闪屏页中设置过长的停留时间，而只是作为冷启动过程的一种变相缓冲，以就是仅在背景上设置一个 APP Logo 来避免屏幕留白。但在中国，几乎所有的流量还不错的 App 都会在闪屏页中加入广告，或者自己应用中某个主题活动的宣传，在增强品牌效应。这其中又有不同的使用流派，但基本都可以归为一个流程：<br><a id="more"></a><br><img src="https://oa3wvfmvl.bkt.clouddn.com/slpash_flow.png" alt></p>
 <p>部分 App 会直接省略 Logo 这一环，直接加载闪屏页。观察了几个常用 App 后，我发现<strong>网易云音乐的闪屏逻辑是最好的</strong>，这不是说网易云音乐的闪屏流程与上面的图片有什么不同，而是网易优化了冷启动过程。一般来说，App 在点击 back 退出以后，再次打开会重新进入冷启动流程，也就是会再次进入闪屏显示流程，但是网易云音乐就不会：它只会在你第一次打开该 App 的时候加载 Loge 和 Splash，然后即使你按了 back 退出到屏幕，再次打开就不会再走闪屏流程了。这样即使用户多次退出打开也只会显示一次 Splash 页面，那么就算网易云的 Splash 时间稍微长一点你也不会在乎的吧（斜眼笑）。</p>
 <h3 id="1-闪屏流程优化"><a href="#1-闪屏流程优化" class="headerlink" title="1. 闪屏流程优化"></a>1. 闪屏流程优化</h3><p>那么这种模式是如何实现的呢？开始我以为是因为是通过检测后台服务是否运行栏判断是否跳过 splash 逻辑，但是我实际实验后发现，这个方法虽然可行，但是在此打开时的页面动画就不是那么舒服了，有点生硬的感觉，而且不是所有的 App 都有后台服务的。不管简单的搜索就找到了我觉得正确的方式：</p>
 <p>Activity 类中有一个方法：<code>moveTaskToBack</code>，接受一个 boolean 类型参数，传入 true 就会让 App 退出进入后台，但是不会停止该进程。这不就是我们想要的方式么？试了下果然跟网易云一毛一样，这样也是变相的避免了 App 冷启动，减少了用户的等待时间，提升了那么一点用户体验吧。</p>

@@ -104,12 +104,12 @@
 <meta property="og:site_name" content="Here&#39;s to Change">
 <meta property="og:description" content="Android消息机制可以说是Android系统的核心也不为过，所有与UI相关的操作基本都需要依赖消息机制，而Handler就是消息机制的上层开放的接口。一般我们不论是更新UI还是异步传递消息都只需要通过Handler即可。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="http://oa3wvfmvl.bkt.clouddn.com/xiaoxi.jpg">
-<meta property="og:updated_time" content="2017-08-07T09:47:22.000Z">
+<meta property="og:image" content="https://oa3wvfmvl.bkt.clouddn.com/xiaoxi.jpg">
+<meta property="og:updated_time" content="2019-03-08T09:06:32.573Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Android消息机制浅析">
 <meta name="twitter:description" content="Android消息机制可以说是Android系统的核心也不为过，所有与UI相关的操作基本都需要依赖消息机制，而Handler就是消息机制的上层开放的接口。一般我们不论是更新UI还是异步传递消息都只需要通过Handler即可。">
-<meta name="twitter:image" content="http://oa3wvfmvl.bkt.clouddn.com/xiaoxi.jpg">
+<meta name="twitter:image" content="https://oa3wvfmvl.bkt.clouddn.com/xiaoxi.jpg">
 
 
 
@@ -406,7 +406,7 @@
                 
                   <span class="post-meta-item-text">Edited on</span>
                 
-                <time title="Modified: 2017-08-07 17:47:22" itemprop="dateModified" datetime="2017-08-07T17:47:22+08:00">2017-08-07</time>
+                <time title="Modified: 2019-03-08 17:06:32" itemprop="dateModified" datetime="2019-03-08T17:06:32+08:00">2019-03-08</time>
               
             
           </span>
@@ -488,7 +488,7 @@
 </ul>
 <p>而以上问题，借助消息机制，通过Handler就全部都能搞定。</p>
 <h2 id="消息机制的框架"><a href="#消息机制的框架" class="headerlink" title="消息机制的框架"></a>消息机制的框架</h2><p>android中的消息机制由Handler，MessageQueue，Looper，Message组成，其架构如图：</p>
-<p><img src="http://oa3wvfmvl.bkt.clouddn.com/xiaoxi.jpg" alt></p>
+<p><img src="https://oa3wvfmvl.bkt.clouddn.com/xiaoxi.jpg" alt></p>
 <p>Handler: 线程之间通信的桥梁，通过Handler可以发送消息(sendMessage)和处理消息(handleMessage)；<br>Message: 被发送的消息，可以存放一些关键性的指信息，如文本，对象等，另外可以指定消息的标志，表明该消息应该如何处理；<br>MessageQueue: 存放消息的队列，所有由子线程发送给主线程的消息都暂存在这里，等待Looper来取；<br>Looper: 通过loop()无限循环不断从MessageQueue取消息并将消息提交至Handler；每个线程只能存在一个Looper的实例，但一个Looper实例可以被多个线程引用；</p>
 <h2 id="消息的处理过程（代码）"><a href="#消息的处理过程（代码）" class="headerlink" title="消息的处理过程（代码）"></a>消息的处理过程（代码）</h2><ul>
 <li>在主线程中创建一个Handler的实例并重写handleMessage方法：</li>
