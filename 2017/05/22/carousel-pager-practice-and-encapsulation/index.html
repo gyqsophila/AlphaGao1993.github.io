@@ -97,7 +97,7 @@
 
 
   <meta name="description" content="ANR 与 无限轮播以前跟着课程做过一个无限轮播的 Demo ，原理就是 Adapter 的 getCount() 返回 Integer.MaxValue 加上子线程控制页面切换。但是这几天在用这种模式的时候发现一个隐藏的坑，有很高几率触发 ANR，这可是不得了的问题（我就不说为了找到这个 ANR 原因花了多大功夫）。在这种模式下，当更新 ViewPager 的数据源的时候，基本上百分百会导致 A">
-<meta name="keywords" content="Carousel,ViewPager,Handler">
+<meta name="keywords" content="Handler,Carousel,ViewPager">
 <meta property="og:type" content="article">
 <meta property="og:title" content="轮播页面实践与封装">
 <meta property="og:url" content="alphagao.com/2017/05/22/carousel-pager-practice-and-encapsulation/index.html">
@@ -500,11 +500,11 @@
       
         <div class="post-tags">
           
+            <a href="/tags/Handler/" rel="tag"># Handler</a>
+          
             <a href="/tags/Carousel/" rel="tag"># Carousel</a>
           
             <a href="/tags/ViewPager/" rel="tag"># ViewPager</a>
-          
-            <a href="/tags/Handler/" rel="tag"># Handler</a>
           
         </div>
       
