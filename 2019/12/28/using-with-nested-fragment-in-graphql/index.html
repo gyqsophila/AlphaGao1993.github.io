@@ -1,0 +1,1218 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
+
+<link rel="stylesheet" href="/css/main.css?v=7.0.1">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.0.1">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.0.1">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.0.1">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.0.1" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '7.0.1',
+    sidebar: {"position":"left","display":"hide","offset":12,"b2t":true,"scrollpercent":true,"onmobile":false,"dimmer":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="fragment 的碎碎念GraphQL 大家都不再陌生了，很多技术前瞻（作死）的公司都在用了，其中 fragment 作为一个 feature 我觉得很有必要单独拿出来说道说道。GraphQL 作为一种查询语言，从 OOP 的思想来看，fragment 可以看作是这个语言的 class ，也就是对一个具有相同属性的对象的定义。然后就可以多处引用，而无需多次编写。一个基本的 fragment 用起">
+<meta name="keywords" content="GrqphQL">
+<meta property="og:type" content="article">
+<meta property="og:title" content="聊聊 GraphQL 中的 fragment">
+<meta property="og:url" content="alphagao.com/2019/12/28/using-with-nested-fragment-in-graphql/index.html">
+<meta property="og:site_name" content="Here&#39;s to Change">
+<meta property="og:description" content="fragment 的碎碎念GraphQL 大家都不再陌生了，很多技术前瞻（作死）的公司都在用了，其中 fragment 作为一个 feature 我觉得很有必要单独拿出来说道说道。GraphQL 作为一种查询语言，从 OOP 的思想来看，fragment 可以看作是这个语言的 class ，也就是对一个具有相同属性的对象的定义。然后就可以多处引用，而无需多次编写。一个基本的 fragment 用起">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://raw.githubusercontent.com/AlphaGao1993/pics/master/uPic/2020/01/10/Gt5LOO.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/AlphaGao1993/pics/master/uPic/2020/01/10/O9VJv8.png">
+<meta property="og:updated_time" content="2020-01-11T09:09:38.030Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="聊聊 GraphQL 中的 fragment">
+<meta name="twitter:description" content="fragment 的碎碎念GraphQL 大家都不再陌生了，很多技术前瞻（作死）的公司都在用了，其中 fragment 作为一个 feature 我觉得很有必要单独拿出来说道说道。GraphQL 作为一种查询语言，从 OOP 的思想来看，fragment 可以看作是这个语言的 class ，也就是对一个具有相同属性的对象的定义。然后就可以多处引用，而无需多次编写。一个基本的 fragment 用起">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/AlphaGao1993/pics/master/uPic/2020/01/10/Gt5LOO.png">
+
+
+
+
+
+
+  <link rel="canonical" href="alphagao.com/2019/12/28/using-with-nested-fragment-in-graphql/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>聊聊 GraphQL 中的 fragment | Here's to Change</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Here's to Change</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">请问你真的有在努力吗 ？</p>
+      
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="Toggle navigation bar">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>Home</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>Categories</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>Tags</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>Archives</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>About</a>
+
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="alphagao.com/2019/12/28/using-with-nested-fragment-in-graphql/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Alpha Gao">
+      <meta itemprop="description" content="You will be what you want.">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Here's to Change">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">聊聊 GraphQL 中的 fragment
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2019-12-28 22:10:10" itemprop="dateCreated datePublished" datetime="2019-12-28T22:10:10+08:00">2019-12-28</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="Modified: 2020-01-11 17:09:38" itemprop="dateModified" datetime="2020-01-11T17:09:38+08:00">2020-01-11</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/GraphQl/" itemprop="url" rel="index"><span itemprop="name">GraphQl</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+              
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+            
+                <span class="post-meta-item-text">Comments: </span>
+                <a href="/2019/12/28/using-with-nested-fragment-in-graphql/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2019/12/28/using-with-nested-fragment-in-graphql/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="fragment-的碎碎念"><a href="#fragment-的碎碎念" class="headerlink" title="fragment 的碎碎念"></a>fragment 的碎碎念</h2><p>GraphQL 大家都不再陌生了，很多技术<del>前瞻</del>（作死）的公司都在用了，其中 fragment 作为一个 feature 我觉得很有必要单独拿出来说道说道。GraphQL 作为一种查询语言，从 OOP 的思想来看，fragment 可以看作是这个语言的 class ，也就是对一个具有相同属性的对象的定义。然后就可以多处引用，而无需多次编写。一个基本的 fragment 用起来形如下：</p>
+<a id="more"></a>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">query ComparisonQuery&#123;</span><br><span class="line">  leftComparison: hero(episode: EMPIRE) &#123;</span><br><span class="line">    ...comparisonFields</span><br><span class="line">  &#125;</span><br><span class="line">  rightComparison: hero(episode: JEDI) &#123;</span><br><span class="line">    ...comparisonFields</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">fragment comparisonFields on Character &#123;</span><br><span class="line">  name</span><br><span class="line">  appearsIn</span><br><span class="line">  friends &#123;</span><br><span class="line">    name</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>作为对比，不使用 fragment 的查询如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">query ComparisonQuery&#123;</span><br><span class="line">  leftComparison: hero(episode: EMPIRE) &#123;</span><br><span class="line">    name</span><br><span class="line">    appearsIn</span><br><span class="line">    friends &#123;</span><br><span class="line">      name</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  rightComparison: hero(episode: JEDI) &#123;</span><br><span class="line">    name</span><br><span class="line">    appearsIn</span><br><span class="line">    friends &#123;</span><br><span class="line">      name</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>看起来差别不大，也就多写了 5 行查询代码，但实际上编译后生成的代码的区别是很大的。生成后的代码太长我就不贴了，直接看一下区别：</p>
+<table>
+<thead>
+<tr>
+<th>区别</th>
+<th>使用 fragment</th>
+<th>不使用 fragment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Character 类数量</td>
+<td>1</td>
+<td>2</td>
+</tr>
+<tr>
+<td>Friend 类数量</td>
+<td>1</td>
+<td>2</td>
+</tr>
+</tbody>
+</table>
+<p>主要起影响的就这两点，虽然<code>两种写法查询返回的数据格式和内容不会有任何区别</code>，但有过实践经验的同学肯定明白这两点区别的重要性：</p>
+<ol>
+<li><p>首先 2 个 <code>Character</code> 类，即 <code>LeftComparsion.Character</code> 和 <code>RightComparsion.Character</code>，它们都是 <code>ComparsionQuery.java</code> 的内部类。虽然它们拥有相同的属性，但实际上，它们<code>不是同一个类</code>。 也就是这两个类的实例是不能划等号的，也不是继承关系，不能放在一个集合里。</p>
+</li>
+<li><p>然后是 2 个 Friend 类，即 <code>LeftComparsion.Character.Friend</code> 和 <code>RightComparsion.Character.Friend</code> 。这是 2 个嵌套内部类，同样的，不能划等号，不能放在一个集合里。</p>
+</li>
+<li><p>还有一个更大的坑，如果 <code>appearsIn</code> 这个属性不是一个基本属性，也是一个自定义的类，那么这个类也会生成 2 个，影响与以上 2 点相同。</p>
+</li>
+</ol>
+<blockquote>
+<p><code>LeftComparsion</code> 和 <code>RightComparsion</code> 是必然会生成的 2 个类，无论是否使用 fragment，这是我当前使用的 Android 平台的 GraphQL 框架特性所决定的，也就是 <a href="https://github.com/apollographql/apollo-android" target="_blank" rel="noopener">ApolloAndroid</a>。</p>
+</blockquote>
+<p>不能做比较，不能放在一个集合里，除非这两个类都只是用来简单的显示，不会有任何的交叉计算，否则这已经是无法正常使用的情况了。</p>
+<p>所以，<strong>为了使用方便，多个查询文件里相同对象的声明，最好在全局只有一次</strong>，上例中使用了 fragment 的方式，其内所涉及的类都只会生成一个，是可以互相比较和集合处理的。</p>
+<h2 id="将-fragment-定义在独立文件中"><a href="#将-fragment-定义在独立文件中" class="headerlink" title="将 fragment 定义在独立文件中"></a>将 fragment 定义在独立文件中</h2><p>你以为生成重复类的问题这样就可以避免了吗？如果你在 另一个查询文件中也涉及到了某个已经声明的 fragment ，那么这个 fragment 的声明全局也会重复，它们都是各自对象的 <code>XXXXQuery.java</code> 的内部类。当你使用的时候，IDE 会提示你有两个同样的类，那么该使用哪种呢？我想你肯定也不行想面对这样艰难的选择，那么就一定要记得：<strong>会出现在多个查询文件中的对象，一定要有独立的声明。</strong> 什么意思呢，也就是你需要新建一个 <code>CharacterFragment.graphql</code> 文件，在其中只放入对 <code>Character</code> 的声明：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">fragment comparisonFields on Character &#123;</span><br><span class="line">  name</span><br><span class="line">  appearsIn</span><br><span class="line">  friends &#123;</span><br><span class="line">    name</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>然后把其他所有查询文件中对 <code>Character</code> 的声明统统删掉，改成对 <code>comparisonFields</code> 的引用，然后编译，全局就只有 <code>comparisonFields</code> 这一个 <code>Character</code> 的类了。清爽！</p>
+<p>如果你不想每多一个类就新增一个 graphql 文件，那你也可以只增加一个文件<code>Fragments.graphql</code> 来存放所有的 Fragment 的声明。</p>
+<p>这样一来，所有的 fragment 都只会有一个声明，使用起来绝对是顺手很多了。</p>
+<p><strong>注意，Graphql 中的枚举类不存在重复的情况，全局也只会有一个声明。</strong>因为枚举不需要我们来做声明。</p>
+<h2 id="需要参数的-fragment"><a href="#需要参数的-fragment" class="headerlink" title="需要参数的 fragment"></a>需要参数的 fragment</h2><p>按照上面所说，将 fragment 定义在独立的 graphql 文件中，但如果 fragment 中某个属性需要传递参数，该如何处理呢？首先看一下不使用 fragment 的前提下如何向一个内部对象传递参数：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">query ComparisonQuery($episode:ID $picked:Boolean)&#123;</span><br><span class="line">  leftComparison: hero(episode: $episode) &#123;</span><br><span class="line">    name</span><br><span class="line">    appearsIn(picked:$picked)</span><br><span class="line">    friends &#123;</span><br><span class="line">      name</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>直觉告诉我们会跟声明一个查询文件一样，也就是需要在头部声明参数名和参数类型，那么是这样吗：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">query ComparisonQuery($episode:ID $picked:Boolean)&#123;</span><br><span class="line">  leftComparison: hero(episode: $episode) &#123;</span><br><span class="line">    ... comparisonFields(picked:$picked)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">fragment comparisonFields($picked:Boolean) on Character &#123;</span><br><span class="line">  name</span><br><span class="line">  appearsIn(picked:picked)</span><br><span class="line">  friends &#123;</span><br><span class="line">    name</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>此时你编译肯定会失败，实际上无需多次定义和传递这么麻烦，只需要如下即可：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">query ComparisonQuery($episode:ID $picked:Boolean)&#123;</span><br><span class="line">  leftComparison: hero(episode: $episode) &#123;</span><br><span class="line">    ... comparisonFields</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">fragment comparisonFields on Character &#123;</span><br><span class="line">  name</span><br><span class="line">  appearsIn(picked:picked)</span><br><span class="line">  friends &#123;</span><br><span class="line">    name</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>同样，如果是独立定义的 fragment ，也只需把 fragment 声明的这一坨拿出来放在独立的文件里就可以了。</p>
+<p>为什么看起来只是把 Character 的声明拿出来就可以了呢？实际上就只是这么简单。如果你对 graphql 的请求抓包，你会发现无论你如何声明 fragment ，只要是语法所允许的，最后发出的请求中 fragment 的引用都会被 fragment 的声明所替换，也就是实际发出的请求里真实的查询语句就是没有使用 fragment 的样子，这是编译框架自动帮我们做的事情。而我们需要做的，就是把查询文件内所有需要的参数，在查询入口处声明即可，也就是每个 query 文件的第一行进行声明，例如本例中 <code>query ComparisonQuery($episode:ID $picked:Boolean)</code> 的形式。</p>
+<h2 id="并列式-fragment"><a href="#并列式-fragment" class="headerlink" title="并列式 fragment"></a>并列式 fragment</h2><p>Graphql 中有一个比较特殊的 feature 叫做 MetaUnion ，也叫联合类型。一般是用于同一个大类下的不同子类，不同于我们在 OOP 语言中所说的子类是继承于某个类的类。Graphql 中的 MetaUnion 实际上只是一个关键字，表示其内可能存在多个类型，一般都是结构相似、基本属性相似但是略有区别的对象，一般用于 Feed 流中。最常见的就是聊天记录中，多种类型的消息了，例如：</p>
+<p><img src="https://raw.githubusercontent.com/AlphaGao1993/pics/master/uPic/2020/01/10/Gt5LOO.png" alt="Gt5LOO"></p>
+<p>一般的语言系统中，其实际的关系会是这种结构：</p>
+<p><img src="https://raw.githubusercontent.com/AlphaGao1993/pics/master/uPic/2020/01/10/O9VJv8.png" alt="O9VJv8"></p>
+<p>但在 Graphql 中，所有消息类型都是平级的，不存在继承关系，虽然它们有公共属性，但非公共的属性都会在 MetaUnion 中，体现在 graphql 中：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">query MessageQuery($userId:ID! $conversitionId:ID!)&#123;</span><br><span class="line">  messages(userId:$userId conversitionId:$conversitionId)&#123;</span><br><span class="line">    id</span><br><span class="line">    messageType</span><br><span class="line">    happenedAt</span><br><span class="line">    from&#123;</span><br><span class="line">      ... UserField</span><br><span class="line">    &#125;</span><br><span class="line">    to&#123;</span><br><span class="line">      ... UserField</span><br><span class="line">    &#125;</span><br><span class="line">    metadata&#123;</span><br><span class="line">      ... TextMessageField</span><br><span class="line">      ... ImageMessageField</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">fragment UserField on User&#123;</span><br><span class="line">  id</span><br><span class="line">  name</span><br><span class="line">  nickName</span><br><span class="line">  avatar</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">fragment TextMessageField on TextMessage&#123;</span><br><span class="line">  content</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">fragment ImageMessageField on ImageMessage&#123;</span><br><span class="line">  url</span><br><span class="line">  width</span><br><span class="line">  height</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>这里简单起见，我只在 metadata 中写了 2 个类型。实际生产中需要写当前所有可能出现的类型，如果是 MVP 发布，第一期只支持 Text 消息，则可以只写 TextMessageField 一个引用，但需要在接口返回值中过滤掉不支持的消息类型，或者使用通用的提示进行替代。</p>
+</blockquote>
+<p>可以看到 metadata 中同时引用了 2 个 fragment 声明，因为其可能返回的类型存在多种情况，而 metadata 之外的属性，就是所有 Message 类型的公共属性了。根据公共属性 messageType 可以知道该消息的类型，然后分别去拿 metadata 中对应 fragment 的数据按照不同的 UI 进行展示。</p>
+<p><strong>除了 MetaUnion 中可以使用并列式 fragment 引用，非 MetaUnion 也可以使用并列式 fragment 引用。</strong></p>
+<p>定义一个对象：</p>
+<ul>
+<li>Clazz<ul>
+<li>id</li>
+<li>name</li>
+<li>studentsCount</li>
+<li>teachers<ul>
+<li>id</li>
+<li>name</li>
+</ul>
+</li>
+<li>students<ul>
+<li>id</li>
+<li>name</li>
+<li>gender</li>
+<li>age</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p>我们知道 Graphql 一个好处就是可以自由查询所需要的信息，不需要的可以不查，那么就有了一个约定：<strong>不需要的信息尽量不查询，以减轻服务端的压力。</strong></p>
+<p>可是按照前文所说，每个对象类型只能声明一次，那么不需要的属性也一起被声明了，所以还是会存在查询了不需要的信息的情况，造成了服务端的资源浪费。不用担心，我们可以进行<strong>多重声明</strong>。也就是如下形式的声明：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">fragment BaseClazz on Clazz&#123;</span><br><span class="line">  id</span><br><span class="line">  name</span><br><span class="line">  studentsCount</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">fragment ClazzStudents on Clazz&#123;</span><br><span class="line">  students&#123;</span><br><span class="line">    id</span><br><span class="line">    name</span><br><span class="line">    gender</span><br><span class="line">    age</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">fragment ClazzTeachers on Clazz&#123;</span><br><span class="line">  teachers&#123;</span><br><span class="line">    id</span><br><span class="line">    name</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>我们可以将 Clazz 的属性分别声明在 3 个 fragment 中，当我们只需要班级基本信息的时候，只需要如下查询：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">query BaseClazzInfo(clazzId:ID!)&#123;</span><br><span class="line">  clazz(id:$clazzId)&#123;</span><br><span class="line">    ... BaseClazz</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>如果还需要学生信息和老师信息：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">query FullClazzInfo(clazzId:ID!)&#123;</span><br><span class="line">  clazz(id:$clazzId)&#123;</span><br><span class="line">    ... BaseClazz</span><br><span class="line">    ... ClazzStudents</span><br><span class="line">    ... ClazzTeachers</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>按照使用信息的需求，添加对应属性 fragment 的声明，就可以拿到对应的数据，若仅需基本信息，则仅引用 BaseClazz 即可。一般来说，没有必要将对象的每个属性进行单独声明，根据不同的查询压力、计算量，将某个对象分成多个 fragment 进行声明。在这个例子中，Clazz 的基本信息、学生信息、教师信息分属 3 张表，查询压力明显不同，所以这样分是比较科学的。如果 studentsCount 不是直接写在 Clazz 表里，而是实时计算的，那么便可以将该属性单独声明一个 fragment，当不需要该属性的时候，可以不引用，这样的分别声明在数据量比较大的时候可以节省下相当多的服务器计算资源。</p>
+<h2 id="嵌套式-fragment"><a href="#嵌套式-fragment" class="headerlink" title="嵌套式 fragment"></a>嵌套式 fragment</h2><p>并列式 fragment 引用的确有存在的价值，但也带来的一个弊端：它将一个对象分割成多份，当我们需要一个相对完整的对象的时候，无法仅通过一个对象来表示，这在实际开发的时候是极为不方便的。所以就有了嵌套式 fragment 引用，还是上面那个例子，也是分割开来进行声明，但是声明方式有所不同：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">fragment BaseClazz on Clazz&#123;</span><br><span class="line">  id</span><br><span class="line">  name</span><br><span class="line">  studentsCount</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">fragment ClazzStudents on Clazz&#123;</span><br><span class="line">  ... BaseClazz</span><br><span class="line">  students&#123;</span><br><span class="line">    id</span><br><span class="line">    name</span><br><span class="line">    gender</span><br><span class="line">    age</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">fragment ClazzTeachers on Clazz&#123;</span><br><span class="line">  ... BaseClazz</span><br><span class="line">  teachers&#123;</span><br><span class="line">    id</span><br><span class="line">    name</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">fragment FullClazzInfo on Clazz&#123;</span><br><span class="line">  ... ClazzTeachers</span><br><span class="line">  ... ClazzStudents</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>来看嵌套式 fragment 引用的写法：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">query ClazzInfo(clazzId:ID!)&#123;</span><br><span class="line">  clazz(id:$clazzId)&#123;</span><br><span class="line">    ... FullClazzInfo</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>同一个类型的声明是可以嵌套引用的，以上 ClazzTeachers 和 ClazzStudents 在 FullClazzInfo 中同时引用了 BaseClazz ，所以存在几个属性的重复，但是没关系，在生成实际的请求文件的时候，会自动进行去重处理，而当你使用数据的时候，你可以通过 ClazzTeacher、ClazzStudents 任意一个获取到 BaseClazz 信息。现在，就可以通过 FullClazzInfo 获取到 Clazz 的全部信息了。</p>
+<p>通过嵌套声明和引用的方式，我们既解决了按需查询的问题，又解决了对象被割裂的问题。当然也不是没有缺点，一个就是需要按照使用需要做不同的嵌套和组合；另一个就是嵌套深度变多，实际使用的时候就是大型流式 API 秀场了，因为嵌套式引用在编译后，嵌套引用的 fragment 会自动成为一个内部属性，而 ApolloAndroid 的特性本来就会为 fragment 增加一层嵌套深度，如果想通过 FullClazzInfo 拿到 clazz 的 id 属性，就需要：</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> clazzId = FullClazzQuery.Data()</span><br><span class="line">        .clazz()</span><br><span class="line">        .fragments()</span><br><span class="line">        .FullClazzInfo()</span><br><span class="line">        .fragment()</span><br><span class="line">        .ClazzStudents()</span><br><span class="line">        .fragment()</span><br><span class="line">        .BaseClazz()</span><br><span class="line">        .id()</span><br></pre></td></tr></table></figure>
+<p>的确是相当的麻烦，不过相比使用上的阻碍和资源的损耗，写法上的冗余也是可以接受的。况且这是框架特性所导致的，随着框架的迭代更新这个问题或许可以被解决，但使用上的阻碍和节约的资源是现在就能立刻就能享受到的好处。</p>
+<h2 id="内联式-fragment-（Inline-fragment）"><a href="#内联式-fragment-（Inline-fragment）" class="headerlink" title="内联式 fragment （Inline fragment）"></a>内联式 fragment （Inline fragment）</h2><p>在上面所提到的联合类型查询的时候，可以使用并列式 fragment， 其实也可以用另外一种方式：内联式 fragment 。这是一种具体对象具体查询的方式，通俗讲就是谁有某个属性，就找谁要。 还是看一个上面消息的例子：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">query MessageQuery($userId:ID! $conversitionId:ID!)&#123;</span><br><span class="line">  messages(userId:$userId conversitionId:$conversitionId)&#123;</span><br><span class="line">    id</span><br><span class="line">    messageType</span><br><span class="line">    happenedAt</span><br><span class="line">    metadata&#123;</span><br><span class="line">      ... on TextMessage&#123;</span><br><span class="line">        content</span><br><span class="line">      &#125;</span><br><span class="line">      ... ImageMessage&#123;</span><br><span class="line">        url</span><br><span class="line">        width</span><br><span class="line">        height</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>如果查到的是一个 TextMessage, 实际上返回值如下：<br><figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">"data"</span>: &#123;</span><br><span class="line">    <span class="attr">"messages"</span>: [&#123;</span><br><span class="line">      <span class="attr">"id"</span> : <span class="string">"1"</span>,</span><br><span class="line">      <span class="attr">"messageType"</span> : <span class="string">"Text"</span>,</span><br><span class="line">      <span class="attr">"content"</span> : <span class="string">"this is message content"</span>,</span><br><span class="line">      <span class="attr">""</span></span><br><span class="line">    &#125;]</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>如果查到的是一个 ImageMessage， 实际上返回值如下：<br><figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">"data"</span>: &#123;</span><br><span class="line">    <span class="attr">"messages"</span> : [&#123;</span><br><span class="line">      <span class="attr">"id"</span> : <span class="string">"2"</span>,</span><br><span class="line">      <span class="attr">"messageType"</span> : <span class="string">"Text"</span>,</span><br><span class="line">      <span class="attr">"url"</span> : <span class="string">"https://www.baidu.com/img/bd_logo1.png"</span>,</span><br><span class="line">      <span class="attr">"width"</span> : <span class="number">400</span>,</span><br><span class="line">      <span class="attr">"height"</span> : <span class="number">200</span></span><br><span class="line">    &#125;]</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>我们看到，无论实际查到的是什么类型，与基本属性一样，都包含在同一个对象里面，于是从返回的 json 字符串上来看，一切都很美好， 但是实际生成 java 代码后，你会发现可能现实与你想象的还有点距离。为什么这么说，看一下实际生成的 Metadata 的 Java 代码：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line">  <span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Metadata</span> </span>&#123;</span><br><span class="line">    <span class="meta">@NotNull</span> <span class="function">String <span class="title">id</span><span class="params">()</span></span>;</span><br><span class="line">    ......</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">public</span> <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">AsTextMessage</span> <span class="keyword">implements</span> <span class="title">Metadata</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">final</span> <span class="meta">@NotNull</span> String id;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">final</span> <span class="meta">@NotNull</span> String content;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">AsTextMessage</span><span class="params">(@NotNull String id, @NotNull String content)</span> </span>&#123;</span><br><span class="line">      <span class="keyword">this</span>.id = Utils.checkNotNull(id, <span class="string">"id == null"</span>);</span><br><span class="line">      <span class="keyword">this</span>.content = content;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    ......</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">public</span> <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">AsImageMessage</span> <span class="keyword">implements</span> <span class="title">Metadata</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">final</span> <span class="meta">@NotNull</span> String id;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">final</span> <span class="meta">@NotNull</span> String url;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">final</span> <span class="meta">@NotNull</span> <span class="keyword">int</span> width;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">final</span> <span class="meta">@NotNull</span> <span class="keyword">int</span> height;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">AsImageMessage</span><span class="params">(@NotNull String id, @NotNull String url, @NotNull <span class="keyword">int</span> width, @NotNull <span class="keyword">int</span> height)</span> </span>&#123;</span><br><span class="line">      <span class="keyword">this</span>.id = Utils.checkNotNull(id, <span class="string">"id == null"</span>);</span><br><span class="line">      <span class="keyword">this</span>.url = url;</span><br><span class="line">      <span class="keyword">this</span>.width = width;</span><br><span class="line">      <span class="keyword">this</span>.height = height;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    ......</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这里我我只截取了比较关键的的代码, 不过也能看得出， <code>Metadata</code> 其实只是一个接口，而 2 中消息都是这个接口的具体实现，我们看到 json 里 Message 的属性都在一个对象里，而生成的 Java 代码中这些属性也确实都是一个一个对象（metadata）里， 但是我们并不知道具体的实现类是什么，如果 metada 外面没有一个属性来指明 metadata 具体是什么，拿么只有通过类型判断才能知道了：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span>(meatadata <span class="keyword">instanceof</span> AsTextMessage)&#123;</span><br><span class="line">  String content = ((AsTextMessage)metadata).content;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">if</span>(metadata <span class="keyword">instanceof</span> AsImageMessage)&#123;</span><br><span class="line">  String url = ((AsImageMessage)metadata).url;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>明白了这种使用的方式，就可以进一步替换成 Inline frsgment 了：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">query MessageQuery($userId:ID! $conversitionId:ID!)&#123;</span><br><span class="line">  messages(userId:$userId conversitionId:$conversitionId)&#123;</span><br><span class="line">    id</span><br><span class="line">    messageType</span><br><span class="line">    happenedAt</span><br><span class="line">    metadata&#123;</span><br><span class="line">      ... on TextMessage&#123;</span><br><span class="line">        ... TextMessgaeField</span><br><span class="line">      &#125;</span><br><span class="line">      ... ImageMessage&#123;</span><br><span class="line">        ... ImageMessageField</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>当然还记得我上面提到的， 使用 fragment 会增加一层嵌套，也就是要通过:<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">((AsTextMessage)metadata).fragment.textMessageField.content</span><br></pre></td></tr></table></figure></p>
+<p>来获取消息内容了。这样的使用方式，其实还是很难受的。所以我很不喜欢这种内联式的 fragment 用法。</p>
+<h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><p>其实以上 fragment 的用法在 json 这个层面来看都是非常实用的，我们只要记得，所有 fragment 的声明，在最后请求发出的时候都会被声明的内容所替换，也就是发出的请求中是不会包含 fragment 这个关键字的，那么通过以上 fragment 用法的多种组合，我们可以很灵活的实现不同的查询需求，graphql 本身的语法糖是很优秀的，而最大的阻碍其实还是 graphql 在 Android 的编译插件的缺陷，会极大地增加使用成本，而且学习起来也较有难度，希望在未来 ApolloAndroid 这个编译插件能够越来越简洁，性能越来越强大，也寄托于第三方能够实现更好的原生平台编译插件。</p>
+<h5 id="参考文档"><a href="#参考文档" class="headerlink" title="参考文档"></a>参考文档</h5><ol>
+<li><a href="https://graphql.org/learn/queries/#fragments" target="_blank" rel="noopener">graphql.org</a></li>
+</ol>
+<blockquote>
+<p>文中所写都基于本人实际经验，如有错误，欢迎指正。</p>
+</blockquote>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/GrqphQL/" rel="tag"># GrqphQL</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/03/16/geek-towards-ultimate/" rel="next" title="极客：构建和谐社会？">
+                <i class="fa fa-chevron-left"></i> 极客：构建和谐社会？
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2020/01/12/summary-2019/" rel="prev" title="2019 年度总结">
+                2019 年度总结 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+    <div class="comments" id="comments">
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Alpha Gao</p>
+              <div class="site-description motion-element" itemprop="description">You will be what you want.</div>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">56</span>
+                    <span class="site-state-item-name">posts</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">12</span>
+                    <span class="site-state-item-name">categories</span>
+                  
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">100</span>
+                    <span class="site-state-item-name">tags</span>
+                  
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#fragment-的碎碎念"><span class="nav-number">1.</span> <span class="nav-text">fragment 的碎碎念</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#将-fragment-定义在独立文件中"><span class="nav-number">2.</span> <span class="nav-text">将 fragment 定义在独立文件中</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#需要参数的-fragment"><span class="nav-number">3.</span> <span class="nav-text">需要参数的 fragment</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#并列式-fragment"><span class="nav-number">4.</span> <span class="nav-text">并列式 fragment</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#嵌套式-fragment"><span class="nav-number">5.</span> <span class="nav-text">嵌套式 fragment</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#内联式-fragment-（Inline-fragment）"><span class="nav-number">6.</span> <span class="nav-text">内联式 fragment （Inline fragment）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#小结"><span class="nav-number">7.</span> <span class="nav-text">小结</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#参考文档"><span class="nav-number">7.0.0.1.</span> <span class="nav-text">参考文档</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+        <div class="back-to-top">
+          <i class="fa fa-arrow-up"></i>
+          
+            <span id="scrollpercent"><span>0</span>%</span>
+          
+        </div>
+      
+
+    </div>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">  <a href="http://www.miitbeian.gov.cn" rel="noopener" target="_blank">陇ICP备17000389号 </a>&copy; <span itemprop="copyrightYear">2022</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-Alpha Gao"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Alpha Gao</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> v3.9.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> v7.0.1</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/src/utils.js?v=7.0.1"></script>
+
+  <script src="/js/src/motion.js?v=7.0.1"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/src/schemes/muse.js?v=7.0.1"></script>
+
+
+
+  
+  <script src="/js/src/scrollspy.js?v=7.0.1"></script>
+<script src="/js/src/post-details.js?v=7.0.1"></script>
+
+
+
+  
+
+
+  <script src="/js/src/next-boot.js?v=7.0.1"></script>
+
+
+  
+  
+  
+
+<script src="//cdn1.lncld.net/static/js/3.11.1/av-min.js"></script>
+
+
+
+<script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+
+<script>
+  var GUEST = ['nick', 'mail', 'link'];
+  var guest = 'nick,mail,link';
+  guest = guest.split(',').filter(function(item) {
+    return GUEST.indexOf(item) > -1;
+  });
+  new Valine({
+    el: '#comments',
+    verify: false,
+    notify: false,
+    appId: 'H96xxLo0hzG4azqx9XRPBLGe-gzGzoHsz',
+    appKey: 'NPnxUKfUoUn6iIlWOyvA1WgE',
+    placeholder: 'Just say anything',
+    avatar: 'mm',
+    meta: guest,
+    pageSize: '10' || 10,
+    visitor: false
+  });
+</script>
+
+
+
+
+  
+
+
+  
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
