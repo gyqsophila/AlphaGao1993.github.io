@@ -343,6 +343,191 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="alphagao.com/2022/03/31/resolve-conflict-with-grpc-between-etcd-and-protoc/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Alpha Gao">
+      <meta itemprop="description" content="You will be what you want.">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Here's to Change">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2022/03/31/resolve-conflict-with-grpc-between-etcd-and-protoc/" class="post-title-link" itemprop="url">etcdv3 与 protoc-gen-go 对 grpc 依赖的冲突</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2022-03-31 16:14:53 / Modified: 20:21:23" itemprop="dateCreated datePublished" datetime="2022-03-31T16:14:53+08:00">2022-03-31</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Go/" itemprop="url" rel="index"><span itemprop="name">Go</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+              
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+            
+                <span class="post-meta-item-text">Comments: </span>
+                <a href="/2022/03/31/resolve-conflict-with-grpc-between-etcd-and-protoc/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2022/03/31/resolve-conflict-with-grpc-between-etcd-and-protoc/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h2 id="1-背景"><a href="#1-背景" class="headerlink" title="1. 背景"></a>1. 背景</h2><p>在 go 的项目中同时引用较新版本的 etcd 和 protoc-gen-go 会产生一些问题，具体表现为：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">go: finding module for package google.golang.org/grpc/naming</span><br><span class="line">go: finding module for package github.com/coreos/bbolt</span><br><span class="line">go: found github.com/coreos/bbolt in github.com/coreos/bbolt v1.3.6</span><br><span class="line">go: node/watch imports</span><br><span class="line">        go.etcd.io/etcd/clientv3 tested by</span><br><span class="line">        go.etcd.io/etcd/clientv3.test imports</span><br><span class="line">        github.com/coreos/etcd/auth imports</span><br><span class="line">        github.com/coreos/etcd/mvcc/backend imports</span><br><span class="line">        github.com/coreos/bbolt: github.com/coreos/bbolt@v1.3.6: parsing go.mod:</span><br><span class="line">        module declares its path as: go.etcd.io/bbolt</span><br><span class="line">                but was required as: github.com/coreos/bbolt</span><br></pre></td></tr></table></figure></p>
+<p>或者<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">uapm-agent/watch imports</span><br><span class="line">        go.etcd.io/etcd/clientv3 tested by</span><br><span class="line">        go.etcd.io/etcd/clientv3.test imports</span><br><span class="line">        github.com/coreos/etcd/integration imports</span><br><span class="line">        github.com/coreos/etcd/proxy/grpcproxy imports</span><br><span class="line">        google.golang.org/grpc/naming: module google.golang.org/grpc@latest found (v1.45.0), but does not contain package google.golang.org/grpc/naming</span><br></pre></td></tr></table></figure></p>
+<p>这都是由于 etcdv3 依赖了较低版本的 grpc(v1.26.0) 导致的。</p>
+<blockquote>
+<p>想立刻知道解决办法的可以直接拉到第三节查看。</p>
+</blockquote>
+          <!--noindex-->
+          
+            <div class="post-button text-center">
+              <a class="btn" href="/2022/03/31/resolve-conflict-with-grpc-between-etcd-and-protoc/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="alphagao.com/2019/03/16/geek-towards-ultimate/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -3931,198 +4116,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="alphagao.com/2017/03/20/using-factory-pattern-to-build-fragment/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Alpha Gao">
-      <meta itemprop="description" content="You will be what you want.">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Here's to Change">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2017/03/20/using-factory-pattern-to-build-fragment/" class="post-title-link" itemprop="url">借助工厂模式构建不同的 Fragment</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-
-              
-                
-              
-
-              <time title="Created: 2017-03-20 16:07:30" itemprop="dateCreated datePublished" datetime="2017-03-20T16:07:30+08:00">2017-03-20</time>
-            
-
-            
-              
-
-              
-                
-                <span class="post-meta-divider">|</span>
-                
-
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">Edited on</span>
-                
-                <time title="Modified: 2019-03-08 17:06:32" itemprop="dateModified" datetime="2019-03-08T17:06:32+08:00">2019-03-08</time>
-              
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Android/" itemprop="url" rel="index"><span itemprop="name">Android</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-            
-              
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-            
-                <span class="post-meta-item-text">Comments: </span>
-                <a href="/2017/03/20/using-factory-pattern-to-build-fragment/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/2017/03/20/using-factory-pattern-to-build-fragment/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p>还记的上篇文章 <a href="http://www.jianshu.com/p/630832792b0e" target="_blank" rel="noopener">使用观察者模式解决单 Activity 与多个 Fragment 通信</a> 中我使用了观察者模式暂时解决了 Activity 与多个 Fragment 之间的通信问题，最后的更新中我抽象了一个 Fragment 共同的基类：BaseFragment，在 BaseFragment 的构造方法中传入了 EventManager 也就是消息处理中心的实例，本来这样是没有问题的。直到今天，我升级了 AS 的 Gradle 的版本，然后重新编译项目的时候，报了一个错误：<br><img src="https://oluujmx7v.bkt.clouddn.com/022001.png" alt><br>
-          <!--noindex-->
-          
-            <div class="post-button text-center">
-              <a class="btn" href="/2017/03/20/using-factory-pattern-to-build-fragment/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          
-          <!--/noindex-->
-        
-      
-    </p></div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -4169,7 +4162,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">51</span>
+                    <span class="site-state-item-count">52</span>
                     <span class="site-state-item-name">posts</span>
                   </a>
                 </div>
@@ -4204,7 +4197,9 @@
                     
                       
                     
-                    <span class="site-state-item-count">11</span>
+                      
+                    
+                    <span class="site-state-item-count">12</span>
                     <span class="site-state-item-name">categories</span>
                   
                 </div>
@@ -4405,7 +4400,13 @@
                     
                       
                     
-                    <span class="site-state-item-count">94</span>
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">97</span>
                     <span class="site-state-item-name">tags</span>
                   
                 </div>
@@ -4452,7 +4453,7 @@
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright">  <a href="http://www.miitbeian.gov.cn" rel="noopener" target="_blank">陇ICP备17000389号 </a>&copy; <span itemprop="copyrightYear">2019</span>
+        <div class="copyright">  <a href="http://www.miitbeian.gov.cn" rel="noopener" target="_blank">陇ICP备17000389号 </a>&copy; <span itemprop="copyrightYear">2022</span>
   <span class="with-love" id="animate">
     <i class="fa fa-Alpha Gao"></i>
   </span>
