@@ -1,132 +1,55 @@
 <!DOCTYPE html>
-
-
-
-
-
-
-
-
-
-
-
-
-  
-
-
-<html class="theme-next muse use-motion" lang="zh-Hans">
-<head><meta name="generator" content="Hexo 3.9.0">
+<html lang="zh-Hans">
+<head>
   <meta charset="UTF-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
 <meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 7.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
 
 
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
-
-<link rel="stylesheet" href="/css/main.css?v=7.0.1">
-
-
-  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.0.1">
-
-
-  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.0.1">
-
-
-  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.0.1">
-
-
-  <link rel="mask-icon" href="/images/logo.svg?v=7.0.1" color="#222">
-
-
-
-
-
-
-
-<script id="hexo.configurations">
-  var NexT = window.NexT || {};
-  var CONFIG = {
-    root: '/',
-    scheme: 'Muse',
-    version: '7.0.1',
-    sidebar: {"position":"left","display":"hide","offset":12,"b2t":true,"scrollpercent":true,"onmobile":false,"dimmer":false},
-    fancybox: false,
-    fastclick: false,
-    lazyload: false,
-    tabs: true,
-    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
-    algolia: {
-      applicationID: '',
-      apiKey: '',
-      indexName: '',
-      hits: {"per_page":10},
-      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
-    }
-  };
-</script>
-
-
-  
-
-
-
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"alphagao.com","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"hide","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
 
   <meta name="description" content="看过《Android 开发艺术探索》一书的小伙伴都知道，这本书将自定义 View 分成四个类型，分别是：  继承 View 重写 onDraw 方法 继承 ViewGroup 派生特殊的 Layout 继承已有的 View 继承已有的 ViewGroup">
-<meta name="keywords" content="customize,scrollview">
 <meta property="og:type" content="article">
 <meta property="og:title" content="让自定义 View 支持 ScrollView">
-<meta property="og:url" content="alphagao.com/2017/03/26/let-customize-view-suit-in-scrollview/index.html">
+<meta property="og:url" content="https://alphagao.com/2017/03/26/let-customize-view-suit-in-scrollview/index.html">
 <meta property="og:site_name" content="Here&#39;s to Change">
 <meta property="og:description" content="看过《Android 开发艺术探索》一书的小伙伴都知道，这本书将自定义 View 分成四个类型，分别是：  继承 View 重写 onDraw 方法 继承 ViewGroup 派生特殊的 Layout 继承已有的 View 继承已有的 ViewGroup">
-<meta property="og:locale" content="zh-Hans">
+<meta property="og:locale">
 <meta property="og:image" content="https://oluujmx7v.bkt.clouddn.com/20170326164752.png">
 <meta property="og:image" content="https://oluujmx7v.bkt.clouddn.com/20170326164923.png">
 <meta property="og:image" content="https://oluujmx7v.bkt.clouddn.com/20170326170055.png">
 <meta property="og:image" content="https://oluujmx7v.bkt.clouddn.com/20170326172316.png">
 <meta property="og:image" content="https://oluujmx7v.bkt.clouddn.com/20170326183018.png">
-<meta property="og:updated_time" content="2019-03-08T09:06:32.000Z">
+<meta property="article:published_time" content="2017-03-26T08:09:48.000Z">
+<meta property="article:modified_time" content="2019-03-08T09:06:32.000Z">
+<meta property="article:author" content="Alpha Gao">
+<meta property="article:tag" content="customize">
+<meta property="article:tag" content="scrollview">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="让自定义 View 支持 ScrollView">
-<meta name="twitter:description" content="看过《Android 开发艺术探索》一书的小伙伴都知道，这本书将自定义 View 分成四个类型，分别是：  继承 View 重写 onDraw 方法 继承 ViewGroup 派生特殊的 Layout 继承已有的 View 继承已有的 ViewGroup">
 <meta name="twitter:image" content="https://oluujmx7v.bkt.clouddn.com/20170326164752.png">
 
+<link rel="canonical" href="https://alphagao.com/2017/03/26/let-customize-view-suit-in-scrollview/">
 
 
-
-
-
-  <link rel="canonical" href="alphagao.com/2017/03/26/let-customize-view-suit-in-scrollview/">
-
-
-
-<script id="page.configurations">
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
   CONFIG.page = {
     sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-Hans'
   };
 </script>
 
@@ -138,15 +61,8 @@
 
 
 
-
-
-
-
-
-
   <noscript>
   <style>
-  .use-motion .motion-element,
   .use-motion .brand,
   .use-motion .menu-item,
   .sidebar-inner,
@@ -155,9 +71,8 @@
   .use-motion .comments,
   .use-motion .post-header,
   .use-motion .post-body,
-  .use-motion .collection-title { opacity: initial; }
+  .use-motion .collection-header { opacity: initial; }
 
-  .use-motion .logo,
   .use-motion .site-title,
   .use-motion .site-subtitle {
     opacity: initial;
@@ -171,153 +86,69 @@
 
 </head>
 
-<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
-
-  
-  
-    
-  
-
-  <div class="container sidebar-position-left page-post-detail">
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
     <div class="headband"></div>
 
-    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
-      <div class="header-inner"><div class="site-brand-wrapper">
-  <div class="site-meta">
-    
-
-    <div class="custom-logo-site-title">
-      <a href="/" class="brand" rel="start">
-        <span class="logo-line-before"><i></i></span>
-        <span class="site-title">Here's to Change</span>
-        <span class="logo-line-after"><i></i></span>
-      </a>
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
     </div>
-    
-      
-        <p class="site-subtitle">请问你真的有在努力吗 ？</p>
-      
-    
-    
   </div>
 
-  <div class="site-nav-toggle">
-    <button aria-label="Toggle navigation bar">
-      <span class="btn-bar"></span>
-      <span class="btn-bar"></span>
-      <span class="btn-bar"></span>
-    </button>
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Here's to Change</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">请问你真的有在努力吗 ？</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
   </div>
 </div>
 
 
 
+
 <nav class="site-nav">
-  
-    <ul id="menu" class="menu">
-      
-        
-        
-        
-          
-          <li class="menu-item menu-item-home">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
 
-    
-    
-    
-      
-    
-
-    
-
-    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>Home</a>
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
 
   </li>
-        
-        
-        
-          
-          <li class="menu-item menu-item-categories">
+        <li class="menu-item menu-item-about">
 
-    
-    
-    
-      
-    
-
-    
-
-    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>Categories</a>
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a>
 
   </li>
-        
-        
-        
-          
-          <li class="menu-item menu-item-tags">
+        <li class="menu-item menu-item-tags">
 
-    
-    
-    
-      
-    
-
-    
-
-    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>Tags</a>
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a>
 
   </li>
-        
-        
-        
-          
-          <li class="menu-item menu-item-archives">
+        <li class="menu-item menu-item-categories">
 
-    
-    
-    
-      
-    
-
-    
-
-    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>Archives</a>
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a>
 
   </li>
-        
-        
-        
-          
-          <li class="menu-item menu-item-about">
+        <li class="menu-item menu-item-archives">
 
-    
-    
-    
-      
-    
-
-    
-
-    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>About</a>
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
 
   </li>
-
-      
-      
-    </ul>
-  
-
-  
-    
-
-  
-
-  
+  </ul>
 </nav>
 
-
-
-  
 
 
 
@@ -325,154 +156,96 @@
     </header>
 
     
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
 
 
-    <main id="main" class="main">
+    <main class="main">
       <div class="main-inner">
         <div class="content-wrap">
           
-          <div id="content" class="content">
+
+          <div class="content post posts-expand">
             
 
-  <div id="posts" class="posts-expand">
     
-
-  
-
   
   
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="alphagao.com/2017/03/26/let-customize-view-suit-in-scrollview/">
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="https://alphagao.com/2017/03/26/let-customize-view-suit-in-scrollview/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
       <meta itemprop="name" content="Alpha Gao">
       <meta itemprop="description" content="You will be what you want.">
-      <meta itemprop="image" content="/images/avatar.gif">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
       <meta itemprop="name" content="Here's to Change">
     </span>
-
-    
       <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">让自定义 View 支持 ScrollView
-
-              
-            
-          </h1>
-        
+        <h1 class="post-title" itemprop="name headline">
+          让自定义 View 支持 ScrollView
+        </h1>
 
         <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
+            <span class="post-meta-item">
               <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
+                <i class="far fa-calendar"></i>
               </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-
-              
-                
-              
+              <span class="post-meta-item-text">Posted on</span>
 
               <time title="Created: 2017-03-26 16:09:48" itemprop="dateCreated datePublished" datetime="2017-03-26T16:09:48+08:00">2017-03-26</time>
-            
-
-            
-              
-
-              
-                
-                <span class="post-meta-divider">|</span>
-                
-
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">Edited on</span>
-                
-                <time title="Modified: 2019-03-08 17:06:32" itemprop="dateModified" datetime="2019-03-08T17:06:32+08:00">2019-03-08</time>
-              
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Android/" itemprop="url" rel="index"><span itemprop="name">Android</span></a></span>
-
-                
-                
-              
             </span>
-          
-
-          
-            
-            
-              
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
+              <span class="post-meta-item">
                 <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
+                  <i class="far fa-calendar-check"></i>
                 </span>
-            
-                <span class="post-meta-item-text">Comments: </span>
-                <a href="/2017/03/26/let-customize-view-suit-in-scrollview/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/2017/03/26/let-customize-view-suit-in-scrollview/" itemprop="commentCount"></span>
-                </a>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2019-03-08 17:06:32" itemprop="dateModified" datetime="2019-03-08T17:06:32+08:00">2019-03-08</time>
               </span>
-            
-          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Android/" itemprop="url" rel="index"><span itemprop="name">Android</span></a>
+                </span>
+            </span>
 
           
-          
-
-          
-
-          
-
-          
+            <span id="/2017/03/26/let-customize-view-suit-in-scrollview/" class="post-meta-item leancloud_visitors" data-flag-title="让自定义 View 支持 ScrollView" title="Views">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">Views: </span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine: </span>
+    
+    <a title="valine" href="/2017/03/26/let-customize-view-suit-in-scrollview/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2017/03/26/let-customize-view-suit-in-scrollview/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
 
         </div>
       </header>
-    
 
     
     
     
     <div class="post-body" itemprop="articleBody">
-
-      
-      
 
       
         <p>看过《Android 开发艺术探索》一书的小伙伴都知道，这本书将自定义 View 分成四个类型，分别是：</p>
@@ -482,7 +255,7 @@
 <li>继承已有的 View</li>
 <li>继承已有的 ViewGroup</li>
 </ul>
-<a id="more"></a>
+<span id="more"></span>
 <p>我们本次并不讨论具体的类型应该如何实现，自定义 View 的范围实在是太宽广了，只有想不到，没有做不到。在书中任玉刚大大还提到了自定义 View 应该注意的几个方面：</p>
 <ul>
 <li>让 View 支持 wrap_content</li>
@@ -492,487 +265,163 @@
 <li>View 有滑动嵌套情形的，需要处理好滑动冲突</li>
 </ul>
 <p>这些注意事项都非常有用，即使是一个新手做自定义 View，在本书的指引下，遵循这些标准也能做出可用性较高的自定义 View，比如说我(微笑)。不过我在实践的过程中发现一个任玉刚大大没有提到的方面，那就是让自定义 View 支持 ScrollView，毕竟 ScrollView 已经是个非常常用的布局了。</p>
-<p>首先看一个小例子，我们就拿书中的自定义 View 案例来示范，也就是单纯的画个圆：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CircleView</span> <span class="keyword">extends</span> <span class="title">View</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> mColor = getResources().getColor(R.color.colorAccent);</span><br><span class="line">    <span class="keyword">private</span> Paint mPaint = <span class="keyword">new</span> Paint(Paint.ANTI_ALIAS_FLAG);</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">CircleView</span><span class="params">(Context context)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>(context);</span><br><span class="line">        init();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">CircleView</span><span class="params">(Context context, AttributeSet attrs)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>(context, attrs, <span class="number">0</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">CircleView</span><span class="params">(Context context, AttributeSet attrs, <span class="keyword">int</span> defStyleAttr)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>(context, attrs, defStyleAttr);</span><br><span class="line">        TypedArray array = context.obtainStyledAttributes(attrs, R.styleable.CircleView);</span><br><span class="line">        mColor = array.getColor(R.styleable.CircleView_circle_color,</span><br><span class="line">                getResources().getColor(R.color.colorAccent));</span><br><span class="line">        array.recycle();</span><br><span class="line">        init();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">init</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        mPaint.setColor(mColor);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onMeasure</span><span class="params">(<span class="keyword">int</span> widthMeasureSpec, <span class="keyword">int</span> heightMeasureSpec)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>.onMeasure(widthMeasureSpec, heightMeasureSpec);</span><br><span class="line">        <span class="keyword">int</span> widthSpecMode = MeasureSpec.getMode(widthMeasureSpec);</span><br><span class="line">        <span class="keyword">int</span> widthSpecSize = MeasureSpec.getSize(widthMeasureSpec);</span><br><span class="line">        <span class="keyword">int</span> heightSpecMode = MeasureSpec.getMode(heightMeasureSpec);</span><br><span class="line">        <span class="keyword">int</span> heightSpecSize = MeasureSpec.getSize(heightMeasureSpec);</span><br><span class="line">        <span class="keyword">if</span> (widthSpecMode == MeasureSpec.AT_MOST &amp;&amp; heightSpecMode == MeasureSpec.AT_MOST) &#123;</span><br><span class="line">            setMeasuredDimension(<span class="number">200</span>, <span class="number">200</span>);</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (widthSpecMode == MeasureSpec.AT_MOST) &#123;</span><br><span class="line">            setMeasuredDimension(<span class="number">200</span>, heightSpecSize);</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (heightSpecMode == MeasureSpec.AT_MOST) &#123;</span><br><span class="line">            setMeasuredDimension(widthSpecSize, <span class="number">200</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onDraw</span><span class="params">(Canvas canvas)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>.onDraw(canvas);</span><br><span class="line">        <span class="keyword">int</span> paddingLeft = getPaddingLeft();</span><br><span class="line">        <span class="keyword">int</span> paddingRight = getPaddingRight();</span><br><span class="line">        <span class="keyword">int</span> paddingTop = getPaddingTop();</span><br><span class="line">        <span class="keyword">int</span> paddingBottom = getPaddingBottom();</span><br><span class="line">        <span class="keyword">int</span> width = getWidth() - paddingLeft - paddingRight;</span><br><span class="line">        <span class="keyword">int</span> height = getHeight() - paddingTop - paddingBottom;</span><br><span class="line">        <span class="keyword">int</span> radius = Math.min(width, height) / <span class="number">2</span>;</span><br><span class="line">        canvas.drawCircle(paddingLeft + width / <span class="number">2</span>, paddingTop + height / <span class="number">2</span>, radius, mPaint);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>以上代码除了颜色我没有做其他改动，将这个 CircleView 放在纵向的 LinearLayout 中，宽度设置 <code>match_parent</code>，高度设置 <code>wrap_content</code>，背景色设置为黑色，为了比较，在其下面放一个 TextView，我们来看看显示的结果：</p>
-<p><img src="https://oluujmx7v.bkt.clouddn.com/20170326164752.png" alt></p>
+<p>首先看一个小例子，我们就拿书中的自定义 View 案例来示范，也就是单纯的画个圆：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">CircleView</span> <span class="keyword">extends</span> <span class="title class_">View</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="type">int</span> <span class="variable">mColor</span> <span class="operator">=</span> getResources().getColor(R.color.colorAccent);</span><br><span class="line">    <span class="keyword">private</span> <span class="type">Paint</span> <span class="variable">mPaint</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Paint</span>(Paint.ANTI_ALIAS_FLAG);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">CircleView</span><span class="params">(Context context)</span> &#123;</span><br><span class="line">        <span class="built_in">super</span>(context);</span><br><span class="line">        init();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">CircleView</span><span class="params">(Context context, AttributeSet attrs)</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>(context, attrs, <span class="number">0</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">CircleView</span><span class="params">(Context context, AttributeSet attrs, <span class="type">int</span> defStyleAttr)</span> &#123;</span><br><span class="line">        <span class="built_in">super</span>(context, attrs, defStyleAttr);</span><br><span class="line">        <span class="type">TypedArray</span> <span class="variable">array</span> <span class="operator">=</span> context.obtainStyledAttributes(attrs, R.styleable.CircleView);</span><br><span class="line">        mColor = array.getColor(R.styleable.CircleView_circle_color,</span><br><span class="line">                getResources().getColor(R.color.colorAccent));</span><br><span class="line">        array.recycle();</span><br><span class="line">        init();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">void</span> <span class="title function_">init</span><span class="params">()</span> &#123;</span><br><span class="line">        mPaint.setColor(mColor);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">protected</span> <span class="keyword">void</span> <span class="title function_">onMeasure</span><span class="params">(<span class="type">int</span> widthMeasureSpec, <span class="type">int</span> heightMeasureSpec)</span> &#123;</span><br><span class="line">        <span class="built_in">super</span>.onMeasure(widthMeasureSpec, heightMeasureSpec);</span><br><span class="line">        <span class="type">int</span> <span class="variable">widthSpecMode</span> <span class="operator">=</span> MeasureSpec.getMode(widthMeasureSpec);</span><br><span class="line">        <span class="type">int</span> <span class="variable">widthSpecSize</span> <span class="operator">=</span> MeasureSpec.getSize(widthMeasureSpec);</span><br><span class="line">        <span class="type">int</span> <span class="variable">heightSpecMode</span> <span class="operator">=</span> MeasureSpec.getMode(heightMeasureSpec);</span><br><span class="line">        <span class="type">int</span> <span class="variable">heightSpecSize</span> <span class="operator">=</span> MeasureSpec.getSize(heightMeasureSpec);</span><br><span class="line">        <span class="keyword">if</span> (widthSpecMode == MeasureSpec.AT_MOST &amp;&amp; heightSpecMode == MeasureSpec.AT_MOST) &#123;</span><br><span class="line">            setMeasuredDimension(<span class="number">200</span>, <span class="number">200</span>);</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (widthSpecMode == MeasureSpec.AT_MOST) &#123;</span><br><span class="line">            setMeasuredDimension(<span class="number">200</span>, heightSpecSize);</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (heightSpecMode == MeasureSpec.AT_MOST) &#123;</span><br><span class="line">            setMeasuredDimension(widthSpecSize, <span class="number">200</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">protected</span> <span class="keyword">void</span> <span class="title function_">onDraw</span><span class="params">(Canvas canvas)</span> &#123;</span><br><span class="line">        <span class="built_in">super</span>.onDraw(canvas);</span><br><span class="line">        <span class="type">int</span> <span class="variable">paddingLeft</span> <span class="operator">=</span> getPaddingLeft();</span><br><span class="line">        <span class="type">int</span> <span class="variable">paddingRight</span> <span class="operator">=</span> getPaddingRight();</span><br><span class="line">        <span class="type">int</span> <span class="variable">paddingTop</span> <span class="operator">=</span> getPaddingTop();</span><br><span class="line">        <span class="type">int</span> <span class="variable">paddingBottom</span> <span class="operator">=</span> getPaddingBottom();</span><br><span class="line">        <span class="type">int</span> <span class="variable">width</span> <span class="operator">=</span> getWidth() - paddingLeft - paddingRight;</span><br><span class="line">        <span class="type">int</span> <span class="variable">height</span> <span class="operator">=</span> getHeight() - paddingTop - paddingBottom;</span><br><span class="line">        <span class="type">int</span> <span class="variable">radius</span> <span class="operator">=</span> Math.min(width, height) / <span class="number">2</span>;</span><br><span class="line">        canvas.drawCircle(paddingLeft + width / <span class="number">2</span>, paddingTop + height / <span class="number">2</span>, radius, mPaint);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><br>以上代码除了颜色我没有做其他改动，将这个 CircleView 放在纵向的 LinearLayout 中，宽度设置 <code>match_parent</code>，高度设置 <code>wrap_content</code>，背景色设置为黑色，为了比较，在其下面放一个 TextView，我们来看看显示的结果：</p>
+<p><img src="https://oluujmx7v.bkt.clouddn.com/20170326164752.png" alt=""></p>
 <p>还是很正常的，符合我们的预期。</p>
 <p>如果在 Layout 最外层套一个 ScrollView，再来看看：</p>
-<p><img src="https://oluujmx7v.bkt.clouddn.com/20170326164923.png" alt></p>
+<p><img src="https://oluujmx7v.bkt.clouddn.com/20170326164923.png" alt=""></p>
 <p>自定义 View 看不见了！首先自定义 View 的外层是 LinearLayout，高度是 <code>match_parent</code>，从常理来分析，ScrollView 内部的高度无限大的，如果内部的 View 的不做精确设置，可能会导致 View 无限大，所以 ScrollView 内部没有设置精确高度的 View 都会无法显示，除非内部做特殊处理。比如下面的 TextView ，设置的高度也是 <code>wrap_content</code>，但它却能显示，为什么呢？按照我们在 onMeasure 方法中的逻辑，如果自定义 View 是大小不定，也就是对应 MeasureSpec.AT_MOST，那么宽高都应该为默认的 200 才对，这样也不会不显示。那么就调试一下看看：</p>
-<p><img src="https://oluujmx7v.bkt.clouddn.com/20170326170055.png" alt></p>
-<p>heightMeasureSpec 的值是0，我们知道 MesureSpec 是一个 32 位的 int 值，高 2 位表示测量模式，低 30 位表示在这种模式下的测量值。显然这不属于任何一种 MeasureSpec 已知的模式，所以自定义 View 无法获得测量高度，也就无法显示了。知道了原因就好办了，只需要对 heightMeasureSpec 的值作出识别处理就行了，比如下面是我的方法：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onMeasure</span><span class="params">(<span class="keyword">int</span> widthMeasureSpec, <span class="keyword">int</span> heightMeasureSpec)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">super</span>.onMeasure(widthMeasureSpec, heightMeasureSpec);</span><br><span class="line">    <span class="keyword">int</span> widthSpecMode = MeasureSpec.getMode(widthMeasureSpec);</span><br><span class="line">    <span class="keyword">int</span> widthSpecSize = MeasureSpec.getSize(widthMeasureSpec);</span><br><span class="line">    <span class="comment">//避免在 scrollView 里获取不到高度</span></span><br><span class="line">    <span class="keyword">if</span> (heightMeasureSpec == <span class="number">0</span>) &#123;</span><br><span class="line">        heightMeasureSpec = MeasureSpec.makeMeasureSpec(widthSpecSize, MeasureSpec.AT_MOST);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">int</span> heightSpecMode = MeasureSpec.getMode(heightMeasureSpec);</span><br><span class="line">    <span class="keyword">int</span> heightSpecSize = MeasureSpec.getSize(heightMeasureSpec);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (widthSpecMode == MeasureSpec.AT_MOST &amp;&amp; heightSpecMode == MeasureSpec.AT_MOST) &#123;</span><br><span class="line">        setMeasuredDimension(<span class="number">300</span>, <span class="number">300</span>);</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (widthSpecMode == MeasureSpec.AT_MOST) &#123;</span><br><span class="line">        setMeasuredDimension(<span class="number">300</span>, heightSpecSize);</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (heightSpecMode == MeasureSpec.AT_MOST) &#123;</span><br><span class="line">        setMeasuredDimension(widthSpecSize, widthSpecSize);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>如果无法获取 heightMeasureSpec，就用 widthSpecSize 重新实例化一个 heightMeasureSpec 出来，模式设置为 AT_MOST，值默认与宽度相同，如果获取不到高度，就默认设置为与宽度相同。因为这里是个圆，那么就有个好处，即使宽高设置的都是 <code>match_parent</code>，那么真正的高度也只是最大宽大的值，毕竟在 ScrollView 中高度是不会有 <code>match_parent</code> 的效果的。当然根据自己的 View 的用途最好设置适合的默认值。</p>
+<p><img src="https://oluujmx7v.bkt.clouddn.com/20170326170055.png" alt=""></p>
+<p>heightMeasureSpec 的值是0，我们知道 MesureSpec 是一个 32 位的 int 值，高 2 位表示测量模式，低 30 位表示在这种模式下的测量值。显然这不属于任何一种 MeasureSpec 已知的模式，所以自定义 View 无法获得测量高度，也就无法显示了。知道了原因就好办了，只需要对 heightMeasureSpec 的值作出识别处理就行了，比如下面是我的方法：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title function_">onMeasure</span><span class="params">(<span class="type">int</span> widthMeasureSpec, <span class="type">int</span> heightMeasureSpec)</span> &#123;</span><br><span class="line">    <span class="built_in">super</span>.onMeasure(widthMeasureSpec, heightMeasureSpec);</span><br><span class="line">    <span class="type">int</span> <span class="variable">widthSpecMode</span> <span class="operator">=</span> MeasureSpec.getMode(widthMeasureSpec);</span><br><span class="line">    <span class="type">int</span> <span class="variable">widthSpecSize</span> <span class="operator">=</span> MeasureSpec.getSize(widthMeasureSpec);</span><br><span class="line">    <span class="comment">//避免在 scrollView 里获取不到高度</span></span><br><span class="line">    <span class="keyword">if</span> (heightMeasureSpec == <span class="number">0</span>) &#123;</span><br><span class="line">        heightMeasureSpec = MeasureSpec.makeMeasureSpec(widthSpecSize, MeasureSpec.AT_MOST);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="type">int</span> <span class="variable">heightSpecMode</span> <span class="operator">=</span> MeasureSpec.getMode(heightMeasureSpec);</span><br><span class="line">    <span class="type">int</span> <span class="variable">heightSpecSize</span> <span class="operator">=</span> MeasureSpec.getSize(heightMeasureSpec);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (widthSpecMode == MeasureSpec.AT_MOST &amp;&amp; heightSpecMode == MeasureSpec.AT_MOST) &#123;</span><br><span class="line">        setMeasuredDimension(<span class="number">300</span>, <span class="number">300</span>);</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (widthSpecMode == MeasureSpec.AT_MOST) &#123;</span><br><span class="line">        setMeasuredDimension(<span class="number">300</span>, heightSpecSize);</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (heightSpecMode == MeasureSpec.AT_MOST) &#123;</span><br><span class="line">        setMeasuredDimension(widthSpecSize, widthSpecSize);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><br>如果无法获取 heightMeasureSpec，就用 widthSpecSize 重新实例化一个 heightMeasureSpec 出来，模式设置为 AT_MOST，值默认与宽度相同，如果获取不到高度，就默认设置为与宽度相同。因为这里是个圆，那么就有个好处，即使宽高设置的都是 <code>match_parent</code>，那么真正的高度也只是最大宽大的值，毕竟在 ScrollView 中高度是不会有 <code>match_parent</code> 的效果的。当然根据自己的 View 的用途最好设置适合的默认值。</p>
 <p>看看效果：</p>
-<p><img src="https://oluujmx7v.bkt.clouddn.com/20170326172316.png" alt></p>
+<p><img src="https://oluujmx7v.bkt.clouddn.com/20170326172316.png" alt=""></p>
 <p>再把高度设置为 <code>match_parent</code>：</p>
-<p><img src="https://oluujmx7v.bkt.clouddn.com/20170326183018.png" alt></p>
+<p><img src="https://oluujmx7v.bkt.clouddn.com/20170326183018.png" alt=""></p>
 <p>一样的效果，这种在 ScrollView 中就算是一种比较合理的方式，并且完全不会影响自定义 View 在非 ScrollView 布局中的表现。所以除了任玉刚大大提到的 5 点注意事项，我还想再加一条，那就是 <strong>让自定义 View 支持 ScrollView</strong>。</p>
 
-      
     </div>
 
     
-
-    
-    
-    
-
-    
-
-    
-      
     
     
 
-    
-
-    <footer class="post-footer">
-      
-        <div class="post-tags">
-          
-            <a href="/tags/customize/" rel="tag"># customize</a>
-          
-            <a href="/tags/scrollview/" rel="tag"># scrollview</a>
-          
-        </div>
-      
-
-      
-      
-      
-
-      
-        <div class="post-nav">
-          <div class="post-nav-next post-nav-item">
-            
-              <a href="/2017/03/20/using-factory-pattern-to-build-fragment/" rel="next" title="借助工厂模式构建不同的 Fragment">
-                <i class="fa fa-chevron-left"></i> 借助工厂模式构建不同的 Fragment
-              </a>
-            
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/customize/" rel="tag"># customize</a>
+              <a href="/tags/scrollview/" rel="tag"># scrollview</a>
           </div>
 
-          <span class="post-nav-divider"></span>
+        
 
-          <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2017/04/01/the-interview-experience-to-the-net-circle/" rel="prev" title="记一次德企英文面试的经历">
-                记一次德企英文面试的经历 <i class="fa fa-chevron-right"></i>
-              </a>
-            
-          </div>
-        </div>
-      
 
-      
-      
-    </footer>
-  </div>
-  
-  
-  
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2017/03/20/using-factory-pattern-to-build-fragment/" rel="prev" title="借助工厂模式构建不同的 Fragment">
+      <i class="fa fa-chevron-left"></i> 借助工厂模式构建不同的 Fragment
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2017/04/01/the-interview-experience-to-the-net-circle/" rel="next" title="记一次德企英文面试的经历">
+      记一次德企英文面试的经历 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
   </article>
+  
+  
+  
 
-
-  </div>
 
 
           </div>
           
-
-  
-    <div class="comments" id="comments">
-    </div>
-
-  
-
-
-
-        </div>
-        
-          
-  
-  <div class="sidebar-toggle">
-    <div class="sidebar-toggle-line-wrap">
-      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
-      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
-      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
-    </div>
-  </div>
-
-  <aside id="sidebar" class="sidebar">
-    <div class="sidebar-inner">
-
-      
-
-      
-
-      <div class="site-overview-wrap sidebar-panel sidebar-panel-active">
-        <div class="site-overview">
-          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
-            
-              <p class="site-author-name" itemprop="name">Alpha Gao</p>
-              <div class="site-description motion-element" itemprop="description">You will be what you want.</div>
-          </div>
-
-          
-            <nav class="site-state motion-element">
-              
-                <div class="site-state-item site-state-posts">
-                
-                  <a href="/archives/">
-                
-                    <span class="site-state-item-count">56</span>
-                    <span class="site-state-item-name">posts</span>
-                  </a>
-                </div>
-              
-
-              
-                
-                
-                <div class="site-state-item site-state-categories">
-                  
-                    
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                    <span class="site-state-item-count">12</span>
-                    <span class="site-state-item-name">categories</span>
-                  
-                </div>
-              
-
-              
-                
-                
-                <div class="site-state-item site-state-tags">
-                  
-                    
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                    <span class="site-state-item-count">100</span>
-                    <span class="site-state-item-name">tags</span>
-                  
-                </div>
-              
-            </nav>
-          
-
-          
-
-          
-
-          
-
-          
-          
-
-          
-            
-          
-          
-
-        </div>
-      </div>
-
-      
-
-      
-        <div class="back-to-top">
-          <i class="fa fa-arrow-up"></i>
-          
-            <span id="scrollpercent"><span>0</span>%</span>
-          
-        </div>
-      
-
-    </div>
-  </aside>
-  
-
-
-        
-      </div>
-    </main>
-
-    <footer id="footer" class="footer">
-      <div class="footer-inner">
-        <div class="copyright">  <a href="http://www.miitbeian.gov.cn" rel="noopener" target="_blank">陇ICP备17000389号 </a>&copy; <span itemprop="copyrightYear">2022</span>
-  <span class="with-love" id="animate">
-    <i class="fa fa-Alpha Gao"></i>
-  </span>
-  <span class="author" itemprop="copyrightHolder">Alpha Gao</span>
-
-  
-
-  
-</div>
-
-
-  <div class="powered-by">Powered by <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> v3.9.0</div>
-
-
-
-  <span class="post-meta-divider">|</span>
-
-
-
-  <div class="theme-info">Theme – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> v7.0.1</div>
-
-
-
-
-        
-
-
-
-
-
-
-
-
-        
-      </div>
-    </footer>
-
-    
-
-    
-
-    
-
-    
-  </div>
-
-  
+    <div class="comments" id="valine-comments"></div>
 
 <script>
-  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
-    window.Promise = null;
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
   }
 </script>
 
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Alpha Gao</p>
+  <div class="site-description" itemprop="description">You will be what you want.</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">56</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">12</span>
+        <span class="site-state-item-name">categories</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">100</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2025</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Alpha Gao</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a>
+  </div>
+
+        
 
 
 
@@ -981,8 +430,29 @@
 
 
 
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
 
 
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
 
 
 
@@ -999,110 +469,37 @@
 
 
   
-  <script src="/lib/jquery/index.js?v=2.1.3"></script>
-
-  
-  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
-
-  
-  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
-
 
   
 
-
-  <script src="/js/src/utils.js?v=7.0.1"></script>
-
-  <script src="/js/src/motion.js?v=7.0.1"></script>
-
-
-
-  
-  
-
-
-  <script src="/js/src/schemes/muse.js?v=7.0.1"></script>
-
-
-
-  
-  <script src="/js/src/scrollspy.js?v=7.0.1"></script>
-<script src="/js/src/post-details.js?v=7.0.1"></script>
-
-
-
-  
-
-
-  <script src="/js/src/next-boot.js?v=7.0.1"></script>
-
-
-  
-  
-  
-
-<script src="//cdn1.lncld.net/static/js/3.11.1/av-min.js"></script>
-
-
-
-<script src="//unpkg.com/valine/dist/Valine.min.js"></script>
 
 <script>
-  var GUEST = ['nick', 'mail', 'link'];
-  var guest = 'nick,mail,link';
-  guest = guest.split(',').filter(function(item) {
-    return GUEST.indexOf(item) > -1;
-  });
-  new Valine({
-    el: '#comments',
-    verify: false,
-    notify: false,
-    appId: 'H96xxLo0hzG4azqx9XRPBLGe-gzGzoHsz',
-    appKey: 'NPnxUKfUoUn6iIlWOyvA1WgE',
-    placeholder: 'Just say anything',
-    avatar: 'mm',
-    meta: guest,
-    pageSize: '10' || 10,
-    visitor: false
-  });
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : true,
+      appId      : 'H96xxLo0hzG4azqx9XRPBLGe-gzGzoHsz',
+      appKey     : 'NPnxUKfUoUn6iIlWOyvA1WgE',
+      placeholder: "Just Say Anything",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : true,
+      lang       : 'en' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : true,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
 </script>
-
-
-
-
-  
-
-
-  
-
-
-
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
 
 </body>
 </html>

@@ -1,129 +1,53 @@
 <!DOCTYPE html>
-
-
-
-
-
-
-
-
-
-
-
-
-  
-
-
-<html class="theme-next muse use-motion" lang="zh-Hans">
-<head><meta name="generator" content="Hexo 3.9.0">
+<html lang="zh-Hans">
+<head>
   <meta charset="UTF-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
 <meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 7.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
 
 
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
-
-<link rel="stylesheet" href="/css/main.css?v=7.0.1">
-
-
-  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.0.1">
-
-
-  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.0.1">
-
-
-  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.0.1">
-
-
-  <link rel="mask-icon" href="/images/logo.svg?v=7.0.1" color="#222">
-
-
-
-
-
-
-
-<script id="hexo.configurations">
-  var NexT = window.NexT || {};
-  var CONFIG = {
-    root: '/',
-    scheme: 'Muse',
-    version: '7.0.1',
-    sidebar: {"position":"left","display":"hide","offset":12,"b2t":true,"scrollpercent":true,"onmobile":false,"dimmer":false},
-    fancybox: false,
-    fastclick: false,
-    lazyload: false,
-    tabs: true,
-    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
-    algolia: {
-      applicationID: '',
-      apiKey: '',
-      indexName: '',
-      hits: {"per_page":10},
-      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
-    }
-  };
-</script>
-
-
-  
-
-
-
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"alphagao.com","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"hide","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
 
   <meta name="description" content="一行简单的 setContentView() 背后也会有大量的底层工作。往常总是手快的敲下这一行代码，甚至使用 AS 自动创建 Activity 都不用自己敲这一行代码，但是你有没有想过这一行简单代码背后的机制呢？这次就一起来看看。">
-<meta name="keywords" content="Activity,PhoneWindow,Decor">
 <meta property="og:type" content="article">
 <meta property="og:title" content="setContentView 背后那些事儿">
-<meta property="og:url" content="alphagao.com/2017/04/21/the-things-behind-setContentView-in-activity/index.html">
+<meta property="og:url" content="https://alphagao.com/2017/04/21/the-things-behind-setContentView-in-activity/index.html">
 <meta property="og:site_name" content="Here&#39;s to Change">
 <meta property="og:description" content="一行简单的 setContentView() 背后也会有大量的底层工作。往常总是手快的敲下这一行代码，甚至使用 AS 自动创建 Activity 都不用自己敲这一行代码，但是你有没有想过这一行简单代码背后的机制呢？这次就一起来看看。">
-<meta property="og:locale" content="zh-Hans">
+<meta property="og:locale">
 <meta property="og:image" content="https://oa3wvfmvl.bkt.clouddn.com/%E6%90%9C%E7%8B%97%E6%88%AA%E5%9B%BE20170420194642.png">
 <meta property="og:image" content="https://oa3wvfmvl.bkt.clouddn.com/acticity.jpg">
-<meta property="og:updated_time" content="2019-03-08T09:06:32.000Z">
+<meta property="article:published_time" content="2017-04-21T04:25:23.000Z">
+<meta property="article:modified_time" content="2019-03-08T09:06:32.000Z">
+<meta property="article:author" content="Alpha Gao">
+<meta property="article:tag" content="Activity">
+<meta property="article:tag" content="PhoneWindow">
+<meta property="article:tag" content="Decor">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="setContentView 背后那些事儿">
-<meta name="twitter:description" content="一行简单的 setContentView() 背后也会有大量的底层工作。往常总是手快的敲下这一行代码，甚至使用 AS 自动创建 Activity 都不用自己敲这一行代码，但是你有没有想过这一行简单代码背后的机制呢？这次就一起来看看。">
 <meta name="twitter:image" content="https://oa3wvfmvl.bkt.clouddn.com/%E6%90%9C%E7%8B%97%E6%88%AA%E5%9B%BE20170420194642.png">
 
+<link rel="canonical" href="https://alphagao.com/2017/04/21/the-things-behind-setContentView-in-activity/">
 
 
-
-
-
-  <link rel="canonical" href="alphagao.com/2017/04/21/the-things-behind-setContentView-in-activity/">
-
-
-
-<script id="page.configurations">
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
   CONFIG.page = {
     sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-Hans'
   };
 </script>
 
@@ -135,15 +59,8 @@
 
 
 
-
-
-
-
-
-
   <noscript>
   <style>
-  .use-motion .motion-element,
   .use-motion .brand,
   .use-motion .menu-item,
   .sidebar-inner,
@@ -152,9 +69,8 @@
   .use-motion .comments,
   .use-motion .post-header,
   .use-motion .post-body,
-  .use-motion .collection-title { opacity: initial; }
+  .use-motion .collection-header { opacity: initial; }
 
-  .use-motion .logo,
   .use-motion .site-title,
   .use-motion .site-subtitle {
     opacity: initial;
@@ -168,153 +84,69 @@
 
 </head>
 
-<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
-
-  
-  
-    
-  
-
-  <div class="container sidebar-position-left page-post-detail">
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
     <div class="headband"></div>
 
-    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
-      <div class="header-inner"><div class="site-brand-wrapper">
-  <div class="site-meta">
-    
-
-    <div class="custom-logo-site-title">
-      <a href="/" class="brand" rel="start">
-        <span class="logo-line-before"><i></i></span>
-        <span class="site-title">Here's to Change</span>
-        <span class="logo-line-after"><i></i></span>
-      </a>
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
     </div>
-    
-      
-        <p class="site-subtitle">请问你真的有在努力吗 ？</p>
-      
-    
-    
   </div>
 
-  <div class="site-nav-toggle">
-    <button aria-label="Toggle navigation bar">
-      <span class="btn-bar"></span>
-      <span class="btn-bar"></span>
-      <span class="btn-bar"></span>
-    </button>
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Here's to Change</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">请问你真的有在努力吗 ？</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
   </div>
 </div>
 
 
 
+
 <nav class="site-nav">
-  
-    <ul id="menu" class="menu">
-      
-        
-        
-        
-          
-          <li class="menu-item menu-item-home">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
 
-    
-    
-    
-      
-    
-
-    
-
-    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>Home</a>
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
 
   </li>
-        
-        
-        
-          
-          <li class="menu-item menu-item-categories">
+        <li class="menu-item menu-item-about">
 
-    
-    
-    
-      
-    
-
-    
-
-    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>Categories</a>
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a>
 
   </li>
-        
-        
-        
-          
-          <li class="menu-item menu-item-tags">
+        <li class="menu-item menu-item-tags">
 
-    
-    
-    
-      
-    
-
-    
-
-    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>Tags</a>
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a>
 
   </li>
-        
-        
-        
-          
-          <li class="menu-item menu-item-archives">
+        <li class="menu-item menu-item-categories">
 
-    
-    
-    
-      
-    
-
-    
-
-    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>Archives</a>
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a>
 
   </li>
-        
-        
-        
-          
-          <li class="menu-item menu-item-about">
+        <li class="menu-item menu-item-archives">
 
-    
-    
-    
-      
-    
-
-    
-
-    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>About</a>
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
 
   </li>
-
-      
-      
-    </ul>
-  
-
-  
-    
-
-  
-
-  
+  </ul>
 </nav>
 
-
-
-  
 
 
 
@@ -322,146 +154,91 @@
     </header>
 
     
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
 
 
-    <main id="main" class="main">
+    <main class="main">
       <div class="main-inner">
         <div class="content-wrap">
           
-          <div id="content" class="content">
+
+          <div class="content post posts-expand">
             
 
-  <div id="posts" class="posts-expand">
     
-
-  
-
   
   
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="alphagao.com/2017/04/21/the-things-behind-setContentView-in-activity/">
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="https://alphagao.com/2017/04/21/the-things-behind-setContentView-in-activity/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
       <meta itemprop="name" content="Alpha Gao">
       <meta itemprop="description" content="You will be what you want.">
-      <meta itemprop="image" content="/images/avatar.gif">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
       <meta itemprop="name" content="Here's to Change">
     </span>
-
-    
       <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">setContentView 背后那些事儿
-
-              
-            
-          </h1>
-        
+        <h1 class="post-title" itemprop="name headline">
+          setContentView 背后那些事儿
+        </h1>
 
         <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
+            <span class="post-meta-item">
               <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
+                <i class="far fa-calendar"></i>
               </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-
-              
-                
-              
+              <span class="post-meta-item-text">Posted on</span>
 
               <time title="Created: 2017-04-21 12:25:23" itemprop="dateCreated datePublished" datetime="2017-04-21T12:25:23+08:00">2017-04-21</time>
-            
-
-            
-              
-
-              
-                
-                <span class="post-meta-divider">|</span>
-                
-
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">Edited on</span>
-                
-                <time title="Modified: 2019-03-08 17:06:32" itemprop="dateModified" datetime="2019-03-08T17:06:32+08:00">2019-03-08</time>
-              
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Android/" itemprop="url" rel="index"><span itemprop="name">Android</span></a></span>
-
-                
-                
-              
             </span>
-          
-
-          
-            
-            
-              
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
+              <span class="post-meta-item">
                 <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
+                  <i class="far fa-calendar-check"></i>
                 </span>
-            
-                <span class="post-meta-item-text">Comments: </span>
-                <a href="/2017/04/21/the-things-behind-setContentView-in-activity/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/2017/04/21/the-things-behind-setContentView-in-activity/" itemprop="commentCount"></span>
-                </a>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2019-03-08 17:06:32" itemprop="dateModified" datetime="2019-03-08T17:06:32+08:00">2019-03-08</time>
               </span>
-            
-          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Android/" itemprop="url" rel="index"><span itemprop="name">Android</span></a>
+                </span>
+            </span>
 
           
-          
-
-          
-
-          
-
-          
+            <span id="/2017/04/21/the-things-behind-setContentView-in-activity/" class="post-meta-item leancloud_visitors" data-flag-title="setContentView 背后那些事儿" title="Views">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">Views: </span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine: </span>
+    
+    <a title="valine" href="/2017/04/21/the-things-behind-setContentView-in-activity/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2017/04/21/the-things-behind-setContentView-in-activity/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
 
         </div>
       </header>
-    
 
     
     
@@ -469,33 +246,23 @@
     <div class="post-body" itemprop="articleBody">
 
       
-      
-
-      
         <blockquote>
 <p>一行简单的 <code>setContentView()</code> 背后也会有大量的底层工作。往常总是手快的敲下这一行代码，甚至使用 AS 自动创建 Activity 都不用自己敲这一行代码，但是你有没有想过这一行简单代码背后的机制呢？这次就一起来看看。</p>
 </blockquote>
-<a id="more"></a>
+<span id="more"></span>
 <h3 id="Hierarchy-View"><a href="#Hierarchy-View" class="headerlink" title="Hierarchy View"></a>Hierarchy View</h3><p>在对这行代码背后的机制进行分析之前，要先学会如何去看一个具体的 Activity 是由哪些部分构成的，这对我们接下来的理解有很大的帮助。Hierarchy View 可以用图形化的视图来展示界面的组成结构。打开 AS 的 DDMS 视图，也就是 Android Device Monitor 这个工具。点击顶部工具栏 DDMS 按钮左边的 <code>Open Perspective</code> 按钮，选择 <code>Hierarchy View</code> ，就可以进入了。点击左边的小手机图标就能选择具体的 Activity 来查看组成结构。不过这个工具只能用来看虚拟机上的 Activity，实体机目前还不支持。</p>
-<p><img src="https://oa3wvfmvl.bkt.clouddn.com/%E6%90%9C%E7%8B%97%E6%88%AA%E5%9B%BE20170420194642.png" alt></p>
+<p><img src="https://oa3wvfmvl.bkt.clouddn.com/%E6%90%9C%E7%8B%97%E6%88%AA%E5%9B%BE20170420194642.png" alt=""></p>
 <p>上面就是我的某个 App 的一个 Activity 界面的组成结构。其最左边，也就是最顶层的视图，是一个 PhoneWindow，同时也是一个 DecorView。记住这两个词，后面会用到。</p>
-<h3 id="Activity-setContentView"><a href="#Activity-setContentView" class="headerlink" title="Activity#setContentView()"></a>Activity#setContentView()</h3><p>我们知道，Activity 是所有类型的 Activity 的父类，那么自然 <code>setContentView</code> 这个方法最开始也是在 Activity 这个类中定义的。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setContentView</span><span class="params">(@LayoutRes <span class="keyword">int</span> layoutResID)</span> </span>&#123;</span><br><span class="line">    getWindow().setContentView(layoutResID);</span><br><span class="line">    initWindowDecorActionBar();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>从代码里看得出来，（系统）拿到了一个 window 并把布局 id 设置到了这个 window 里，然后初始化了 window 的 Decor 和 ActionBar，就这么两件事情。首先看看拿到的 window 是什么：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> Window <span class="title">getWindow</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> mWindow;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>mWindow 是一个抽象类 Window， 而 mWindow 这个变量在整个 Activity 中只有一处被初始化：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">final</span> <span class="keyword">void</span> <span class="title">attach</span><span class="params">(Context context, ActivityThread aThread,</span></span></span><br><span class="line"><span class="function"><span class="params">            Instrumentation instr, IBinder token, <span class="keyword">int</span> ident,</span></span></span><br><span class="line"><span class="function"><span class="params">            Application application, Intent intent, ActivityInfo info,</span></span></span><br><span class="line"><span class="function"><span class="params">            CharSequence title, Activity parent, String id,</span></span></span><br><span class="line"><span class="function"><span class="params">            NonConfigurationInstances lastNonConfigurationInstances,</span></span></span><br><span class="line"><span class="function"><span class="params">            Configuration config, String referrer, IVoiceInteractor voiceInteractor,</span></span></span><br><span class="line"><span class="function"><span class="params">            Window window)</span> </span>&#123;</span><br><span class="line">        attachBaseContext(context);</span><br><span class="line"> </span><br><span class="line">        mFragments.attachHost(<span class="keyword">null</span> <span class="comment">/*parent*/</span>);</span><br><span class="line"> </span><br><span class="line">        mWindow = <span class="keyword">new</span> PhoneWindow(<span class="keyword">this</span>, window);</span><br><span class="line">        ...</span><br><span class="line">        mWindow.setCallback(<span class="keyword">this</span>);</span><br><span class="line">        ...</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure></p>
-<p>PhoneWindow？好像有点眼熟，在第一步 Activity 的组织结构里，最左边的不就是个 PhoneWindow 么？那么这个 PhoneWindow 应该就是一个界面最顶层的 View 了，不过在看 PhoneWindow 的源码之前，先看看它的抽象类 Window 的说明：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Abstract base class for a top-level window look and behavior policy.  An</span></span><br><span class="line"><span class="comment">* instance of this class should be used as the top-level view added to the</span></span><br><span class="line"><span class="comment">* window manager. It provides standard UI policies such as a background, title</span></span><br><span class="line"><span class="comment">* area, default key processing, etc.</span></span><br><span class="line"><span class="comment">*</span></span><br><span class="line"><span class="comment">* &lt;p&gt;The only existing implementation of this abstract class is</span></span><br><span class="line"><span class="comment">* android.view.PhoneWindow, which you should instantiate when needing a</span></span><br><span class="line"><span class="comment">* Window.</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">Window</span> </span>&#123;</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>Window 是一个顶层窗口（界面）的外观和行为的代理，是个抽象类。这个类的实例应该当做顶级 View 添加到 window manager 中。这个类提供基本的 UI，例如背景、标题区域、默认的按键处理程序等。同时 PhoneWindow 这个类也是 Window 的唯一实现类。当你要显示一个视窗的时候你就必须实例化这个类（PhoneWindow）。也就是说，<code>setContentView()</code> 最终会调用 PhoneWindow 里的 <code>setContentView()</code> 方法。</p>
-<h4 id="PhoneWindow-setContentView"><a href="#PhoneWindow-setContentView" class="headerlink" title="PhoneWindow#setContentView()"></a>PhoneWindow#setContentView()</h4><p>下面是 PhoneWindow 中的代码：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setContentView</span><span class="params">(<span class="keyword">int</span> layoutResID)</span> </span>&#123;</span><br><span class="line">    <span class="comment">// Note: FEATURE_CONTENT_TRANSITIONS may be set in the process of installing the window</span></span><br><span class="line">    <span class="comment">// decor, when theme attributes and the like are crystalized. Do not check the feature</span></span><br><span class="line">    <span class="comment">// before this happens.</span></span><br><span class="line">    <span class="keyword">if</span> (mContentParent == <span class="keyword">null</span>) &#123;</span><br><span class="line">        installDecor();</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (!hasFeature(FEATURE_CONTENT_TRANSITIONS)) &#123;</span><br><span class="line">        mContentParent.removeAllViews();</span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    <span class="keyword">if</span> (hasFeature(FEATURE_CONTENT_TRANSITIONS)) &#123;</span><br><span class="line">        <span class="keyword">final</span> Scene newScene = Scene.getSceneForLayout(mContentParent, layoutResID,</span><br><span class="line">                getContext());</span><br><span class="line">        transitionTo(newScene);</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        mLayoutInflater.inflate(layoutResID, mContentParent);</span><br><span class="line">    &#125;</span><br><span class="line">    mContentParent.requestApplyInsets();</span><br><span class="line">    <span class="keyword">final</span> Callback cb = getCallback();</span><br><span class="line">    <span class="keyword">if</span> (cb != <span class="keyword">null</span> &amp;&amp; !isDestroyed()) &#123;</span><br><span class="line">        cb.onContentChanged();</span><br><span class="line">    &#125;</span><br><span class="line">    mContentParentExplicitlySet = <span class="keyword">true</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>这个方法中的第二行 <code>insallDecor</code> 这个方法确保了 mDecor 和 mContentParent 这两个变量都已经被实例化，将 mDecor 和 window 进行绑定，同时初始化视窗的标题栏，并从实例化的 window 中获取一些视窗标记（flag），还记得我们为了隐藏 Activity 的标题栏而调用 <code>requestWindowFeature()</code> 这个方法么，就是与这里是相同类型的标记，因为获取这些标记的过程是在 <code>setContentView</code> 里进行的。如果我们想让自定义的标记生效，就得在 <code>setContentView()</code> 这个方法之前调用 <code>requestWindowFeature()</code>。<br>那么 mContentParent 又是什么呢：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// This is the view in which the window contents are placed. It is either</span></span><br><span class="line"><span class="comment">// mDecor itself, or a child of mDecor where the contents go.</span></span><br><span class="line">ViewGroup mContentParent;</span><br></pre></td></tr></table></figure></p>
-<p>这个 view 是用来放置视窗内容的（就是后期由我们自行添加的区域），要是隐藏了系统状态栏，它的大小就会跟它的上一层 mDecor 相同。也就是说，系统的状态栏是处于 mDecor 内部、mContentParent 外部的。</p>
+<h3 id="Activity-setContentView"><a href="#Activity-setContentView" class="headerlink" title="Activity#setContentView()"></a>Activity#setContentView()</h3><p>我们知道，Activity 是所有类型的 Activity 的父类，那么自然 <code>setContentView</code> 这个方法最开始也是在 Activity 这个类中定义的。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">setContentView</span><span class="params">(<span class="meta">@LayoutRes</span> <span class="type">int</span> layoutResID)</span> &#123;</span><br><span class="line">    getWindow().setContentView(layoutResID);</span><br><span class="line">    initWindowDecorActionBar();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><br>从代码里看得出来，（系统）拿到了一个 window 并把布局 id 设置到了这个 window 里，然后初始化了 window 的 Decor 和 ActionBar，就这么两件事情。首先看看拿到的 window 是什么：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> Window <span class="title function_">getWindow</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> mWindow;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><br>mWindow 是一个抽象类 Window， 而 mWindow 这个变量在整个 Activity 中只有一处被初始化：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">final</span> <span class="keyword">void</span> <span class="title function_">attach</span><span class="params">(Context context, ActivityThread aThread,</span></span><br><span class="line"><span class="params">            Instrumentation instr, IBinder token, <span class="type">int</span> ident,</span></span><br><span class="line"><span class="params">            Application application, Intent intent, ActivityInfo info,</span></span><br><span class="line"><span class="params">            CharSequence title, Activity parent, String id,</span></span><br><span class="line"><span class="params">            NonConfigurationInstances lastNonConfigurationInstances,</span></span><br><span class="line"><span class="params">            Configuration config, String referrer, IVoiceInteractor voiceInteractor,</span></span><br><span class="line"><span class="params">            Window window)</span> &#123;</span><br><span class="line">        attachBaseContext(context);</span><br><span class="line"> </span><br><span class="line">        mFragments.attachHost(<span class="literal">null</span> <span class="comment">/*parent*/</span>);</span><br><span class="line"> </span><br><span class="line">        mWindow = <span class="keyword">new</span> <span class="title class_">PhoneWindow</span>(<span class="built_in">this</span>, window);</span><br><span class="line">        ...</span><br><span class="line">        mWindow.setCallback(<span class="built_in">this</span>);</span><br><span class="line">        ...</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure><br>PhoneWindow？好像有点眼熟，在第一步 Activity 的组织结构里，最左边的不就是个 PhoneWindow 么？那么这个 PhoneWindow 应该就是一个界面最顶层的 View 了，不过在看 PhoneWindow 的源码之前，先看看它的抽象类 Window 的说明：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Abstract base class for a top-level window look and behavior policy.  An</span></span><br><span class="line"><span class="comment">* instance of this class should be used as the top-level view added to the</span></span><br><span class="line"><span class="comment">* window manager. It provides standard UI policies such as a background, title</span></span><br><span class="line"><span class="comment">* area, default key processing, etc.</span></span><br><span class="line"><span class="comment">*</span></span><br><span class="line"><span class="comment">* &lt;p&gt;The only existing implementation of this abstract class is</span></span><br><span class="line"><span class="comment">* android.view.PhoneWindow, which you should instantiate when needing a</span></span><br><span class="line"><span class="comment">* Window.</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="keyword">class</span> <span class="title class_">Window</span> &#123;</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><br>Window 是一个顶层窗口（界面）的外观和行为的代理，是个抽象类。这个类的实例应该当做顶级 View 添加到 window manager 中。这个类提供基本的 UI，例如背景、标题区域、默认的按键处理程序等。同时 PhoneWindow 这个类也是 Window 的唯一实现类。当你要显示一个视窗的时候你就必须实例化这个类（PhoneWindow）。也就是说，<code>setContentView()</code> 最终会调用 PhoneWindow 里的 <code>setContentView()</code> 方法。</p>
+<h4 id="PhoneWindow-setContentView"><a href="#PhoneWindow-setContentView" class="headerlink" title="PhoneWindow#setContentView()"></a>PhoneWindow#setContentView()</h4><p>下面是 PhoneWindow 中的代码：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">setContentView</span><span class="params">(<span class="type">int</span> layoutResID)</span> &#123;</span><br><span class="line">    <span class="comment">// Note: FEATURE_CONTENT_TRANSITIONS may be set in the process of installing the window</span></span><br><span class="line">    <span class="comment">// decor, when theme attributes and the like are crystalized. Do not check the feature</span></span><br><span class="line">    <span class="comment">// before this happens.</span></span><br><span class="line">    <span class="keyword">if</span> (mContentParent == <span class="literal">null</span>) &#123;</span><br><span class="line">        installDecor();</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (!hasFeature(FEATURE_CONTENT_TRANSITIONS)) &#123;</span><br><span class="line">        mContentParent.removeAllViews();</span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    <span class="keyword">if</span> (hasFeature(FEATURE_CONTENT_TRANSITIONS)) &#123;</span><br><span class="line">        <span class="keyword">final</span> <span class="type">Scene</span> <span class="variable">newScene</span> <span class="operator">=</span> Scene.getSceneForLayout(mContentParent, layoutResID,</span><br><span class="line">                getContext());</span><br><span class="line">        transitionTo(newScene);</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        mLayoutInflater.inflate(layoutResID, mContentParent);</span><br><span class="line">    &#125;</span><br><span class="line">    mContentParent.requestApplyInsets();</span><br><span class="line">    <span class="keyword">final</span> <span class="type">Callback</span> <span class="variable">cb</span> <span class="operator">=</span> getCallback();</span><br><span class="line">    <span class="keyword">if</span> (cb != <span class="literal">null</span> &amp;&amp; !isDestroyed()) &#123;</span><br><span class="line">        cb.onContentChanged();</span><br><span class="line">    &#125;</span><br><span class="line">    mContentParentExplicitlySet = <span class="literal">true</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><br>这个方法中的第二行 <code>insallDecor</code> 这个方法确保了 mDecor 和 mContentParent 这两个变量都已经被实例化，将 mDecor 和 window 进行绑定，同时初始化视窗的标题栏，并从实例化的 window 中获取一些视窗标记（flag），还记得我们为了隐藏 Activity 的标题栏而调用 <code>requestWindowFeature()</code> 这个方法么，就是与这里是相同类型的标记，因为获取这些标记的过程是在 <code>setContentView</code> 里进行的。如果我们想让自定义的标记生效，就得在 <code>setContentView()</code> 这个方法之前调用 <code>requestWindowFeature()</code>。<br>那么 mContentParent 又是什么呢：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// This is the view in which the window contents are placed. It is either</span></span><br><span class="line"><span class="comment">// mDecor itself, or a child of mDecor where the contents go.</span></span><br><span class="line">ViewGroup mContentParent;</span><br></pre></td></tr></table></figure><br>这个 view 是用来放置视窗内容的（就是后期由我们自行添加的区域），要是隐藏了系统状态栏，它的大小就会跟它的上一层 mDecor 相同。也就是说，系统的状态栏是处于 mDecor 内部、mContentParent 外部的。</p>
 <p>在实例化 mDecor 和 mContentParent 之后，就开始解析传进来的布局文件，将这个布局设置到 mContentParent 里面，最后通知 Activity 布局已经发生变化：首先 Activity 是实际的视窗的控制者，不通知它还能通知谁呢？其次呢，确实就是这么回事，还记得前面 Acticity 中的 attach 方法么，里面有这么一句：<code>mWindow.setCallback(this);</code>，而 mWindow 就是我们现在在讨论的 PhoneWindow 了，所以铁证如山啊。</p>
 <h3 id="Activity-insallDecor"><a href="#Activity-insallDecor" class="headerlink" title="Activity#insallDecor()"></a>Activity#insallDecor()</h3><p>而关于 <code>insallDecor</code> 这个方法的具体情况，内容比较多，就不贴代码了，只要知道：</p>
 <ul>
 <li>mDecor 是通过 <code>generateDecor()</code> 这个方法生成的，这个方法获取当前所能得到最高级别的 Context 来生成 DecorView 的实例，就是有 ApplicationContext 就尽量用 ApplicationContext；</li>
 <li>mContentParent 是通过 <code>generateLayout()</code> 这个方法生成的，在这个方法里，会根据预设的 Window Style 来对布局文件多进行定制，也就是多次调用 <code>requestWindowFeature()</code> 这个方法，根据 Feature 的不同，还会选择不同的布局作为 DecorView 的初始布局。</li>
 </ul>
-<h3 id="Activity-initWindowDecorActionBar"><a href="#Activity-initWindowDecorActionBar" class="headerlink" title="Activity#initWindowDecorActionBar()"></a>Activity#initWindowDecorActionBar()</h3><p>到这里 PhoneWindow 的 <code>setContentView</code> 就解读完了，在开始的 Activity 里的 <code>setContentView</code> 方法中还有一句代码：<code>initWindowDecorActionBar();</code> 我们也来看看这个方法：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">initWindowDecorActionBar</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    Window window = getWindow();</span><br><span class="line"> </span><br><span class="line">    <span class="comment">// Initializing the window decor can change window feature flags.</span></span><br><span class="line">    <span class="comment">// Make sure that we have the correct set before performing the test below.</span></span><br><span class="line">    window.getDecorView();</span><br><span class="line"> </span><br><span class="line">    <span class="keyword">if</span> (isChild() || !window.hasFeature(Window.FEATURE_ACTION_BAR) || mActionBar != <span class="keyword">null</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    mActionBar = <span class="keyword">new</span> WindowDecorActionBar(<span class="keyword">this</span>);</span><br><span class="line">    mActionBar.setDefaultDisplayHomeAsUpEnabled(mEnableDefaultActionBarUp);</span><br><span class="line"> </span><br><span class="line">    mWindow.setDefaultIcon(mActivityInfo.getIconResource());</span><br><span class="line">    mWindow.setDefaultLogo(mActivityInfo.getLogoResource());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>这个方法是对初始化布局的进一步补充，在 PhoneWindow 里知识加载出一些默认的布局比如标题栏，那么这里就是对默认的标题栏进行一些初始的设置，比如在 manifest 文件中给一个 Activity 设置 label 属性，那么打开 Activity 就会直接显示 label 的内容，这个 label 就是在这里被设置的。</p>
-<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>结合前面这些加载过程的详情和最开始的组织结构，能够得到下面这个更直观的视窗组织结构示意图：<br><img src="https://oa3wvfmvl.bkt.clouddn.com/acticity.jpg" alt></p>
+<h3 id="Activity-initWindowDecorActionBar"><a href="#Activity-initWindowDecorActionBar" class="headerlink" title="Activity#initWindowDecorActionBar()"></a>Activity#initWindowDecorActionBar()</h3><p>到这里 PhoneWindow 的 <code>setContentView</code> 就解读完了，在开始的 Activity 里的 <code>setContentView</code> 方法中还有一句代码：<code>initWindowDecorActionBar();</code> 我们也来看看这个方法：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title function_">initWindowDecorActionBar</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="type">Window</span> <span class="variable">window</span> <span class="operator">=</span> getWindow();</span><br><span class="line"> </span><br><span class="line">    <span class="comment">// Initializing the window decor can change window feature flags.</span></span><br><span class="line">    <span class="comment">// Make sure that we have the correct set before performing the test below.</span></span><br><span class="line">    window.getDecorView();</span><br><span class="line"> </span><br><span class="line">    <span class="keyword">if</span> (isChild() || !window.hasFeature(Window.FEATURE_ACTION_BAR) || mActionBar != <span class="literal">null</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    mActionBar = <span class="keyword">new</span> <span class="title class_">WindowDecorActionBar</span>(<span class="built_in">this</span>);</span><br><span class="line">    mActionBar.setDefaultDisplayHomeAsUpEnabled(mEnableDefaultActionBarUp);</span><br><span class="line"> </span><br><span class="line">    mWindow.setDefaultIcon(mActivityInfo.getIconResource());</span><br><span class="line">    mWindow.setDefaultLogo(mActivityInfo.getLogoResource());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><br>这个方法是对初始化布局的进一步补充，在 PhoneWindow 里知识加载出一些默认的布局比如标题栏，那么这里就是对默认的标题栏进行一些初始的设置，比如在 manifest 文件中给一个 Activity 设置 label 属性，那么打开 Activity 就会直接显示 label 的内容，这个 label 就是在这里被设置的。</p>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>结合前面这些加载过程的详情和最开始的组织结构，能够得到下面这个更直观的视窗组织结构示意图：<br><img src="https://oa3wvfmvl.bkt.clouddn.com/acticity.jpg" alt=""></p>
 <ul>
 <li>系统 Launcher 界面：每一个 App 的图标都是在系统 Launcher 里面的一个按钮，通过按钮打开我们自己的 App，所以 Activity 外面就是 Launcher 的界面的了；</li>
 <li>应用窗口（mWindow）：这个就是一个 Activity 内容的容器，是区分不同的 Activity 界面的最小单位，也是 PhoneWindow 的一个实例，Activity 加载过程中调用 <code>attach</code>方法的时候被实例化;</li>
@@ -506,499 +273,151 @@
 </ul>
 <p>而 setContentView 的过程，就是实例化 mWindow、mDecor、mContentParent 的过程，在这个过程中，根据 window 的主题、属性特征的不同，会加载不同的布局和 UI，包括是否显示状态栏、导航栏甚至是标题栏。经过这个过程，一个基本的 Activity 就可以显示出来，在这个基础上，我们就可以去按照自己的需求对 mContentParent 进行定制来充实自己的 App。</p>
 
-      
     </div>
 
     
-
-    
-    
-    
-
-    
-
-    
-      
     
     
 
-    
-
-    <footer class="post-footer">
-      
-        <div class="post-tags">
-          
-            <a href="/tags/Activity/" rel="tag"># Activity</a>
-          
-            <a href="/tags/PhoneWindow/" rel="tag"># PhoneWindow</a>
-          
-            <a href="/tags/Decor/" rel="tag"># Decor</a>
-          
-        </div>
-      
-
-      
-      
-      
-
-      
-        <div class="post-nav">
-          <div class="post-nav-next post-nav-item">
-            
-              <a href="/2017/04/20/some-understanding-to-source-code-of-glide/" rel="next" title="阅读 Glide 源码的一些浅薄认识">
-                <i class="fa fa-chevron-left"></i> 阅读 Glide 源码的一些浅薄认识
-              </a>
-            
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Activity/" rel="tag"># Activity</a>
+              <a href="/tags/PhoneWindow/" rel="tag"># PhoneWindow</a>
+              <a href="/tags/Decor/" rel="tag"># Decor</a>
           </div>
 
-          <span class="post-nav-divider"></span>
+        
 
-          <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2017/05/22/carousel-pager-practice-and-encapsulation/" rel="prev" title="轮播页面实践与封装">
-                轮播页面实践与封装 <i class="fa fa-chevron-right"></i>
-              </a>
-            
-          </div>
-        </div>
-      
 
-      
-      
-    </footer>
-  </div>
-  
-  
-  
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2017/04/20/some-understanding-to-source-code-of-glide/" rel="prev" title="阅读 Glide 源码的一些浅薄认识">
+      <i class="fa fa-chevron-left"></i> 阅读 Glide 源码的一些浅薄认识
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2017/05/22/carousel-pager-practice-and-encapsulation/" rel="next" title="轮播页面实践与封装">
+      轮播页面实践与封装 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
   </article>
+  
+  
+  
 
-
-  </div>
 
 
           </div>
           
-
-  
-    <div class="comments" id="comments">
-    </div>
-
-  
-
-
-
-        </div>
-        
-          
-  
-  <div class="sidebar-toggle">
-    <div class="sidebar-toggle-line-wrap">
-      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
-      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
-      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
-    </div>
-  </div>
-
-  <aside id="sidebar" class="sidebar">
-    <div class="sidebar-inner">
-
-      
-
-      
-        <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
-            Table of Contents
-          </li>
-          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
-            Overview
-          </li>
-        </ul>
-      
-
-      <div class="site-overview-wrap sidebar-panel">
-        <div class="site-overview">
-          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
-            
-              <p class="site-author-name" itemprop="name">Alpha Gao</p>
-              <div class="site-description motion-element" itemprop="description">You will be what you want.</div>
-          </div>
-
-          
-            <nav class="site-state motion-element">
-              
-                <div class="site-state-item site-state-posts">
-                
-                  <a href="/archives/">
-                
-                    <span class="site-state-item-count">56</span>
-                    <span class="site-state-item-name">posts</span>
-                  </a>
-                </div>
-              
-
-              
-                
-                
-                <div class="site-state-item site-state-categories">
-                  
-                    
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                    <span class="site-state-item-count">12</span>
-                    <span class="site-state-item-name">categories</span>
-                  
-                </div>
-              
-
-              
-                
-                
-                <div class="site-state-item site-state-tags">
-                  
-                    
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                    <span class="site-state-item-count">100</span>
-                    <span class="site-state-item-name">tags</span>
-                  
-                </div>
-              
-            </nav>
-          
-
-          
-
-          
-
-          
-
-          
-          
-
-          
-            
-          
-          
-
-        </div>
-      </div>
-
-      
-      <!--noindex-->
-        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
-          <div class="post-toc">
-
-            
-            
-            
-            
-
-            
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Hierarchy-View"><span class="nav-number">1.</span> <span class="nav-text">Hierarchy View</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Activity-setContentView"><span class="nav-number">2.</span> <span class="nav-text">Activity#setContentView()</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#PhoneWindow-setContentView"><span class="nav-number">2.1.</span> <span class="nav-text">PhoneWindow#setContentView()</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Activity-insallDecor"><span class="nav-number">3.</span> <span class="nav-text">Activity#insallDecor()</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Activity-initWindowDecorActionBar"><span class="nav-number">4.</span> <span class="nav-text">Activity#initWindowDecorActionBar()</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#总结"><span class="nav-number">5.</span> <span class="nav-text">总结</span></a></li></ol></div>
-            
-
-          </div>
-        </div>
-      <!--/noindex-->
-      
-
-      
-        <div class="back-to-top">
-          <i class="fa fa-arrow-up"></i>
-          
-            <span id="scrollpercent"><span>0</span>%</span>
-          
-        </div>
-      
-
-    </div>
-  </aside>
-  
-
-
-        
-      </div>
-    </main>
-
-    <footer id="footer" class="footer">
-      <div class="footer-inner">
-        <div class="copyright">  <a href="http://www.miitbeian.gov.cn" rel="noopener" target="_blank">陇ICP备17000389号 </a>&copy; <span itemprop="copyrightYear">2022</span>
-  <span class="with-love" id="animate">
-    <i class="fa fa-Alpha Gao"></i>
-  </span>
-  <span class="author" itemprop="copyrightHolder">Alpha Gao</span>
-
-  
-
-  
-</div>
-
-
-  <div class="powered-by">Powered by <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> v3.9.0</div>
-
-
-
-  <span class="post-meta-divider">|</span>
-
-
-
-  <div class="theme-info">Theme – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> v7.0.1</div>
-
-
-
-
-        
-
-
-
-
-
-
-
-
-        
-      </div>
-    </footer>
-
-    
-
-    
-
-    
-
-    
-  </div>
-
-  
+    <div class="comments" id="valine-comments"></div>
 
 <script>
-  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
-    window.Promise = null;
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
   }
 </script>
 
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Hierarchy-View"><span class="nav-number">1.</span> <span class="nav-text">Hierarchy View</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Activity-setContentView"><span class="nav-number">2.</span> <span class="nav-text">Activity#setContentView()</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#PhoneWindow-setContentView"><span class="nav-number">2.1.</span> <span class="nav-text">PhoneWindow#setContentView()</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Activity-insallDecor"><span class="nav-number">3.</span> <span class="nav-text">Activity#insallDecor()</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Activity-initWindowDecorActionBar"><span class="nav-number">4.</span> <span class="nav-text">Activity#initWindowDecorActionBar()</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">5.</span> <span class="nav-text">总结</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Alpha Gao</p>
+  <div class="site-description" itemprop="description">You will be what you want.</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">56</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">12</span>
+        <span class="site-state-item-name">categories</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">100</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2025</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Alpha Gao</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a>
+  </div>
+
+        
 
 
 
@@ -1007,8 +426,29 @@
 
 
 
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
 
 
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
 
 
 
@@ -1025,110 +465,37 @@
 
 
   
-  <script src="/lib/jquery/index.js?v=2.1.3"></script>
-
-  
-  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
-
-  
-  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
-
 
   
 
-
-  <script src="/js/src/utils.js?v=7.0.1"></script>
-
-  <script src="/js/src/motion.js?v=7.0.1"></script>
-
-
-
-  
-  
-
-
-  <script src="/js/src/schemes/muse.js?v=7.0.1"></script>
-
-
-
-  
-  <script src="/js/src/scrollspy.js?v=7.0.1"></script>
-<script src="/js/src/post-details.js?v=7.0.1"></script>
-
-
-
-  
-
-
-  <script src="/js/src/next-boot.js?v=7.0.1"></script>
-
-
-  
-  
-  
-
-<script src="//cdn1.lncld.net/static/js/3.11.1/av-min.js"></script>
-
-
-
-<script src="//unpkg.com/valine/dist/Valine.min.js"></script>
 
 <script>
-  var GUEST = ['nick', 'mail', 'link'];
-  var guest = 'nick,mail,link';
-  guest = guest.split(',').filter(function(item) {
-    return GUEST.indexOf(item) > -1;
-  });
-  new Valine({
-    el: '#comments',
-    verify: false,
-    notify: false,
-    appId: 'H96xxLo0hzG4azqx9XRPBLGe-gzGzoHsz',
-    appKey: 'NPnxUKfUoUn6iIlWOyvA1WgE',
-    placeholder: 'Just say anything',
-    avatar: 'mm',
-    meta: guest,
-    pageSize: '10' || 10,
-    visitor: false
-  });
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : true,
+      appId      : 'H96xxLo0hzG4azqx9XRPBLGe-gzGzoHsz',
+      appKey     : 'NPnxUKfUoUn6iIlWOyvA1WgE',
+      placeholder: "Just Say Anything",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : true,
+      lang       : 'en' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : true,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
 </script>
-
-
-
-
-  
-
-
-  
-
-
-
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
 
 </body>
 </html>

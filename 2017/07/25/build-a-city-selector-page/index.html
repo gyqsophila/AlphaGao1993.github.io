@@ -1,129 +1,52 @@
 <!DOCTYPE html>
-
-
-
-
-
-
-
-
-
-
-
-
-  
-
-
-<html class="theme-next muse use-motion" lang="zh-Hans">
-<head><meta name="generator" content="Hexo 3.9.0">
+<html lang="zh-Hans">
+<head>
   <meta charset="UTF-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
 <meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 7.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
 
 
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
-
-<link rel="stylesheet" href="/css/main.css?v=7.0.1">
-
-
-  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.0.1">
-
-
-  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.0.1">
-
-
-  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.0.1">
-
-
-  <link rel="mask-icon" href="/images/logo.svg?v=7.0.1" color="#222">
-
-
-
-
-
-
-
-<script id="hexo.configurations">
-  var NexT = window.NexT || {};
-  var CONFIG = {
-    root: '/',
-    scheme: 'Muse',
-    version: '7.0.1',
-    sidebar: {"position":"left","display":"hide","offset":12,"b2t":true,"scrollpercent":true,"onmobile":false,"dimmer":false},
-    fancybox: false,
-    fastclick: false,
-    lazyload: false,
-    tabs: true,
-    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
-    algolia: {
-      applicationID: '',
-      apiKey: '',
-      indexName: '',
-      hits: {"per_page":10},
-      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
-    }
-  };
-</script>
-
-
-  
-
-
-
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"alphagao.com","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"hide","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
 
   <meta name="description" content="又是很久没有写文章了，不写文章的这段日子里，感觉生活毫无乐趣，没有什么成就感，以后还是要多写啊，至少一周一篇吧。 需求城市选择页面是很多 App 都有的组件，比如美团、大众点评之类的，而这个文章就是模仿美团的城市选择组件打造的，不过比起美团还是有差距的。主要的需求有以下几点：  显示当前城市； 显示设备定位城市； 按照城市拼音进行排序和分类 城市首字母快速导航 城市搜索，关键字高亮">
-<meta name="keywords" content="RecyclerView,LetterIndexView">
 <meta property="og:type" content="article">
 <meta property="og:title" content="打造一个城市选择页面">
-<meta property="og:url" content="alphagao.com/2017/07/25/build-a-city-selector-page/index.html">
+<meta property="og:url" content="https://alphagao.com/2017/07/25/build-a-city-selector-page/index.html">
 <meta property="og:site_name" content="Here&#39;s to Change">
 <meta property="og:description" content="又是很久没有写文章了，不写文章的这段日子里，感觉生活毫无乐趣，没有什么成就感，以后还是要多写啊，至少一周一篇吧。 需求城市选择页面是很多 App 都有的组件，比如美团、大众点评之类的，而这个文章就是模仿美团的城市选择组件打造的，不过比起美团还是有差距的。主要的需求有以下几点：  显示当前城市； 显示设备定位城市； 按照城市拼音进行排序和分类 城市首字母快速导航 城市搜索，关键字高亮">
-<meta property="og:locale" content="zh-Hans">
+<meta property="og:locale">
 <meta property="og:image" content="https://oa3wvfmvl.bkt.clouddn.com/city_selector.png">
 <meta property="og:image" content="https://oa3wvfmvl.bkt.clouddn.com/city_selector.gif">
-<meta property="og:updated_time" content="2019-03-08T09:06:32.000Z">
+<meta property="article:published_time" content="2017-07-25T01:51:11.000Z">
+<meta property="article:modified_time" content="2019-03-08T09:06:32.000Z">
+<meta property="article:author" content="Alpha Gao">
+<meta property="article:tag" content="RecyclerView">
+<meta property="article:tag" content="LetterIndexView">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="打造一个城市选择页面">
-<meta name="twitter:description" content="又是很久没有写文章了，不写文章的这段日子里，感觉生活毫无乐趣，没有什么成就感，以后还是要多写啊，至少一周一篇吧。 需求城市选择页面是很多 App 都有的组件，比如美团、大众点评之类的，而这个文章就是模仿美团的城市选择组件打造的，不过比起美团还是有差距的。主要的需求有以下几点：  显示当前城市； 显示设备定位城市； 按照城市拼音进行排序和分类 城市首字母快速导航 城市搜索，关键字高亮">
 <meta name="twitter:image" content="https://oa3wvfmvl.bkt.clouddn.com/city_selector.png">
 
+<link rel="canonical" href="https://alphagao.com/2017/07/25/build-a-city-selector-page/">
 
 
-
-
-
-  <link rel="canonical" href="alphagao.com/2017/07/25/build-a-city-selector-page/">
-
-
-
-<script id="page.configurations">
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
   CONFIG.page = {
     sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-Hans'
   };
 </script>
 
@@ -135,15 +58,8 @@
 
 
 
-
-
-
-
-
-
   <noscript>
   <style>
-  .use-motion .motion-element,
   .use-motion .brand,
   .use-motion .menu-item,
   .sidebar-inner,
@@ -152,9 +68,8 @@
   .use-motion .comments,
   .use-motion .post-header,
   .use-motion .post-body,
-  .use-motion .collection-title { opacity: initial; }
+  .use-motion .collection-header { opacity: initial; }
 
-  .use-motion .logo,
   .use-motion .site-title,
   .use-motion .site-subtitle {
     opacity: initial;
@@ -168,153 +83,69 @@
 
 </head>
 
-<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
-
-  
-  
-    
-  
-
-  <div class="container sidebar-position-left page-post-detail">
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
     <div class="headband"></div>
 
-    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
-      <div class="header-inner"><div class="site-brand-wrapper">
-  <div class="site-meta">
-    
-
-    <div class="custom-logo-site-title">
-      <a href="/" class="brand" rel="start">
-        <span class="logo-line-before"><i></i></span>
-        <span class="site-title">Here's to Change</span>
-        <span class="logo-line-after"><i></i></span>
-      </a>
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
     </div>
-    
-      
-        <p class="site-subtitle">请问你真的有在努力吗 ？</p>
-      
-    
-    
   </div>
 
-  <div class="site-nav-toggle">
-    <button aria-label="Toggle navigation bar">
-      <span class="btn-bar"></span>
-      <span class="btn-bar"></span>
-      <span class="btn-bar"></span>
-    </button>
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Here's to Change</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">请问你真的有在努力吗 ？</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
   </div>
 </div>
 
 
 
+
 <nav class="site-nav">
-  
-    <ul id="menu" class="menu">
-      
-        
-        
-        
-          
-          <li class="menu-item menu-item-home">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
 
-    
-    
-    
-      
-    
-
-    
-
-    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>Home</a>
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
 
   </li>
-        
-        
-        
-          
-          <li class="menu-item menu-item-categories">
+        <li class="menu-item menu-item-about">
 
-    
-    
-    
-      
-    
-
-    
-
-    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>Categories</a>
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a>
 
   </li>
-        
-        
-        
-          
-          <li class="menu-item menu-item-tags">
+        <li class="menu-item menu-item-tags">
 
-    
-    
-    
-      
-    
-
-    
-
-    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>Tags</a>
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a>
 
   </li>
-        
-        
-        
-          
-          <li class="menu-item menu-item-archives">
+        <li class="menu-item menu-item-categories">
 
-    
-    
-    
-      
-    
-
-    
-
-    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>Archives</a>
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a>
 
   </li>
-        
-        
-        
-          
-          <li class="menu-item menu-item-about">
+        <li class="menu-item menu-item-archives">
 
-    
-    
-    
-      
-    
-
-    
-
-    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>About</a>
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
 
   </li>
-
-      
-      
-    </ul>
-  
-
-  
-    
-
-  
-
-  
+  </ul>
 </nav>
 
-
-
-  
 
 
 
@@ -322,154 +153,96 @@
     </header>
 
     
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
 
 
-    <main id="main" class="main">
+    <main class="main">
       <div class="main-inner">
         <div class="content-wrap">
           
-          <div id="content" class="content">
+
+          <div class="content post posts-expand">
             
 
-  <div id="posts" class="posts-expand">
     
-
-  
-
   
   
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="alphagao.com/2017/07/25/build-a-city-selector-page/">
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="https://alphagao.com/2017/07/25/build-a-city-selector-page/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
       <meta itemprop="name" content="Alpha Gao">
       <meta itemprop="description" content="You will be what you want.">
-      <meta itemprop="image" content="/images/avatar.gif">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
       <meta itemprop="name" content="Here's to Change">
     </span>
-
-    
       <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">打造一个城市选择页面
-
-              
-            
-          </h1>
-        
+        <h1 class="post-title" itemprop="name headline">
+          打造一个城市选择页面
+        </h1>
 
         <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
+            <span class="post-meta-item">
               <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
+                <i class="far fa-calendar"></i>
               </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-
-              
-                
-              
+              <span class="post-meta-item-text">Posted on</span>
 
               <time title="Created: 2017-07-25 09:51:11" itemprop="dateCreated datePublished" datetime="2017-07-25T09:51:11+08:00">2017-07-25</time>
-            
-
-            
-              
-
-              
-                
-                <span class="post-meta-divider">|</span>
-                
-
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">Edited on</span>
-                
-                <time title="Modified: 2019-03-08 17:06:32" itemprop="dateModified" datetime="2019-03-08T17:06:32+08:00">2019-03-08</time>
-              
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Android/" itemprop="url" rel="index"><span itemprop="name">Android</span></a></span>
-
-                
-                
-              
             </span>
-          
-
-          
-            
-            
-              
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
+              <span class="post-meta-item">
                 <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
+                  <i class="far fa-calendar-check"></i>
                 </span>
-            
-                <span class="post-meta-item-text">Comments: </span>
-                <a href="/2017/07/25/build-a-city-selector-page/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/2017/07/25/build-a-city-selector-page/" itemprop="commentCount"></span>
-                </a>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2019-03-08 17:06:32" itemprop="dateModified" datetime="2019-03-08T17:06:32+08:00">2019-03-08</time>
               </span>
-            
-          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Android/" itemprop="url" rel="index"><span itemprop="name">Android</span></a>
+                </span>
+            </span>
 
           
-          
-
-          
-
-          
-
-          
+            <span id="/2017/07/25/build-a-city-selector-page/" class="post-meta-item leancloud_visitors" data-flag-title="打造一个城市选择页面" title="Views">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">Views: </span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine: </span>
+    
+    <a title="valine" href="/2017/07/25/build-a-city-selector-page/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2017/07/25/build-a-city-selector-page/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
 
         </div>
       </header>
-    
 
     
     
     
     <div class="post-body" itemprop="articleBody">
-
-      
-      
 
       
         <p>又是很久没有写文章了，不写文章的这段日子里，感觉生活毫无乐趣，没有什么成就感，以后还是要多写啊，至少一周一篇吧。</p>
@@ -479,7 +252,7 @@
 <li>显示设备定位城市；</li>
 <li>按照城市拼音进行排序和分类</li>
 <li>城市首字母快速导航</li>
-<li>城市搜索，关键字高亮<a id="more"></a>
+<li>城市搜索，关键字高亮<span id="more"></span>
 由于显示定位城市需要使用到第三方地图 SDK，为了专注的实现界面效果，这里就不具体实现了，模拟一下即可。</li>
 </ol>
 <h3 id="设计"><a href="#设计" class="headerlink" title="设计"></a>设计</h3><p>根据需求来看，城市选择页面可以分为这么几个部分：</p>
@@ -491,7 +264,7 @@
 </ul>
 <p>为了更好的利用屏幕空间，把搜索栏与城市列表放在一起，也就是在同一个 RecyclerView 中。</p>
 <p>差不多就是下面的样子：</p>
-<p><img src="https://oa3wvfmvl.bkt.clouddn.com/city_selector.png" alt></p>
+<p><img src="https://oa3wvfmvl.bkt.clouddn.com/city_selector.png" alt=""></p>
 <ul>
 <li>由于列表包含不同的布局，需要定义多个 ViewType<ul>
 <li>Type_Search 搜索栏</li>
@@ -503,514 +276,161 @@
 </ul>
 </li>
 </ul>
-<h3 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h3><h5 id="布局"><a href="#布局" class="headerlink" title="布局"></a>布局</h5><p>从上面的图很容易就知道，位置处于 0 ~ 3 的 ViewType 已经确定了，那如何确定城市和城市首字母索引对应位置的 ViewType 呢？简单，暴力匹配即可：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getItemViewType</span><span class="params">(<span class="keyword">int</span> position)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (position == <span class="number">0</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> TYPE_SEARCH;<span class="comment">//搜索栏</span></span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (position == <span class="number">1</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> TYPE_CURRENT;<span class="comment">//当前城市</span></span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (position == <span class="number">2</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> TYPE_LOC_TITLE;<span class="comment">//定位城市标签</span></span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (position == <span class="number">3</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> TYPE_LOC_CITY;<span class="comment">//定位城市</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    List&lt;String&gt; letters = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">    letters.add(cityList.get(<span class="number">0</span>).getSurName());</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; cityList.size(); i++) &#123;</span><br><span class="line">        <span class="keyword">if</span> (!letters.contains(cityList.get(i).getSurName())) &#123;</span><br><span class="line">            letters.add(cityList.get(i).getSurName());</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (<span class="number">4</span> + letters.size() + i - <span class="number">1</span> == position) &#123;</span><br><span class="line">            <span class="keyword">return</span> TYPE_LETTER;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (<span class="number">4</span> + letters.size() + i == position) &#123;</span><br><span class="line">            <span class="keyword">return</span> TYPE_CITY;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">super</span>.getItemViewType(position);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>也就是遍历城市列表，先保存第一个城市的首字母到索引列表，然后每遍历一个城市，判断其首字母是否已经在索引列表中，存在就跳过，当前位置就是城市视图，不存在就加入首字母到索引，当前位置就是这个字母索引视图了。</p>
-<p>这么一来，就很容易知道所有视图的数量了：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getItemCount</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (cityList == <span class="keyword">null</span> || cityList.size() == <span class="number">0</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">4</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">int</span> letterCount = getLetterCount();</span><br><span class="line">    <span class="keyword">return</span> letterCount + cityList.size() + <span class="number">4</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>即总数=城市数量+字母索引的数量+顶部的几个视图。</p>
-<p>字母索引的数量可以通过遍历城市列表获取：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">int</span> <span class="title">getLetterCount</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    letters = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">    <span class="keyword">for</span> (City c : cityList) &#123;</span><br><span class="line">        <span class="keyword">if</span> (!letters.contains(c.getSurName())) &#123;</span><br><span class="line">            letters.add(c.getSurName());</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> letters.size();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<h5 id="索引冻结"><a href="#索引冻结" class="headerlink" title="索引冻结"></a>索引冻结</h5><p>列表滑动的时候，最上面的城市的首字母索引要停留在顶部，继续滑动就被下面的另一个城市列表的字母代替，这里体现为顶上去和压下来的效果，其实就是监听列表的滑动额外控制一个 View 层的滑动。<br>为列表设置 OnScrollListener ，在 onScrolled 方法中作出响应：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onScrolled</span><span class="params">(RecyclerView recyclerView, <span class="keyword">int</span> dx, <span class="keyword">int</span> dy)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">super</span>.onScrolled(recyclerView, dx, dy);</span><br><span class="line">    lockTopIndex(dy);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">lockTopIndex</span><span class="params">(<span class="keyword">int</span> dy)</span> </span>&#123;</span><br><span class="line">    mSuspensionHeight = indexViewTv.getHeight();</span><br><span class="line">    <span class="keyword">int</span> pos = layoutManager.findFirstVisibleItemPosition();</span><br><span class="line">    hideOrShow(pos);</span><br><span class="line">    <span class="keyword">if</span> (dy &gt; <span class="number">0</span>) &#123;<span class="comment">//向上滑动的时候，下面的索引将上面的索引顶出去</span></span><br><span class="line">        <span class="keyword">if</span> (adapter != <span class="keyword">null</span>) &#123;</span><br><span class="line">            View view = layoutManager.findViewByPosition(pos + <span class="number">1</span>);</span><br><span class="line">            <span class="keyword">if</span> (view != <span class="keyword">null</span> &amp;&amp; adapter.getItemViewType(pos + <span class="number">1</span>) == CityAdapter.TYPE_LETTER) &#123;</span><br><span class="line">                <span class="keyword">if</span> (view.getTop() &lt;= mSuspensionHeight) &#123;</span><br><span class="line">                    indexViewTv.setY(-(mSuspensionHeight - view.getTop()));</span><br><span class="line">                &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                    indexViewTv.setY(<span class="number">0</span>);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;<span class="comment">//向下滑动的时候，上面的索引将下面的索引压下来</span></span><br><span class="line">        <span class="keyword">if</span> (adapter != <span class="keyword">null</span> &amp;&amp; pos &gt;= <span class="number">2</span>) &#123;</span><br><span class="line">            <span class="keyword">int</span> type = adapter.getItemViewType(pos);</span><br><span class="line">            <span class="keyword">if</span> (type == CityAdapter.TYPE_CITY</span><br><span class="line">                    || type == CityAdapter.TYPE_LOC_CITY) &#123;</span><br><span class="line">                View view = layoutManager.findViewByPosition(pos);<span class="comment">//目标字母索引</span></span><br><span class="line">                <span class="keyword">if</span> (view != <span class="keyword">null</span>) &#123;</span><br><span class="line">                    <span class="keyword">if</span> (view.getBottom() &gt;= <span class="number">0</span> &amp;&amp; view.getBottom() &lt;= mSuspensionHeight) &#123;</span><br><span class="line">                        <span class="keyword">if</span> (adapter.getItemViewType(pos) != adapter.getItemViewType(pos + <span class="number">1</span>)) &#123;</span><br><span class="line">                            <span class="comment">//跟随目标逐渐上移</span></span><br><span class="line">                            indexViewTv.setY(view.getBottom() - mSuspensionHeight);</span><br><span class="line">                        &#125;</span><br><span class="line">                    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                        <span class="comment">//将悬浮索引归位</span></span><br><span class="line">                        indexViewTv.setY(<span class="number">0</span>);</span><br><span class="line">                    &#125;</span><br><span class="line">                    updateIndexText(pos - <span class="number">1</span>);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (mCurrentPosition != pos) &#123;</span><br><span class="line">        mCurrentPosition = pos;</span><br><span class="line">        indexViewTv.setY(<span class="number">0</span>);</span><br><span class="line">        <span class="keyword">if</span> (dy &gt; <span class="number">0</span>) &#123;</span><br><span class="line">            updateIndexText(mCurrentPosition);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 根据当前可见 item 的位置判断是否要隐藏顶部悬浮索引</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> pos 第一个可见 item 的位置</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">hideOrShow</span><span class="params">(<span class="keyword">int</span> pos)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (pos == <span class="number">0</span> || pos == <span class="number">1</span>) &#123;</span><br><span class="line">        indexViewTv.setVisibility(View.GONE);</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        indexViewTv.setVisibility(View.VISIBLE);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 根据 RecyclerView 的位置设置正确的悬浮索引内容</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> pos 第一个可见 item 的位置</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">updateIndexText</span><span class="params">(<span class="keyword">int</span> pos)</span> </span>&#123;</span><br><span class="line">    String s = adapter.getIndexStrFromPosition(pos);</span><br><span class="line">    <span class="keyword">if</span> (s != <span class="keyword">null</span>) &#123;</span><br><span class="line">        indexViewTv.setText(s);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>可以用于当做悬浮在顶部的索引的 ViewType 只有 Type_Loc_title 和 Type_letter_index ，因此需要判断首个可见 item 是否处于这两者及其知识内容的范围以内，也就是首个可见 item 是否是 Type_city 或者 Type_Current_City。<br>在下面一个索引距离顶部一个索引的高度的时候，将悬浮索引盖在顶部索引的上面，随着下面的索引的移动同时向上移动，即模拟被顶上去的效果，当下面这个索引完全到达顶部的时候，悬浮索引也被完全移出去了，此时再将悬浮索引盖在现在这个索引的上面，就是新的索引了。<br>压下来的效果同理，把悬浮索引放在当前第一个索引的顶部，随着可见索引的移动而移动，当可见的索引移动到距离顶部一个索引视图的距离的时候，停止悬浮索引的移动，就是前一个索引了。</p>
-<h5 id="搜索"><a href="#搜索" class="headerlink" title="搜索"></a>搜索</h5><p>由于搜索栏是在 adapter 中初始化的，直接在这个视图的基础操作并不方便，因此在点击搜索栏的时候由 Activity 重新操作一层 View 用于搜索交互，很多 App 也都是这么做的，包括美团，如果为了视觉体验更好，就需要添加过度动画，我这里就省了。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">setSearchBar</span><span class="params">(SearchHolder holder)</span> </span>&#123;</span><br><span class="line">    holder.searchBar.setOnClickListener(<span class="keyword">new</span> View.OnClickListener() &#123;</span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onClick</span><span class="params">(View v)</span> </span>&#123;</span><br><span class="line">            Message msg = Message.obtain();</span><br><span class="line">            msg.what = Event.SEARCH_CITY;</span><br><span class="line">            EventManager.getInstance().publishEvent(msg);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>CityActivity.class<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onNewEvent</span><span class="params">(Message msg)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (msg.what == Event.CITY_CHOOSE_OK) &#123;</span><br><span class="line">        String cityId = (String) msg.obj;</span><br><span class="line">        changeCurrentCity(cityId);</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (msg.what == Event.SEARCH_CITY) &#123;</span><br><span class="line">        searchLayout.setVisibility(View.VISIBLE);</span><br><span class="line">        searchBar.requestFocus();</span><br><span class="line">        inputMethodManager.showSoftInput(searchBar, <span class="number">0</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>搜索栏被点击的时候，向宿主 Activity 发送一条消息，表示开启搜索交互。<br>searchLayout 是盖在普通视图上面的一层，不进行搜索交互的时候是隐藏的，收到消息后便显示出来。</p>
-<h5 id="关键字高亮"><a href="#关键字高亮" class="headerlink" title="关键字高亮"></a>关键字高亮</h5><p>这个就比较简单了，也不需要正则匹配，简单匹配即可, SpannableStringBuilder 是可以直接作为 text 被设置的：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 高亮显示列表中的搜索关键字</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> searchStr 搜索关键字</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> txt       全部文本</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@return</span> 含高亮的文本</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">private</span> SpannableStringBuilder <span class="title">setSearchStrHighLight</span><span class="params">(String searchStr, String txt)</span> </span>&#123;</span><br><span class="line">    SpannableStringBuilder builder = <span class="keyword">new</span> SpannableStringBuilder(txt);</span><br><span class="line">    Pattern p = Pattern.compile(searchStr);</span><br><span class="line">    Matcher matcher = p.matcher(txt);</span><br><span class="line">    <span class="keyword">while</span> (matcher.find()) &#123;</span><br><span class="line">        builder.setSpan(<span class="keyword">new</span> ForegroundColorSpan(</span><br><span class="line">                        getResources().getColor(R.color.colorPrimary)),</span><br><span class="line">                matcher.start(), matcher.end(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> builder;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<h5 id="字母快速导航"><a href="#字母快速导航" class="headerlink" title="字母快速导航"></a>字母快速导航</h5><p>也就是右侧的字母触摸导航，需要自定义 View 实现，也是个比较简单的自定义 View：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">LetterIndexView</span> <span class="keyword">extends</span> <span class="title">View</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> String TAG = <span class="string">"LetterIndexView"</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> List&lt;String&gt; indexs = Arrays.asList(<span class="string">"#"</span>, <span class="string">"A"</span>, <span class="string">"B"</span>, <span class="string">"C"</span>, <span class="string">"D"</span>, <span class="string">"E"</span>, <span class="string">"F"</span>, <span class="string">"G"</span>, <span class="string">"H"</span>, <span class="string">"I"</span>, <span class="string">"J"</span>,</span><br><span class="line">            <span class="string">"K"</span>, <span class="string">"L"</span>, <span class="string">"M"</span>, <span class="string">"N"</span>, <span class="string">"O"</span>, <span class="string">"P"</span>, <span class="string">"Q"</span>, <span class="string">"R"</span>, <span class="string">"S"</span>, <span class="string">"T"</span>,</span><br><span class="line">            <span class="string">"U"</span>, <span class="string">"V"</span>, <span class="string">"W"</span>, <span class="string">"X"</span>, <span class="string">"Y"</span>, <span class="string">"Z"</span>);</span><br><span class="line">    <span class="keyword">private</span> Paint paint;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> cellWidth;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> cellHeight;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> curIndex = -<span class="number">1</span>;</span><br><span class="line">    <span class="keyword">private</span> OnIndexChangeListener mListener;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> paddingLeft;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> paddingRight;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> paddingTop;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> paddingBottom;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setIndexs</span><span class="params">(List&lt;String&gt; indexs)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.indexs = indexs;</span><br><span class="line">        invalidate();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">LetterIndexView</span><span class="params">(Context context)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>(context, <span class="keyword">null</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">LetterIndexView</span><span class="params">(Context context, @Nullable AttributeSet attrs)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>(context, attrs, <span class="number">0</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">LetterIndexView</span><span class="params">(Context context, @Nullable AttributeSet attrs, <span class="keyword">int</span> defStyleAttr)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>(context, attrs, defStyleAttr);</span><br><span class="line">        paint = <span class="keyword">new</span> Paint();</span><br><span class="line">        paint.setColor(getResources().getColor(R.color.colorPrimary));</span><br><span class="line">        paint.setAntiAlias(<span class="keyword">true</span>);</span><br><span class="line">        paint.setTextSize(Utils.dp2px(<span class="number">12</span>));</span><br><span class="line">        paint.setFakeBoldText(<span class="keyword">true</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onSizeChanged</span><span class="params">(<span class="keyword">int</span> w, <span class="keyword">int</span> h, <span class="keyword">int</span> oldw, <span class="keyword">int</span> oldh)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>.onSizeChanged(w, h, oldw, oldh);</span><br><span class="line">        paddingLeft = getPaddingLeft();</span><br><span class="line">        paddingRight = getPaddingRight();</span><br><span class="line">        paddingTop = getPaddingTop();</span><br><span class="line">        paddingBottom = getPaddingBottom();</span><br><span class="line">        cellWidth = getMeasuredWidth() - paddingLeft - paddingRight;</span><br><span class="line">        cellHeight = (getMeasuredHeight() - paddingTop - paddingBottom) / indexs.size();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onMeasure</span><span class="params">(<span class="keyword">int</span> widthMeasureSpec, <span class="keyword">int</span> heightMeasureSpec)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>.onMeasure(widthMeasureSpec, heightMeasureSpec);</span><br><span class="line">        <span class="keyword">int</span> widthSpecMode = MeasureSpec.getMode(widthMeasureSpec);</span><br><span class="line">        <span class="keyword">int</span> widthSpecSize = MeasureSpec.getSize(widthMeasureSpec);</span><br><span class="line">        <span class="keyword">int</span> heightSpecMode = MeasureSpec.getMode(heightMeasureSpec);</span><br><span class="line">        <span class="keyword">int</span> heightSpecSize = MeasureSpec.getSize(heightMeasureSpec);</span><br><span class="line">        <span class="keyword">if</span> (widthSpecMode == MeasureSpec.AT_MOST &amp;&amp; heightSpecMode == MeasureSpec.AT_MOST) &#123;</span><br><span class="line">            <span class="comment">//默认宽高</span></span><br><span class="line">            setMeasuredDimension(Utils.dp2px(<span class="number">20</span>), Utils.dp2px(<span class="number">17</span>) * indexs.size());</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (widthSpecMode == MeasureSpec.AT_MOST) &#123;</span><br><span class="line">            setMeasuredDimension(Utils.dp2px(<span class="number">20</span>), heightSpecSize);</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (heightSpecMode == MeasureSpec.AT_MOST) &#123;</span><br><span class="line">            setMeasuredDimension(widthSpecSize, Utils.dp2px(<span class="number">17</span>) * indexs.size());</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onDraw</span><span class="params">(Canvas canvas)</span> </span>&#123;</span><br><span class="line">        Log.d(TAG, <span class="string">"onDraw: "</span>);</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; indexs.size(); i++) &#123;</span><br><span class="line">            String c = indexs.get(i);</span><br><span class="line">            Rect bound = <span class="keyword">new</span> Rect();</span><br><span class="line">            paint.getTextBounds(c, <span class="number">0</span>, c.length(), bound);</span><br><span class="line">            <span class="keyword">int</span> x = (cellWidth - bound.width()) / <span class="number">2</span> + paddingLeft;</span><br><span class="line">            <span class="keyword">int</span> y = i * cellHeight + (cellHeight + bound.height()) / <span class="number">2</span> + paddingTop;</span><br><span class="line">            canvas.drawText(c, x, y, paint);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">onTouchEvent</span><span class="params">(MotionEvent event)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">switch</span> (event.getAction()) &#123;</span><br><span class="line">            <span class="keyword">case</span> MotionEvent.ACTION_DOWN:</span><br><span class="line">                updateIndex(event);</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            <span class="keyword">case</span> MotionEvent.ACTION_MOVE:</span><br><span class="line">                updateIndex(event);</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            <span class="keyword">case</span> MotionEvent.ACTION_UP:</span><br><span class="line">                curIndex = -<span class="number">1</span>;</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">updateIndex</span><span class="params">(MotionEvent event)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> y = (<span class="keyword">int</span>) event.getY();</span><br><span class="line">        <span class="keyword">int</span> index = y / cellHeight;</span><br><span class="line">        <span class="keyword">if</span> (index &gt;= <span class="number">0</span> &amp;&amp; index &lt; indexs.size()) &#123;</span><br><span class="line">            <span class="keyword">if</span> (index != curIndex) &#123;</span><br><span class="line">                curIndex = index;</span><br><span class="line">                <span class="keyword">if</span> (mListener != <span class="keyword">null</span>) &#123;</span><br><span class="line">                    mListener.onIndexChanged(indexs.get(index));</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setOnIndexChangeListener</span><span class="params">(OnIndexChangeListener listener)</span> </span>&#123;</span><br><span class="line">        mListener = listener;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">OnIndexChangeListener</span> </span>&#123;</span><br><span class="line">        <span class="function"><span class="keyword">void</span> <span class="title">onIndexChanged</span><span class="params">(String index)</span></span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>索引导航有默认的显示内容，也可以自定义重新绘制。在触摸按下和移动的时候计算出触摸的索引位置然后通过 listener 通知到宿主 Activity 更改城市列表的内容即可，功能很简单。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line">indexView.setOnIndexChangeListener(<span class="keyword">new</span> LetterIndexView.OnIndexChangeListener() &#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onIndexChanged</span><span class="params">(String index)</span> </span>&#123;</span><br><span class="line">        updateCityView(index);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 根据右侧字母导航快速变换可见范围</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> index 导航内容</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">updateCityView</span><span class="params">(String index)</span> </span>&#123;</span><br><span class="line">    LinearLayoutManager manager = (LinearLayoutManager) cityLayout.getLayoutManager();</span><br><span class="line">    <span class="keyword">if</span> (index.equals(<span class="string">"#"</span>)) &#123;</span><br><span class="line">        manager.scrollToPositionWithOffset(<span class="number">0</span>, <span class="number">0</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (index.equals(<span class="string">"!"</span>)) &#123;</span><br><span class="line">        manager.scrollToPositionWithOffset(<span class="number">2</span>, <span class="number">0</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (cityList != <span class="keyword">null</span> &amp;&amp; cityList.size() &gt; <span class="number">0</span>) &#123;</span><br><span class="line">        <span class="comment">//通过比较确定目标位置</span></span><br><span class="line">        List&lt;String&gt; list = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">        <span class="keyword">int</span> pos = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; cityList.size(); i++) &#123;</span><br><span class="line">            <span class="keyword">if</span> (!list.contains(cityList.get(i).getSurName())) &#123;</span><br><span class="line">                list.add(cityList.get(i).getSurName());</span><br><span class="line">                pos = i;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span> (list.get(list.size() - <span class="number">1</span>).equals(index)) &#123;</span><br><span class="line">                manager.scrollToPositionWithOffset(<span class="number">4</span> + list.size() + pos - <span class="number">1</span>, <span class="number">0</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//延迟更改顶部悬浮索引的内容，否则会在内容没有完全更新之前设置，导致索引不搭配</span></span><br><span class="line">    cityLayout.post(<span class="keyword">new</span> Runnable() &#123;</span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">            updateIndexText(layoutManager.findFirstVisibleItemPosition());</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>最终效果：</p>
-<p><img src="https://oa3wvfmvl.bkt.clouddn.com/city_selector.gif" alt></p>
+<h3 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h3><h5 id="布局"><a href="#布局" class="headerlink" title="布局"></a>布局</h5><p>从上面的图很容易就知道，位置处于 0 ~ 3 的 ViewType 已经确定了，那如何确定城市和城市首字母索引对应位置的 ViewType 呢？简单，暴力匹配即可：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="keyword">public</span> <span class="type">int</span> <span class="title function_">getItemViewType</span><span class="params">(<span class="type">int</span> position)</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (position == <span class="number">0</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> TYPE_SEARCH;<span class="comment">//搜索栏</span></span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (position == <span class="number">1</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> TYPE_CURRENT;<span class="comment">//当前城市</span></span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (position == <span class="number">2</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> TYPE_LOC_TITLE;<span class="comment">//定位城市标签</span></span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (position == <span class="number">3</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> TYPE_LOC_CITY;<span class="comment">//定位城市</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    List&lt;String&gt; letters = <span class="keyword">new</span> <span class="title class_">ArrayList</span>&lt;&gt;();</span><br><span class="line">    letters.add(cityList.get(<span class="number">0</span>).getSurName());</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; cityList.size(); i++) &#123;</span><br><span class="line">        <span class="keyword">if</span> (!letters.contains(cityList.get(i).getSurName())) &#123;</span><br><span class="line">            letters.add(cityList.get(i).getSurName());</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (<span class="number">4</span> + letters.size() + i - <span class="number">1</span> == position) &#123;</span><br><span class="line">            <span class="keyword">return</span> TYPE_LETTER;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (<span class="number">4</span> + letters.size() + i == position) &#123;</span><br><span class="line">            <span class="keyword">return</span> TYPE_CITY;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">super</span>.getItemViewType(position);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><br>也就是遍历城市列表，先保存第一个城市的首字母到索引列表，然后每遍历一个城市，判断其首字母是否已经在索引列表中，存在就跳过，当前位置就是城市视图，不存在就加入首字母到索引，当前位置就是这个字母索引视图了。</p>
+<p>这么一来，就很容易知道所有视图的数量了：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="keyword">public</span> <span class="type">int</span> <span class="title function_">getItemCount</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (cityList == <span class="literal">null</span> || cityList.size() == <span class="number">0</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">4</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="type">int</span> <span class="variable">letterCount</span> <span class="operator">=</span> getLetterCount();</span><br><span class="line">    <span class="keyword">return</span> letterCount + cityList.size() + <span class="number">4</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><br>即总数=城市数量+字母索引的数量+顶部的几个视图。</p>
+<p>字母索引的数量可以通过遍历城市列表获取：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="type">int</span> <span class="title function_">getLetterCount</span><span class="params">()</span> &#123;</span><br><span class="line">    letters = <span class="keyword">new</span> <span class="title class_">ArrayList</span>&lt;&gt;();</span><br><span class="line">    <span class="keyword">for</span> (City c : cityList) &#123;</span><br><span class="line">        <span class="keyword">if</span> (!letters.contains(c.getSurName())) &#123;</span><br><span class="line">            letters.add(c.getSurName());</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> letters.size();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h5 id="索引冻结"><a href="#索引冻结" class="headerlink" title="索引冻结"></a>索引冻结</h5><p>列表滑动的时候，最上面的城市的首字母索引要停留在顶部，继续滑动就被下面的另一个城市列表的字母代替，这里体现为顶上去和压下来的效果，其实就是监听列表的滑动额外控制一个 View 层的滑动。<br>为列表设置 OnScrollListener ，在 onScrolled 方法中作出响应：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">onScrolled</span><span class="params">(RecyclerView recyclerView, <span class="type">int</span> dx, <span class="type">int</span> dy)</span> &#123;</span><br><span class="line">    <span class="built_in">super</span>.onScrolled(recyclerView, dx, dy);</span><br><span class="line">    lockTopIndex(dy);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title function_">lockTopIndex</span><span class="params">(<span class="type">int</span> dy)</span> &#123;</span><br><span class="line">    mSuspensionHeight = indexViewTv.getHeight();</span><br><span class="line">    <span class="type">int</span> <span class="variable">pos</span> <span class="operator">=</span> layoutManager.findFirstVisibleItemPosition();</span><br><span class="line">    hideOrShow(pos);</span><br><span class="line">    <span class="keyword">if</span> (dy &gt; <span class="number">0</span>) &#123;<span class="comment">//向上滑动的时候，下面的索引将上面的索引顶出去</span></span><br><span class="line">        <span class="keyword">if</span> (adapter != <span class="literal">null</span>) &#123;</span><br><span class="line">            <span class="type">View</span> <span class="variable">view</span> <span class="operator">=</span> layoutManager.findViewByPosition(pos + <span class="number">1</span>);</span><br><span class="line">            <span class="keyword">if</span> (view != <span class="literal">null</span> &amp;&amp; adapter.getItemViewType(pos + <span class="number">1</span>) == CityAdapter.TYPE_LETTER) &#123;</span><br><span class="line">                <span class="keyword">if</span> (view.getTop() &lt;= mSuspensionHeight) &#123;</span><br><span class="line">                    indexViewTv.setY(-(mSuspensionHeight - view.getTop()));</span><br><span class="line">                &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                    indexViewTv.setY(<span class="number">0</span>);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;<span class="comment">//向下滑动的时候，上面的索引将下面的索引压下来</span></span><br><span class="line">        <span class="keyword">if</span> (adapter != <span class="literal">null</span> &amp;&amp; pos &gt;= <span class="number">2</span>) &#123;</span><br><span class="line">            <span class="type">int</span> <span class="variable">type</span> <span class="operator">=</span> adapter.getItemViewType(pos);</span><br><span class="line">            <span class="keyword">if</span> (type == CityAdapter.TYPE_CITY</span><br><span class="line">                    || type == CityAdapter.TYPE_LOC_CITY) &#123;</span><br><span class="line">                <span class="type">View</span> <span class="variable">view</span> <span class="operator">=</span> layoutManager.findViewByPosition(pos);<span class="comment">//目标字母索引</span></span><br><span class="line">                <span class="keyword">if</span> (view != <span class="literal">null</span>) &#123;</span><br><span class="line">                    <span class="keyword">if</span> (view.getBottom() &gt;= <span class="number">0</span> &amp;&amp; view.getBottom() &lt;= mSuspensionHeight) &#123;</span><br><span class="line">                        <span class="keyword">if</span> (adapter.getItemViewType(pos) != adapter.getItemViewType(pos + <span class="number">1</span>)) &#123;</span><br><span class="line">                            <span class="comment">//跟随目标逐渐上移</span></span><br><span class="line">                            indexViewTv.setY(view.getBottom() - mSuspensionHeight);</span><br><span class="line">                        &#125;</span><br><span class="line">                    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                        <span class="comment">//将悬浮索引归位</span></span><br><span class="line">                        indexViewTv.setY(<span class="number">0</span>);</span><br><span class="line">                    &#125;</span><br><span class="line">                    updateIndexText(pos - <span class="number">1</span>);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (mCurrentPosition != pos) &#123;</span><br><span class="line">        mCurrentPosition = pos;</span><br><span class="line">        indexViewTv.setY(<span class="number">0</span>);</span><br><span class="line">        <span class="keyword">if</span> (dy &gt; <span class="number">0</span>) &#123;</span><br><span class="line">            updateIndexText(mCurrentPosition);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 根据当前可见 item 的位置判断是否要隐藏顶部悬浮索引</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> pos 第一个可见 item 的位置</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title function_">hideOrShow</span><span class="params">(<span class="type">int</span> pos)</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (pos == <span class="number">0</span> || pos == <span class="number">1</span>) &#123;</span><br><span class="line">        indexViewTv.setVisibility(View.GONE);</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        indexViewTv.setVisibility(View.VISIBLE);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 根据 RecyclerView 的位置设置正确的悬浮索引内容</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> pos 第一个可见 item 的位置</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title function_">updateIndexText</span><span class="params">(<span class="type">int</span> pos)</span> &#123;</span><br><span class="line">    <span class="type">String</span> <span class="variable">s</span> <span class="operator">=</span> adapter.getIndexStrFromPosition(pos);</span><br><span class="line">    <span class="keyword">if</span> (s != <span class="literal">null</span>) &#123;</span><br><span class="line">        indexViewTv.setText(s);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><br>可以用于当做悬浮在顶部的索引的 ViewType 只有 Type_Loc_title 和 Type_letter_index ，因此需要判断首个可见 item 是否处于这两者及其知识内容的范围以内，也就是首个可见 item 是否是 Type_city 或者 Type_Current_City。<br>在下面一个索引距离顶部一个索引的高度的时候，将悬浮索引盖在顶部索引的上面，随着下面的索引的移动同时向上移动，即模拟被顶上去的效果，当下面这个索引完全到达顶部的时候，悬浮索引也被完全移出去了，此时再将悬浮索引盖在现在这个索引的上面，就是新的索引了。<br>压下来的效果同理，把悬浮索引放在当前第一个索引的顶部，随着可见索引的移动而移动，当可见的索引移动到距离顶部一个索引视图的距离的时候，停止悬浮索引的移动，就是前一个索引了。</p>
+<h5 id="搜索"><a href="#搜索" class="headerlink" title="搜索"></a>搜索</h5><p>由于搜索栏是在 adapter 中初始化的，直接在这个视图的基础操作并不方便，因此在点击搜索栏的时候由 Activity 重新操作一层 View 用于搜索交互，很多 App 也都是这么做的，包括美团，如果为了视觉体验更好，就需要添加过度动画，我这里就省了。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title function_">setSearchBar</span><span class="params">(SearchHolder holder)</span> &#123;</span><br><span class="line">    holder.searchBar.setOnClickListener(<span class="keyword">new</span> <span class="title class_">View</span>.OnClickListener() &#123;</span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">onClick</span><span class="params">(View v)</span> &#123;</span><br><span class="line">            <span class="type">Message</span> <span class="variable">msg</span> <span class="operator">=</span> Message.obtain();</span><br><span class="line">            msg.what = Event.SEARCH_CITY;</span><br><span class="line">            EventManager.getInstance().publishEvent(msg);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>CityActivity.class<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">onNewEvent</span><span class="params">(Message msg)</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (msg.what == Event.CITY_CHOOSE_OK) &#123;</span><br><span class="line">        <span class="type">String</span> <span class="variable">cityId</span> <span class="operator">=</span> (String) msg.obj;</span><br><span class="line">        changeCurrentCity(cityId);</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (msg.what == Event.SEARCH_CITY) &#123;</span><br><span class="line">        searchLayout.setVisibility(View.VISIBLE);</span><br><span class="line">        searchBar.requestFocus();</span><br><span class="line">        inputMethodManager.showSoftInput(searchBar, <span class="number">0</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure><br>搜索栏被点击的时候，向宿主 Activity 发送一条消息，表示开启搜索交互。<br>searchLayout 是盖在普通视图上面的一层，不进行搜索交互的时候是隐藏的，收到消息后便显示出来。</p>
+<h5 id="关键字高亮"><a href="#关键字高亮" class="headerlink" title="关键字高亮"></a>关键字高亮</h5><p>这个就比较简单了，也不需要正则匹配，简单匹配即可, SpannableStringBuilder 是可以直接作为 text 被设置的：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 高亮显示列表中的搜索关键字</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> searchStr 搜索关键字</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> txt       全部文本</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@return</span> 含高亮的文本</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">private</span> SpannableStringBuilder <span class="title function_">setSearchStrHighLight</span><span class="params">(String searchStr, String txt)</span> &#123;</span><br><span class="line">    <span class="type">SpannableStringBuilder</span> <span class="variable">builder</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">SpannableStringBuilder</span>(txt);</span><br><span class="line">    <span class="type">Pattern</span> <span class="variable">p</span> <span class="operator">=</span> Pattern.compile(searchStr);</span><br><span class="line">    <span class="type">Matcher</span> <span class="variable">matcher</span> <span class="operator">=</span> p.matcher(txt);</span><br><span class="line">    <span class="keyword">while</span> (matcher.find()) &#123;</span><br><span class="line">        builder.setSpan(<span class="keyword">new</span> <span class="title class_">ForegroundColorSpan</span>(</span><br><span class="line">                        getResources().getColor(R.color.colorPrimary)),</span><br><span class="line">                matcher.start(), matcher.end(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> builder;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h5 id="字母快速导航"><a href="#字母快速导航" class="headerlink" title="字母快速导航"></a>字母快速导航</h5><p>也就是右侧的字母触摸导航，需要自定义 View 实现，也是个比较简单的自定义 View：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">LetterIndexView</span> <span class="keyword">extends</span> <span class="title class_">View</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">String</span> <span class="variable">TAG</span> <span class="operator">=</span> <span class="string">&quot;LetterIndexView&quot;</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> List&lt;String&gt; indexs = Arrays.asList(<span class="string">&quot;#&quot;</span>, <span class="string">&quot;A&quot;</span>, <span class="string">&quot;B&quot;</span>, <span class="string">&quot;C&quot;</span>, <span class="string">&quot;D&quot;</span>, <span class="string">&quot;E&quot;</span>, <span class="string">&quot;F&quot;</span>, <span class="string">&quot;G&quot;</span>, <span class="string">&quot;H&quot;</span>, <span class="string">&quot;I&quot;</span>, <span class="string">&quot;J&quot;</span>,</span><br><span class="line">            <span class="string">&quot;K&quot;</span>, <span class="string">&quot;L&quot;</span>, <span class="string">&quot;M&quot;</span>, <span class="string">&quot;N&quot;</span>, <span class="string">&quot;O&quot;</span>, <span class="string">&quot;P&quot;</span>, <span class="string">&quot;Q&quot;</span>, <span class="string">&quot;R&quot;</span>, <span class="string">&quot;S&quot;</span>, <span class="string">&quot;T&quot;</span>,</span><br><span class="line">            <span class="string">&quot;U&quot;</span>, <span class="string">&quot;V&quot;</span>, <span class="string">&quot;W&quot;</span>, <span class="string">&quot;X&quot;</span>, <span class="string">&quot;Y&quot;</span>, <span class="string">&quot;Z&quot;</span>);</span><br><span class="line">    <span class="keyword">private</span> Paint paint;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="type">int</span> cellWidth;</span><br><span class="line">    <span class="keyword">private</span> <span class="type">int</span> cellHeight;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="type">int</span> <span class="variable">curIndex</span> <span class="operator">=</span> -<span class="number">1</span>;</span><br><span class="line">    <span class="keyword">private</span> OnIndexChangeListener mListener;</span><br><span class="line">    <span class="keyword">private</span> <span class="type">int</span> paddingLeft;</span><br><span class="line">    <span class="keyword">private</span> <span class="type">int</span> paddingRight;</span><br><span class="line">    <span class="keyword">private</span> <span class="type">int</span> paddingTop;</span><br><span class="line">    <span class="keyword">private</span> <span class="type">int</span> paddingBottom;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">setIndexs</span><span class="params">(List&lt;String&gt; indexs)</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.indexs = indexs;</span><br><span class="line">        invalidate();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">LetterIndexView</span><span class="params">(Context context)</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>(context, <span class="literal">null</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">LetterIndexView</span><span class="params">(Context context, <span class="meta">@Nullable</span> AttributeSet attrs)</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>(context, attrs, <span class="number">0</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">LetterIndexView</span><span class="params">(Context context, <span class="meta">@Nullable</span> AttributeSet attrs, <span class="type">int</span> defStyleAttr)</span> &#123;</span><br><span class="line">        <span class="built_in">super</span>(context, attrs, defStyleAttr);</span><br><span class="line">        paint = <span class="keyword">new</span> <span class="title class_">Paint</span>();</span><br><span class="line">        paint.setColor(getResources().getColor(R.color.colorPrimary));</span><br><span class="line">        paint.setAntiAlias(<span class="literal">true</span>);</span><br><span class="line">        paint.setTextSize(Utils.dp2px(<span class="number">12</span>));</span><br><span class="line">        paint.setFakeBoldText(<span class="literal">true</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">protected</span> <span class="keyword">void</span> <span class="title function_">onSizeChanged</span><span class="params">(<span class="type">int</span> w, <span class="type">int</span> h, <span class="type">int</span> oldw, <span class="type">int</span> oldh)</span> &#123;</span><br><span class="line">        <span class="built_in">super</span>.onSizeChanged(w, h, oldw, oldh);</span><br><span class="line">        paddingLeft = getPaddingLeft();</span><br><span class="line">        paddingRight = getPaddingRight();</span><br><span class="line">        paddingTop = getPaddingTop();</span><br><span class="line">        paddingBottom = getPaddingBottom();</span><br><span class="line">        cellWidth = getMeasuredWidth() - paddingLeft - paddingRight;</span><br><span class="line">        cellHeight = (getMeasuredHeight() - paddingTop - paddingBottom) / indexs.size();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">protected</span> <span class="keyword">void</span> <span class="title function_">onMeasure</span><span class="params">(<span class="type">int</span> widthMeasureSpec, <span class="type">int</span> heightMeasureSpec)</span> &#123;</span><br><span class="line">        <span class="built_in">super</span>.onMeasure(widthMeasureSpec, heightMeasureSpec);</span><br><span class="line">        <span class="type">int</span> <span class="variable">widthSpecMode</span> <span class="operator">=</span> MeasureSpec.getMode(widthMeasureSpec);</span><br><span class="line">        <span class="type">int</span> <span class="variable">widthSpecSize</span> <span class="operator">=</span> MeasureSpec.getSize(widthMeasureSpec);</span><br><span class="line">        <span class="type">int</span> <span class="variable">heightSpecMode</span> <span class="operator">=</span> MeasureSpec.getMode(heightMeasureSpec);</span><br><span class="line">        <span class="type">int</span> <span class="variable">heightSpecSize</span> <span class="operator">=</span> MeasureSpec.getSize(heightMeasureSpec);</span><br><span class="line">        <span class="keyword">if</span> (widthSpecMode == MeasureSpec.AT_MOST &amp;&amp; heightSpecMode == MeasureSpec.AT_MOST) &#123;</span><br><span class="line">            <span class="comment">//默认宽高</span></span><br><span class="line">            setMeasuredDimension(Utils.dp2px(<span class="number">20</span>), Utils.dp2px(<span class="number">17</span>) * indexs.size());</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (widthSpecMode == MeasureSpec.AT_MOST) &#123;</span><br><span class="line">            setMeasuredDimension(Utils.dp2px(<span class="number">20</span>), heightSpecSize);</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (heightSpecMode == MeasureSpec.AT_MOST) &#123;</span><br><span class="line">            setMeasuredDimension(widthSpecSize, Utils.dp2px(<span class="number">17</span>) * indexs.size());</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">protected</span> <span class="keyword">void</span> <span class="title function_">onDraw</span><span class="params">(Canvas canvas)</span> &#123;</span><br><span class="line">        Log.d(TAG, <span class="string">&quot;onDraw: &quot;</span>);</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; indexs.size(); i++) &#123;</span><br><span class="line">            <span class="type">String</span> <span class="variable">c</span> <span class="operator">=</span> indexs.get(i);</span><br><span class="line">            <span class="type">Rect</span> <span class="variable">bound</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Rect</span>();</span><br><span class="line">            paint.getTextBounds(c, <span class="number">0</span>, c.length(), bound);</span><br><span class="line">            <span class="type">int</span> <span class="variable">x</span> <span class="operator">=</span> (cellWidth - bound.width()) / <span class="number">2</span> + paddingLeft;</span><br><span class="line">            <span class="type">int</span> <span class="variable">y</span> <span class="operator">=</span> i * cellHeight + (cellHeight + bound.height()) / <span class="number">2</span> + paddingTop;</span><br><span class="line">            canvas.drawText(c, x, y, paint);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="type">boolean</span> <span class="title function_">onTouchEvent</span><span class="params">(MotionEvent event)</span> &#123;</span><br><span class="line">        <span class="keyword">switch</span> (event.getAction()) &#123;</span><br><span class="line">            <span class="keyword">case</span> MotionEvent.ACTION_DOWN:</span><br><span class="line">                updateIndex(event);</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            <span class="keyword">case</span> MotionEvent.ACTION_MOVE:</span><br><span class="line">                updateIndex(event);</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            <span class="keyword">case</span> MotionEvent.ACTION_UP:</span><br><span class="line">                curIndex = -<span class="number">1</span>;</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">void</span> <span class="title function_">updateIndex</span><span class="params">(MotionEvent event)</span> &#123;</span><br><span class="line">        <span class="type">int</span> <span class="variable">y</span> <span class="operator">=</span> (<span class="type">int</span>) event.getY();</span><br><span class="line">        <span class="type">int</span> <span class="variable">index</span> <span class="operator">=</span> y / cellHeight;</span><br><span class="line">        <span class="keyword">if</span> (index &gt;= <span class="number">0</span> &amp;&amp; index &lt; indexs.size()) &#123;</span><br><span class="line">            <span class="keyword">if</span> (index != curIndex) &#123;</span><br><span class="line">                curIndex = index;</span><br><span class="line">                <span class="keyword">if</span> (mListener != <span class="literal">null</span>) &#123;</span><br><span class="line">                    mListener.onIndexChanged(indexs.get(index));</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">setOnIndexChangeListener</span><span class="params">(OnIndexChangeListener listener)</span> &#123;</span><br><span class="line">        mListener = listener;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">interface</span> <span class="title class_">OnIndexChangeListener</span> &#123;</span><br><span class="line">        <span class="keyword">void</span> <span class="title function_">onIndexChanged</span><span class="params">(String index)</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><br>索引导航有默认的显示内容，也可以自定义重新绘制。在触摸按下和移动的时候计算出触摸的索引位置然后通过 listener 通知到宿主 Activity 更改城市列表的内容即可，功能很简单。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line">indexView.setOnIndexChangeListener(<span class="keyword">new</span> <span class="title class_">LetterIndexView</span>.OnIndexChangeListener() &#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">onIndexChanged</span><span class="params">(String index)</span> &#123;</span><br><span class="line">        updateCityView(index);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 根据右侧字母导航快速变换可见范围</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> index 导航内容</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title function_">updateCityView</span><span class="params">(String index)</span> &#123;</span><br><span class="line">    <span class="type">LinearLayoutManager</span> <span class="variable">manager</span> <span class="operator">=</span> (LinearLayoutManager) cityLayout.getLayoutManager();</span><br><span class="line">    <span class="keyword">if</span> (index.equals(<span class="string">&quot;#&quot;</span>)) &#123;</span><br><span class="line">        manager.scrollToPositionWithOffset(<span class="number">0</span>, <span class="number">0</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (index.equals(<span class="string">&quot;!&quot;</span>)) &#123;</span><br><span class="line">        manager.scrollToPositionWithOffset(<span class="number">2</span>, <span class="number">0</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (cityList != <span class="literal">null</span> &amp;&amp; cityList.size() &gt; <span class="number">0</span>) &#123;</span><br><span class="line">        <span class="comment">//通过比较确定目标位置</span></span><br><span class="line">        List&lt;String&gt; list = <span class="keyword">new</span> <span class="title class_">ArrayList</span>&lt;&gt;();</span><br><span class="line">        <span class="type">int</span> <span class="variable">pos</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; cityList.size(); i++) &#123;</span><br><span class="line">            <span class="keyword">if</span> (!list.contains(cityList.get(i).getSurName())) &#123;</span><br><span class="line">                list.add(cityList.get(i).getSurName());</span><br><span class="line">                pos = i;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span> (list.get(list.size() - <span class="number">1</span>).equals(index)) &#123;</span><br><span class="line">                manager.scrollToPositionWithOffset(<span class="number">4</span> + list.size() + pos - <span class="number">1</span>, <span class="number">0</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//延迟更改顶部悬浮索引的内容，否则会在内容没有完全更新之前设置，导致索引不搭配</span></span><br><span class="line">    cityLayout.post(<span class="keyword">new</span> <span class="title class_">Runnable</span>() &#123;</span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">run</span><span class="params">()</span> &#123;</span><br><span class="line">            updateIndexText(layoutManager.findFirstVisibleItemPosition());</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><br>最终效果：</p>
+<p><img src="https://oa3wvfmvl.bkt.clouddn.com/city_selector.gif" alt=""></p>
 <h3 id="Summary"><a href="#Summary" class="headerlink" title="Summary"></a>Summary</h3><p>功能实现基本上就是这样，但是这样的实现方式其实并不是很好，现在都讲究组件化，这样的一个功能如果能够封装成独立的组件，即用即插，使用的方便性会很好多。但是封装涉及到页面的显示效果，城市对象的 POJO 类，要封装成符合所有 App 风格和需求就没那么容易了。</p>
 
-      
     </div>
 
     
-
-    
-    
-    
-
-    
-
-    
-      
     
     
 
-    
-
-    <footer class="post-footer">
-      
-        <div class="post-tags">
-          
-            <a href="/tags/RecyclerView/" rel="tag"># RecyclerView</a>
-          
-            <a href="/tags/LetterIndexView/" rel="tag"># LetterIndexView</a>
-          
-        </div>
-      
-
-      
-      
-      
-
-      
-        <div class="post-nav">
-          <div class="post-nav-next post-nav-item">
-            
-              <a href="/2017/05/22/carousel-pager-practice-and-encapsulation/" rel="next" title="轮播页面实践与封装">
-                <i class="fa fa-chevron-left"></i> 轮播页面实践与封装
-              </a>
-            
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/RecyclerView/" rel="tag"># RecyclerView</a>
+              <a href="/tags/LetterIndexView/" rel="tag"># LetterIndexView</a>
           </div>
 
-          <span class="post-nav-divider"></span>
+        
 
-          <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2017/07/28/best-way-to-start-activiity/" rel="prev" title="开启 Activity 最佳实践">
-                开启 Activity 最佳实践 <i class="fa fa-chevron-right"></i>
-              </a>
-            
-          </div>
-        </div>
-      
 
-      
-      
-    </footer>
-  </div>
-  
-  
-  
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2017/05/22/carousel-pager-practice-and-encapsulation/" rel="prev" title="轮播页面实践与封装">
+      <i class="fa fa-chevron-left"></i> 轮播页面实践与封装
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2017/07/28/best-way-to-start-activiity/" rel="next" title="开启 Activity 最佳实践">
+      开启 Activity 最佳实践 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
   </article>
+  
+  
+  
 
-
-  </div>
 
 
           </div>
           
-
-  
-    <div class="comments" id="comments">
-    </div>
-
-  
-
-
-
-        </div>
-        
-          
-  
-  <div class="sidebar-toggle">
-    <div class="sidebar-toggle-line-wrap">
-      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
-      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
-      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
-    </div>
-  </div>
-
-  <aside id="sidebar" class="sidebar">
-    <div class="sidebar-inner">
-
-      
-
-      
-        <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
-            Table of Contents
-          </li>
-          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
-            Overview
-          </li>
-        </ul>
-      
-
-      <div class="site-overview-wrap sidebar-panel">
-        <div class="site-overview">
-          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
-            
-              <p class="site-author-name" itemprop="name">Alpha Gao</p>
-              <div class="site-description motion-element" itemprop="description">You will be what you want.</div>
-          </div>
-
-          
-            <nav class="site-state motion-element">
-              
-                <div class="site-state-item site-state-posts">
-                
-                  <a href="/archives/">
-                
-                    <span class="site-state-item-count">56</span>
-                    <span class="site-state-item-name">posts</span>
-                  </a>
-                </div>
-              
-
-              
-                
-                
-                <div class="site-state-item site-state-categories">
-                  
-                    
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                    <span class="site-state-item-count">12</span>
-                    <span class="site-state-item-name">categories</span>
-                  
-                </div>
-              
-
-              
-                
-                
-                <div class="site-state-item site-state-tags">
-                  
-                    
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                    <span class="site-state-item-count">100</span>
-                    <span class="site-state-item-name">tags</span>
-                  
-                </div>
-              
-            </nav>
-          
-
-          
-
-          
-
-          
-
-          
-          
-
-          
-            
-          
-          
-
-        </div>
-      </div>
-
-      
-      <!--noindex-->
-        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
-          <div class="post-toc">
-
-            
-            
-            
-            
-
-            
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#需求"><span class="nav-number">1.</span> <span class="nav-text">需求</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#设计"><span class="nav-number">2.</span> <span class="nav-text">设计</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#实现"><span class="nav-number">3.</span> <span class="nav-text">实现</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#布局"><span class="nav-number">3.0.1.</span> <span class="nav-text">布局</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#索引冻结"><span class="nav-number">3.0.2.</span> <span class="nav-text">索引冻结</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#搜索"><span class="nav-number">3.0.3.</span> <span class="nav-text">搜索</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#关键字高亮"><span class="nav-number">3.0.4.</span> <span class="nav-text">关键字高亮</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#字母快速导航"><span class="nav-number">3.0.5.</span> <span class="nav-text">字母快速导航</span></a></li></ol></li></ol><li class="nav-item nav-level-3"><a class="nav-link" href="#Summary"><span class="nav-number">4.</span> <span class="nav-text">Summary</span></a></li></div>
-            
-
-          </div>
-        </div>
-      <!--/noindex-->
-      
-
-      
-        <div class="back-to-top">
-          <i class="fa fa-arrow-up"></i>
-          
-            <span id="scrollpercent"><span>0</span>%</span>
-          
-        </div>
-      
-
-    </div>
-  </aside>
-  
-
-
-        
-      </div>
-    </main>
-
-    <footer id="footer" class="footer">
-      <div class="footer-inner">
-        <div class="copyright">  <a href="http://www.miitbeian.gov.cn" rel="noopener" target="_blank">陇ICP备17000389号 </a>&copy; <span itemprop="copyrightYear">2022</span>
-  <span class="with-love" id="animate">
-    <i class="fa fa-Alpha Gao"></i>
-  </span>
-  <span class="author" itemprop="copyrightHolder">Alpha Gao</span>
-
-  
-
-  
-</div>
-
-
-  <div class="powered-by">Powered by <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> v3.9.0</div>
-
-
-
-  <span class="post-meta-divider">|</span>
-
-
-
-  <div class="theme-info">Theme – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> v7.0.1</div>
-
-
-
-
-        
-
-
-
-
-
-
-
-
-        
-      </div>
-    </footer>
-
-    
-
-    
-
-    
-
-    
-  </div>
-
-  
+    <div class="comments" id="valine-comments"></div>
 
 <script>
-  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
-    window.Promise = null;
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
   }
 </script>
 
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%9C%80%E6%B1%82"><span class="nav-number">1.</span> <span class="nav-text">需求</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AE%BE%E8%AE%A1"><span class="nav-number">2.</span> <span class="nav-text">设计</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%9E%E7%8E%B0"><span class="nav-number">3.</span> <span class="nav-text">实现</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%B8%83%E5%B1%80"><span class="nav-number">3.0.1.</span> <span class="nav-text">布局</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E7%B4%A2%E5%BC%95%E5%86%BB%E7%BB%93"><span class="nav-number">3.0.2.</span> <span class="nav-text">索引冻结</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%90%9C%E7%B4%A2"><span class="nav-number">3.0.3.</span> <span class="nav-text">搜索</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%85%B3%E9%94%AE%E5%AD%97%E9%AB%98%E4%BA%AE"><span class="nav-number">3.0.4.</span> <span class="nav-text">关键字高亮</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%AD%97%E6%AF%8D%E5%BF%AB%E9%80%9F%E5%AF%BC%E8%88%AA"><span class="nav-number">3.0.5.</span> <span class="nav-text">字母快速导航</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Summary"><span class="nav-number">4.</span> <span class="nav-text">Summary</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Alpha Gao</p>
+  <div class="site-description" itemprop="description">You will be what you want.</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">56</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">12</span>
+        <span class="site-state-item-name">categories</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">100</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2025</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Alpha Gao</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a>
+  </div>
+
+        
 
 
 
@@ -1019,8 +439,29 @@
 
 
 
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
 
 
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
 
 
 
@@ -1037,110 +478,37 @@
 
 
   
-  <script src="/lib/jquery/index.js?v=2.1.3"></script>
-
-  
-  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
-
-  
-  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
-
 
   
 
-
-  <script src="/js/src/utils.js?v=7.0.1"></script>
-
-  <script src="/js/src/motion.js?v=7.0.1"></script>
-
-
-
-  
-  
-
-
-  <script src="/js/src/schemes/muse.js?v=7.0.1"></script>
-
-
-
-  
-  <script src="/js/src/scrollspy.js?v=7.0.1"></script>
-<script src="/js/src/post-details.js?v=7.0.1"></script>
-
-
-
-  
-
-
-  <script src="/js/src/next-boot.js?v=7.0.1"></script>
-
-
-  
-  
-  
-
-<script src="//cdn1.lncld.net/static/js/3.11.1/av-min.js"></script>
-
-
-
-<script src="//unpkg.com/valine/dist/Valine.min.js"></script>
 
 <script>
-  var GUEST = ['nick', 'mail', 'link'];
-  var guest = 'nick,mail,link';
-  guest = guest.split(',').filter(function(item) {
-    return GUEST.indexOf(item) > -1;
-  });
-  new Valine({
-    el: '#comments',
-    verify: false,
-    notify: false,
-    appId: 'H96xxLo0hzG4azqx9XRPBLGe-gzGzoHsz',
-    appKey: 'NPnxUKfUoUn6iIlWOyvA1WgE',
-    placeholder: 'Just say anything',
-    avatar: 'mm',
-    meta: guest,
-    pageSize: '10' || 10,
-    visitor: false
-  });
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : true,
+      appId      : 'H96xxLo0hzG4azqx9XRPBLGe-gzGzoHsz',
+      appKey     : 'NPnxUKfUoUn6iIlWOyvA1WgE',
+      placeholder: "Just Say Anything",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : true,
+      lang       : 'en' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : true,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
 </script>
-
-
-
-
-  
-
-
-  
-
-
-
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
 
 </body>
 </html>

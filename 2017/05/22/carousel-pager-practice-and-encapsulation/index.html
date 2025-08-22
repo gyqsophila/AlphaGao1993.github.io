@@ -1,126 +1,50 @@
 <!DOCTYPE html>
-
-
-
-
-
-
-
-
-
-
-
-
-  
-
-
-<html class="theme-next muse use-motion" lang="zh-Hans">
-<head><meta name="generator" content="Hexo 3.9.0">
+<html lang="zh-Hans">
+<head>
   <meta charset="UTF-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
 <meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 7.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
 
 
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
-
-<link rel="stylesheet" href="/css/main.css?v=7.0.1">
-
-
-  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.0.1">
-
-
-  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.0.1">
-
-
-  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.0.1">
-
-
-  <link rel="mask-icon" href="/images/logo.svg?v=7.0.1" color="#222">
-
-
-
-
-
-
-
-<script id="hexo.configurations">
-  var NexT = window.NexT || {};
-  var CONFIG = {
-    root: '/',
-    scheme: 'Muse',
-    version: '7.0.1',
-    sidebar: {"position":"left","display":"hide","offset":12,"b2t":true,"scrollpercent":true,"onmobile":false,"dimmer":false},
-    fancybox: false,
-    fastclick: false,
-    lazyload: false,
-    tabs: true,
-    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
-    algolia: {
-      applicationID: '',
-      apiKey: '',
-      indexName: '',
-      hits: {"per_page":10},
-      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
-    }
-  };
-</script>
-
-
-  
-
-
-
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"alphagao.com","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"hide","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
 
   <meta name="description" content="ANR 与 无限轮播以前跟着课程做过一个无限轮播的 Demo ，原理就是 Adapter 的 getCount() 返回 Integer.MaxValue 加上子线程控制页面切换。但是这几天在用这种模式的时候发现一个隐藏的坑，有很高几率触发 ANR，这可是不得了的问题（我就不说为了找到这个 ANR 原因花了多大功夫）。在这种模式下，当更新 ViewPager 的数据源的时候，基本上百分百会导致 A">
-<meta name="keywords" content="Handler,Carousel,ViewPager">
 <meta property="og:type" content="article">
 <meta property="og:title" content="轮播页面实践与封装">
-<meta property="og:url" content="alphagao.com/2017/05/22/carousel-pager-practice-and-encapsulation/index.html">
+<meta property="og:url" content="https://alphagao.com/2017/05/22/carousel-pager-practice-and-encapsulation/index.html">
 <meta property="og:site_name" content="Here&#39;s to Change">
 <meta property="og:description" content="ANR 与 无限轮播以前跟着课程做过一个无限轮播的 Demo ，原理就是 Adapter 的 getCount() 返回 Integer.MaxValue 加上子线程控制页面切换。但是这几天在用这种模式的时候发现一个隐藏的坑，有很高几率触发 ANR，这可是不得了的问题（我就不说为了找到这个 ANR 原因花了多大功夫）。在这种模式下，当更新 ViewPager 的数据源的时候，基本上百分百会导致 A">
-<meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2017-08-07T09:41:54.000Z">
+<meta property="og:locale">
+<meta property="article:published_time" content="2017-05-22T03:10:16.000Z">
+<meta property="article:modified_time" content="2017-08-07T09:41:54.000Z">
+<meta property="article:author" content="Alpha Gao">
+<meta property="article:tag" content="Handler">
+<meta property="article:tag" content="Carousel">
+<meta property="article:tag" content="ViewPager">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="轮播页面实践与封装">
-<meta name="twitter:description" content="ANR 与 无限轮播以前跟着课程做过一个无限轮播的 Demo ，原理就是 Adapter 的 getCount() 返回 Integer.MaxValue 加上子线程控制页面切换。但是这几天在用这种模式的时候发现一个隐藏的坑，有很高几率触发 ANR，这可是不得了的问题（我就不说为了找到这个 ANR 原因花了多大功夫）。在这种模式下，当更新 ViewPager 的数据源的时候，基本上百分百会导致 A">
+
+<link rel="canonical" href="https://alphagao.com/2017/05/22/carousel-pager-practice-and-encapsulation/">
 
 
-
-
-
-
-  <link rel="canonical" href="alphagao.com/2017/05/22/carousel-pager-practice-and-encapsulation/">
-
-
-
-<script id="page.configurations">
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
   CONFIG.page = {
     sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-Hans'
   };
 </script>
 
@@ -132,15 +56,8 @@
 
 
 
-
-
-
-
-
-
   <noscript>
   <style>
-  .use-motion .motion-element,
   .use-motion .brand,
   .use-motion .menu-item,
   .sidebar-inner,
@@ -149,9 +66,8 @@
   .use-motion .comments,
   .use-motion .post-header,
   .use-motion .post-body,
-  .use-motion .collection-title { opacity: initial; }
+  .use-motion .collection-header { opacity: initial; }
 
-  .use-motion .logo,
   .use-motion .site-title,
   .use-motion .site-subtitle {
     opacity: initial;
@@ -165,153 +81,69 @@
 
 </head>
 
-<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
-
-  
-  
-    
-  
-
-  <div class="container sidebar-position-left page-post-detail">
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
     <div class="headband"></div>
 
-    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
-      <div class="header-inner"><div class="site-brand-wrapper">
-  <div class="site-meta">
-    
-
-    <div class="custom-logo-site-title">
-      <a href="/" class="brand" rel="start">
-        <span class="logo-line-before"><i></i></span>
-        <span class="site-title">Here's to Change</span>
-        <span class="logo-line-after"><i></i></span>
-      </a>
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
     </div>
-    
-      
-        <p class="site-subtitle">请问你真的有在努力吗 ？</p>
-      
-    
-    
   </div>
 
-  <div class="site-nav-toggle">
-    <button aria-label="Toggle navigation bar">
-      <span class="btn-bar"></span>
-      <span class="btn-bar"></span>
-      <span class="btn-bar"></span>
-    </button>
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Here's to Change</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">请问你真的有在努力吗 ？</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
   </div>
 </div>
 
 
 
+
 <nav class="site-nav">
-  
-    <ul id="menu" class="menu">
-      
-        
-        
-        
-          
-          <li class="menu-item menu-item-home">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
 
-    
-    
-    
-      
-    
-
-    
-
-    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>Home</a>
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
 
   </li>
-        
-        
-        
-          
-          <li class="menu-item menu-item-categories">
+        <li class="menu-item menu-item-about">
 
-    
-    
-    
-      
-    
-
-    
-
-    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>Categories</a>
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a>
 
   </li>
-        
-        
-        
-          
-          <li class="menu-item menu-item-tags">
+        <li class="menu-item menu-item-tags">
 
-    
-    
-    
-      
-    
-
-    
-
-    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>Tags</a>
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a>
 
   </li>
-        
-        
-        
-          
-          <li class="menu-item menu-item-archives">
+        <li class="menu-item menu-item-categories">
 
-    
-    
-    
-      
-    
-
-    
-
-    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>Archives</a>
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a>
 
   </li>
-        
-        
-        
-          
-          <li class="menu-item menu-item-about">
+        <li class="menu-item menu-item-archives">
 
-    
-    
-    
-      
-    
-
-    
-
-    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>About</a>
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
 
   </li>
-
-      
-      
-    </ul>
-  
-
-  
-    
-
-  
-
-  
+  </ul>
 </nav>
 
-
-
-  
 
 
 
@@ -319,146 +151,91 @@
     </header>
 
     
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
 
 
-    <main id="main" class="main">
+    <main class="main">
       <div class="main-inner">
         <div class="content-wrap">
           
-          <div id="content" class="content">
+
+          <div class="content post posts-expand">
             
 
-  <div id="posts" class="posts-expand">
     
-
-  
-
   
   
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="alphagao.com/2017/05/22/carousel-pager-practice-and-encapsulation/">
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="https://alphagao.com/2017/05/22/carousel-pager-practice-and-encapsulation/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
       <meta itemprop="name" content="Alpha Gao">
       <meta itemprop="description" content="You will be what you want.">
-      <meta itemprop="image" content="/images/avatar.gif">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
       <meta itemprop="name" content="Here's to Change">
     </span>
-
-    
       <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">轮播页面实践与封装
-
-              
-            
-          </h1>
-        
+        <h1 class="post-title" itemprop="name headline">
+          轮播页面实践与封装
+        </h1>
 
         <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
+            <span class="post-meta-item">
               <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
+                <i class="far fa-calendar"></i>
               </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-
-              
-                
-              
+              <span class="post-meta-item-text">Posted on</span>
 
               <time title="Created: 2017-05-22 11:10:16" itemprop="dateCreated datePublished" datetime="2017-05-22T11:10:16+08:00">2017-05-22</time>
-            
-
-            
-              
-
-              
-                
-                <span class="post-meta-divider">|</span>
-                
-
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">Edited on</span>
-                
-                <time title="Modified: 2017-08-07 17:41:54" itemprop="dateModified" datetime="2017-08-07T17:41:54+08:00">2017-08-07</time>
-              
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Android/" itemprop="url" rel="index"><span itemprop="name">Android</span></a></span>
-
-                
-                
-              
             </span>
-          
-
-          
-            
-            
-              
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
+              <span class="post-meta-item">
                 <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
+                  <i class="far fa-calendar-check"></i>
                 </span>
-            
-                <span class="post-meta-item-text">Comments: </span>
-                <a href="/2017/05/22/carousel-pager-practice-and-encapsulation/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/2017/05/22/carousel-pager-practice-and-encapsulation/" itemprop="commentCount"></span>
-                </a>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2017-08-07 17:41:54" itemprop="dateModified" datetime="2017-08-07T17:41:54+08:00">2017-08-07</time>
               </span>
-            
-          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Android/" itemprop="url" rel="index"><span itemprop="name">Android</span></a>
+                </span>
+            </span>
 
           
-          
-
-          
-
-          
-
-          
+            <span id="/2017/05/22/carousel-pager-practice-and-encapsulation/" class="post-meta-item leancloud_visitors" data-flag-title="轮播页面实践与封装" title="Views">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">Views: </span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine: </span>
+    
+    <a title="valine" href="/2017/05/22/carousel-pager-practice-and-encapsulation/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2017/05/22/carousel-pager-practice-and-encapsulation/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
 
         </div>
       </header>
-    
 
     
     
@@ -466,511 +243,158 @@
     <div class="post-body" itemprop="articleBody">
 
       
-      
-
-      
-        <h3 id="ANR-与-无限轮播"><a href="#ANR-与-无限轮播" class="headerlink" title="ANR 与 无限轮播"></a>ANR 与 无限轮播</h3><p>以前跟着课程做过一个无限轮播的 Demo ，原理就是 Adapter 的 <code>getCount()</code> 返回 Integer.MaxValue 加上子线程控制页面切换。但是这几天在用这种模式的时候发现一个隐藏的坑，有很高几率触发 ANR，这可是不得了的问题（我就不说为了找到这个 ANR 原因花了多大功夫）。在这种模式下，当更新 ViewPager 的数据源的时候，基本上百分百会导致 ANR ，原因就是 PagerAdapter 的 <code>getCount()</code>返回一个很大的值，再调用 <code>setCurrentItem()</code> 更新页面，如果引起的页面跨度超过 1，例如从第 3 页跳转到第 1 页，就会导致 ANR。<br><a id="more"></a><br>通过阅读源码，在 <code>populate(int newCurrentItem)</code>和<code>calculatePageOffsets(ItemInfo curItem, int curIndex, ItemInfo oldCurInfo)</code>这两个方法中，有 for 循环的执行次数和 <code>getCount()</code> 成正比<a href="http://www.cnblogs.com/everhad/p/5599269.html" target="_blank" rel="noopener">[1]</a>,但是在第一次执行 <code>setCurrentItem()</code> 却不会引起 ANR，同时该方法的第二个参数与是否会引起 ANR 并没有关系。</p>
+        <h3 id="ANR-与-无限轮播"><a href="#ANR-与-无限轮播" class="headerlink" title="ANR 与 无限轮播"></a>ANR 与 无限轮播</h3><p>以前跟着课程做过一个无限轮播的 Demo ，原理就是 Adapter 的 <code>getCount()</code> 返回 Integer.MaxValue 加上子线程控制页面切换。但是这几天在用这种模式的时候发现一个隐藏的坑，有很高几率触发 ANR，这可是不得了的问题（我就不说为了找到这个 ANR 原因花了多大功夫）。在这种模式下，当更新 ViewPager 的数据源的时候，基本上百分百会导致 ANR ，原因就是 PagerAdapter 的 <code>getCount()</code>返回一个很大的值，再调用 <code>setCurrentItem()</code> 更新页面，如果引起的页面跨度超过 1，例如从第 3 页跳转到第 1 页，就会导致 ANR。<br><span id="more"></span><br>通过阅读源码，在 <code>populate(int newCurrentItem)</code>和<code>calculatePageOffsets(ItemInfo curItem, int curIndex, ItemInfo oldCurInfo)</code>这两个方法中，有 for 循环的执行次数和 <code>getCount()</code> 成正比<a href="http://www.cnblogs.com/everhad/p/5599269.html">[1]</a>,但是在第一次执行 <code>setCurrentItem()</code> 却不会引起 ANR，同时该方法的第二个参数与是否会引起 ANR 并没有关系。</p>
 <p>因为这个原因，综合考虑我就 <code>getCount()</code> 中返回 <code>1000 * data.size()</code> 即可。设置 currentItem 为 <code>getCount() / 2 - (getCount() % data.size()</code> ，这样左右都能滑动 500 次，又可以避免 ANR，已经能够满足基本的使用了。</p>
 <h3 id="自动轮播"><a href="#自动轮播" class="headerlink" title="自动轮播"></a>自动轮播</h3><p>ViewPager 的自动轮播可以用多种方式控制实现，开个子线程，开个定时器，用个 Handler，都是可以的。但是这其中，无疑以 Handler 方式为最佳。子线程虽然也不错，但是子线程的开启是为了保证主线程不卡顿，一般开子线程是为了完成某个独立的耗时任务，这种任务通常都是由封装好的线程池去执行，要避免在 App 中充斥着闲散的子线程。至于定时器，与 Handler 最大的区别就是 timer 的任务不能单独取消，若要取消就会取消全部任务。</p>
-<p>具体的逻辑见 AutoCarouselHandler 源码：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">AutoCarouselHandler</span> <span class="keyword">extends</span> <span class="title">Handler</span> </span>&#123;</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 请求更新页面</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> MSG_UPDATE_IMAGE = <span class="number">1</span>;</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 请求暂停轮播</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> MSG_KEEP_SILENT = <span class="number">2</span>;</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 请求停止轮播</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> MSG_STOP_UPDATE = <span class="number">3</span>;</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 默认轮播间隔时间，用户触摸等待时间</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">long</span> MSG_DELAY = <span class="number">5000</span>;</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 使用弱引用避免 Handler 泄露</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">private</span> WeakReference&lt;ViewPager&gt; pagerRef;</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 轮播间隔时间</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">long</span> carouselMillis;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">AutoCarouselHandler</span><span class="params">(WeakReference&lt;ViewPager&gt; pagerRef)</span> </span>&#123;</span><br><span class="line">        carouselMillis = MSG_DELAY;</span><br><span class="line">        <span class="keyword">this</span>.pagerRef = pagerRef;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">AutoCarouselHandler</span><span class="params">(WeakReference&lt;ViewPager&gt; pagerRef, <span class="keyword">long</span> carouselMillis)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.carouselMillis = carouselMillis;</span><br><span class="line">        <span class="keyword">this</span>.pagerRef = pagerRef;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">handleMessage</span><span class="params">(Message msg)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>.handleMessage(msg);</span><br><span class="line">        ViewPager viewPager = pagerRef.get();</span><br><span class="line">        <span class="keyword">if</span> (viewPager == <span class="keyword">null</span>) &#123;</span><br><span class="line">            <span class="comment">//viewPager 已经回收，无需再处理 UI 了</span></span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//避免多次刷新导致积累连续刷新</span></span><br><span class="line">        <span class="keyword">if</span> (hasMessages(AutoCarouselHandler.MSG_UPDATE_IMAGE)) &#123;</span><br><span class="line">            removeMessages(AutoCarouselHandler.MSG_UPDATE_IMAGE);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">switch</span> (msg.what) &#123;</span><br><span class="line">            <span class="keyword">case</span> MSG_UPDATE_IMAGE:</span><br><span class="line">                <span class="keyword">int</span> pos = viewPager.getCurrentItem();</span><br><span class="line">                viewPager.setCurrentItem(pos + <span class="number">1</span>);</span><br><span class="line">                <span class="comment">//准备下次播放</span></span><br><span class="line">                sendEmptyMessageDelayed(MSG_UPDATE_IMAGE, carouselMillis);</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            <span class="keyword">case</span> MSG_KEEP_SILENT:</span><br><span class="line">                <span class="comment">//触摸，取消更新AD的消息</span></span><br><span class="line">                <span class="keyword">if</span> (hasMessages(MSG_UPDATE_IMAGE)) &#123;</span><br><span class="line">                    removeMessages(MSG_UPDATE_IMAGE);</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="comment">//重新开始计时，如果继续暂停，那么继续取消</span></span><br><span class="line">                sendEmptyMessageDelayed(MSG_UPDATE_IMAGE, (Long) msg.obj);</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            <span class="keyword">case</span> MSG_STOP_UPDATE:</span><br><span class="line">                <span class="comment">//停止轮播,清空所有计划</span></span><br><span class="line">                <span class="keyword">if</span> (hasMessages(MSG_UPDATE_IMAGE)) &#123;</span><br><span class="line">                    removeMessages(MSG_UPDATE_IMAGE);</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">if</span> (hasMessages(MSG_KEEP_SILENT)) &#123;</span><br><span class="line">                    removeMessages(MSG_KEEP_SILENT);</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            <span class="keyword">default</span>:</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>AutoCarouselHandler 是对所有通用轮播 Handler 的一个封装，可以适用于大部分的自动轮播的需求。根据这个 Handler ，来看看 PageAdapter 要如何构建：<br>为了结构清晰，我定义了一个 Carouselable 接口，里面包含三个方法：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">   <span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Carouselable</span> </span>&#123;</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 开始轮播</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">startCarousel</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 停止轮播</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">stopCarousel</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 暂停轮播，自动恢复轮播，默认暂停时间为轮播的切换时间</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">pauseCarousel</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 暂停轮播，自主设置暂停轮播时间</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> millis</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">pauseCarousel</span><span class="params">(<span class="keyword">long</span> millis)</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>PagerAdapter 源码：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">AdPagerAdapter</span> <span class="keyword">extends</span> <span class="title">PagerAdapter</span> <span class="keyword">implements</span> <span class="title">Carouselable</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">long</span> NORMAL_CAROUSEL_MILLIS = <span class="number">5000</span>;</span><br><span class="line">    <span class="keyword">private</span> List&lt;ImageView&gt; adViewList;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> count;</span><br><span class="line">    <span class="keyword">private</span> Handler handler;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">long</span> carouselMillis;</span><br><span class="line">    <span class="keyword">private</span> WeakReference&lt;ViewPager&gt; pager;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">AdPagerAdapter</span><span class="params">(List&lt;ImageView&gt; adViewList, ViewPager viewPager)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>(adViewList, viewPager, NORMAL_CAROUSEL_MILLIS);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">AdPagerAdapter</span><span class="params">(List&lt;ImageView&gt; adViewList, ViewPager viewPager, <span class="keyword">long</span> carouselMillis)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.adViewList = adViewList;</span><br><span class="line">        <span class="keyword">this</span>.carouselMillis = carouselMillis;</span><br><span class="line">        pager = <span class="keyword">new</span> WeakReference&lt;&gt;(viewPager);</span><br><span class="line">        handler = <span class="keyword">new</span> AutoCarouselHandler(pager, carouselMillis);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getCount</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">1000</span> * adViewList.size();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">isViewFromObject</span><span class="params">(View view, Object object)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> view == object;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Object <span class="title">instantiateItem</span><span class="params">(ViewGroup container, <span class="keyword">int</span> position)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> pos = position % adViewList.size();</span><br><span class="line">        pos = pos &lt; <span class="number">0</span> ? position + adViewList.size() : pos;</span><br><span class="line">        ViewGroup parent = (ViewGroup) adViewList.get(pos).getParent();</span><br><span class="line">        <span class="keyword">if</span> (parent != <span class="keyword">null</span>) &#123;</span><br><span class="line">            parent.removeView(adViewList.get(pos));</span><br><span class="line">        &#125;</span><br><span class="line">        container.addView(adViewList.get(pos));</span><br><span class="line">        <span class="keyword">return</span> adViewList.get(pos);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">destroyItem</span><span class="params">(ViewGroup container, <span class="keyword">int</span> position, Object object)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (adViewList.size() &gt; <span class="number">3</span>) &#123;</span><br><span class="line">            container.removeView((View) object);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getItemPosition</span><span class="params">(Object object)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (count &gt; <span class="number">0</span>) &#123;</span><br><span class="line">            count--;</span><br><span class="line">            <span class="keyword">return</span> POSITION_NONE;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">super</span>.getItemPosition(object);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">notifyDataSetChanged</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        count = getCount();</span><br><span class="line">        <span class="keyword">super</span>.notifyDataSetChanged();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">startCarousel</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> pos = getCount() / <span class="number">2</span> - (getCount() % adViewList.size());</span><br><span class="line">        pager.get().setCurrentItem(pos);</span><br><span class="line">        handler.sendEmptyMessageDelayed(AutoCarouselHandler.MSG_UPDATE_IMAGE, carouselMillis);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">stopCarousel</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        handler.sendEmptyMessage(AutoCarouselHandler.MSG_STOP_UPDATE);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">pauseCarousel</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        pauseCarousel(carouselMillis);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">pauseCarousel</span><span class="params">(<span class="keyword">long</span> millis)</span> </span>&#123;</span><br><span class="line">        Message msg = Message.obtain();</span><br><span class="line">        msg.what = AutoCarouselHandler.MSG_KEEP_SILENT;</span><br><span class="line">        msg.obj = millis;</span><br><span class="line">        handler.sendMessage(msg);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>如果要在用户触摸 ViewPager 的时候暂停轮播，只需要在 onTouchLIstener 的 <code>onTouch()</code> 中发送暂停轮播的消息即可：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">onTouch</span><span class="params">(View v, MotionEvent event)</span> </span>&#123;</span><br><span class="line">    <span class="comment">//暂停轮播</span></span><br><span class="line">    adPagerAdapter.pauseCarousel();</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>具体的逻辑见 AutoCarouselHandler 源码：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">AutoCarouselHandler</span> <span class="keyword">extends</span> <span class="title class_">Handler</span> &#123;</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 请求更新页面</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">int</span> <span class="variable">MSG_UPDATE_IMAGE</span> <span class="operator">=</span> <span class="number">1</span>;</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 请求暂停轮播</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">int</span> <span class="variable">MSG_KEEP_SILENT</span> <span class="operator">=</span> <span class="number">2</span>;</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 请求停止轮播</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">int</span> <span class="variable">MSG_STOP_UPDATE</span> <span class="operator">=</span> <span class="number">3</span>;</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 默认轮播间隔时间，用户触摸等待时间</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">long</span> <span class="variable">MSG_DELAY</span> <span class="operator">=</span> <span class="number">5000</span>;</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 使用弱引用避免 Handler 泄露</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">private</span> WeakReference&lt;ViewPager&gt; pagerRef;</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 轮播间隔时间</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">private</span> <span class="type">long</span> carouselMillis;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">AutoCarouselHandler</span><span class="params">(WeakReference&lt;ViewPager&gt; pagerRef)</span> &#123;</span><br><span class="line">        carouselMillis = MSG_DELAY;</span><br><span class="line">        <span class="built_in">this</span>.pagerRef = pagerRef;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">AutoCarouselHandler</span><span class="params">(WeakReference&lt;ViewPager&gt; pagerRef, <span class="type">long</span> carouselMillis)</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.carouselMillis = carouselMillis;</span><br><span class="line">        <span class="built_in">this</span>.pagerRef = pagerRef;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">handleMessage</span><span class="params">(Message msg)</span> &#123;</span><br><span class="line">        <span class="built_in">super</span>.handleMessage(msg);</span><br><span class="line">        <span class="type">ViewPager</span> <span class="variable">viewPager</span> <span class="operator">=</span> pagerRef.get();</span><br><span class="line">        <span class="keyword">if</span> (viewPager == <span class="literal">null</span>) &#123;</span><br><span class="line">            <span class="comment">//viewPager 已经回收，无需再处理 UI 了</span></span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//避免多次刷新导致积累连续刷新</span></span><br><span class="line">        <span class="keyword">if</span> (hasMessages(AutoCarouselHandler.MSG_UPDATE_IMAGE)) &#123;</span><br><span class="line">            removeMessages(AutoCarouselHandler.MSG_UPDATE_IMAGE);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">switch</span> (msg.what) &#123;</span><br><span class="line">            <span class="keyword">case</span> MSG_UPDATE_IMAGE:</span><br><span class="line">                <span class="type">int</span> <span class="variable">pos</span> <span class="operator">=</span> viewPager.getCurrentItem();</span><br><span class="line">                viewPager.setCurrentItem(pos + <span class="number">1</span>);</span><br><span class="line">                <span class="comment">//准备下次播放</span></span><br><span class="line">                sendEmptyMessageDelayed(MSG_UPDATE_IMAGE, carouselMillis);</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            <span class="keyword">case</span> MSG_KEEP_SILENT:</span><br><span class="line">                <span class="comment">//触摸，取消更新AD的消息</span></span><br><span class="line">                <span class="keyword">if</span> (hasMessages(MSG_UPDATE_IMAGE)) &#123;</span><br><span class="line">                    removeMessages(MSG_UPDATE_IMAGE);</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="comment">//重新开始计时，如果继续暂停，那么继续取消</span></span><br><span class="line">                sendEmptyMessageDelayed(MSG_UPDATE_IMAGE, (Long) msg.obj);</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            <span class="keyword">case</span> MSG_STOP_UPDATE:</span><br><span class="line">                <span class="comment">//停止轮播,清空所有计划</span></span><br><span class="line">                <span class="keyword">if</span> (hasMessages(MSG_UPDATE_IMAGE)) &#123;</span><br><span class="line">                    removeMessages(MSG_UPDATE_IMAGE);</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">if</span> (hasMessages(MSG_KEEP_SILENT)) &#123;</span><br><span class="line">                    removeMessages(MSG_KEEP_SILENT);</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            <span class="keyword">default</span>:</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><br>AutoCarouselHandler 是对所有通用轮播 Handler 的一个封装，可以适用于大部分的自动轮播的需求。根据这个 Handler ，来看看 PageAdapter 要如何构建：<br>为了结构清晰，我定义了一个 Carouselable 接口，里面包含三个方法：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">   <span class="keyword">public</span> <span class="keyword">interface</span> <span class="title class_">Carouselable</span> &#123;</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 开始轮播</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">void</span> <span class="title function_">startCarousel</span><span class="params">()</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 停止轮播</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">void</span> <span class="title function_">stopCarousel</span><span class="params">()</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 暂停轮播，自动恢复轮播，默认暂停时间为轮播的切换时间</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">void</span> <span class="title function_">pauseCarousel</span><span class="params">()</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 暂停轮播，自主设置暂停轮播时间</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> millis</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">void</span> <span class="title function_">pauseCarousel</span><span class="params">(<span class="type">long</span> millis)</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>PagerAdapter 源码：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">AdPagerAdapter</span> <span class="keyword">extends</span> <span class="title class_">PagerAdapter</span> <span class="keyword">implements</span> <span class="title class_">Carouselable</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">long</span> <span class="variable">NORMAL_CAROUSEL_MILLIS</span> <span class="operator">=</span> <span class="number">5000</span>;</span><br><span class="line">    <span class="keyword">private</span> List&lt;ImageView&gt; adViewList;</span><br><span class="line">    <span class="keyword">private</span> <span class="type">int</span> count;</span><br><span class="line">    <span class="keyword">private</span> Handler handler;</span><br><span class="line">    <span class="keyword">private</span> <span class="type">long</span> carouselMillis;</span><br><span class="line">    <span class="keyword">private</span> WeakReference&lt;ViewPager&gt; pager;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">AdPagerAdapter</span><span class="params">(List&lt;ImageView&gt; adViewList, ViewPager viewPager)</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>(adViewList, viewPager, NORMAL_CAROUSEL_MILLIS);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">AdPagerAdapter</span><span class="params">(List&lt;ImageView&gt; adViewList, ViewPager viewPager, <span class="type">long</span> carouselMillis)</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.adViewList = adViewList;</span><br><span class="line">        <span class="built_in">this</span>.carouselMillis = carouselMillis;</span><br><span class="line">        pager = <span class="keyword">new</span> <span class="title class_">WeakReference</span>&lt;&gt;(viewPager);</span><br><span class="line">        handler = <span class="keyword">new</span> <span class="title class_">AutoCarouselHandler</span>(pager, carouselMillis);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">getCount</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">1000</span> * adViewList.size();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="type">boolean</span> <span class="title function_">isViewFromObject</span><span class="params">(View view, Object object)</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> view == object;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> Object <span class="title function_">instantiateItem</span><span class="params">(ViewGroup container, <span class="type">int</span> position)</span> &#123;</span><br><span class="line">        <span class="type">int</span> <span class="variable">pos</span> <span class="operator">=</span> position % adViewList.size();</span><br><span class="line">        pos = pos &lt; <span class="number">0</span> ? position + adViewList.size() : pos;</span><br><span class="line">        <span class="type">ViewGroup</span> <span class="variable">parent</span> <span class="operator">=</span> (ViewGroup) adViewList.get(pos).getParent();</span><br><span class="line">        <span class="keyword">if</span> (parent != <span class="literal">null</span>) &#123;</span><br><span class="line">            parent.removeView(adViewList.get(pos));</span><br><span class="line">        &#125;</span><br><span class="line">        container.addView(adViewList.get(pos));</span><br><span class="line">        <span class="keyword">return</span> adViewList.get(pos);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">destroyItem</span><span class="params">(ViewGroup container, <span class="type">int</span> position, Object object)</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (adViewList.size() &gt; <span class="number">3</span>) &#123;</span><br><span class="line">            container.removeView((View) object);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">getItemPosition</span><span class="params">(Object object)</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (count &gt; <span class="number">0</span>) &#123;</span><br><span class="line">            count--;</span><br><span class="line">            <span class="keyword">return</span> POSITION_NONE;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">super</span>.getItemPosition(object);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">notifyDataSetChanged</span><span class="params">()</span> &#123;</span><br><span class="line">        count = getCount();</span><br><span class="line">        <span class="built_in">super</span>.notifyDataSetChanged();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">startCarousel</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="type">int</span> <span class="variable">pos</span> <span class="operator">=</span> getCount() / <span class="number">2</span> - (getCount() % adViewList.size());</span><br><span class="line">        pager.get().setCurrentItem(pos);</span><br><span class="line">        handler.sendEmptyMessageDelayed(AutoCarouselHandler.MSG_UPDATE_IMAGE, carouselMillis);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">stopCarousel</span><span class="params">()</span> &#123;</span><br><span class="line">        handler.sendEmptyMessage(AutoCarouselHandler.MSG_STOP_UPDATE);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">pauseCarousel</span><span class="params">()</span> &#123;</span><br><span class="line">        pauseCarousel(carouselMillis);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">pauseCarousel</span><span class="params">(<span class="type">long</span> millis)</span> &#123;</span><br><span class="line">        <span class="type">Message</span> <span class="variable">msg</span> <span class="operator">=</span> Message.obtain();</span><br><span class="line">        msg.what = AutoCarouselHandler.MSG_KEEP_SILENT;</span><br><span class="line">        msg.obj = millis;</span><br><span class="line">        handler.sendMessage(msg);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><br>如果要在用户触摸 ViewPager 的时候暂停轮播，只需要在 onTouchLIstener 的 <code>onTouch()</code> 中发送暂停轮播的消息即可：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="keyword">public</span> <span class="type">boolean</span> <span class="title function_">onTouch</span><span class="params">(View v, MotionEvent event)</span> &#123;</span><br><span class="line">    <span class="comment">//暂停轮播</span></span><br><span class="line">    adPagerAdapter.pauseCarousel();</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 <h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>其实要实现轮播并不复杂，关键是要实现一个健壮性较高的组件就比较苦难，就拿文章开头说的那种实现，如果没有去更新数据源，没有大跨度跳转页面，我可能永远都不知道原来一个 ANR 距离我们那么近还没有发现。而所做的一系列的看似复杂多余的工作都是为了更高的健壮性，并且虽然开头看似做了好多无用的工作，但是到了后面才会发现这是为以后做基础，在之后的开发里就会节省大量的时间。</p>
 
-      
     </div>
 
     
-
-    
-    
-    
-
-    
-
-    
-      
     
     
 
-    
-
-    <footer class="post-footer">
-      
-        <div class="post-tags">
-          
-            <a href="/tags/Handler/" rel="tag"># Handler</a>
-          
-            <a href="/tags/Carousel/" rel="tag"># Carousel</a>
-          
-            <a href="/tags/ViewPager/" rel="tag"># ViewPager</a>
-          
-        </div>
-      
-
-      
-      
-      
-
-      
-        <div class="post-nav">
-          <div class="post-nav-next post-nav-item">
-            
-              <a href="/2017/04/21/the-things-behind-setContentView-in-activity/" rel="next" title="setContentView 背后那些事儿">
-                <i class="fa fa-chevron-left"></i> setContentView 背后那些事儿
-              </a>
-            
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Handler/" rel="tag"># Handler</a>
+              <a href="/tags/Carousel/" rel="tag"># Carousel</a>
+              <a href="/tags/ViewPager/" rel="tag"># ViewPager</a>
           </div>
 
-          <span class="post-nav-divider"></span>
+        
 
-          <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2017/07/25/build-a-city-selector-page/" rel="prev" title="打造一个城市选择页面">
-                打造一个城市选择页面 <i class="fa fa-chevron-right"></i>
-              </a>
-            
-          </div>
-        </div>
-      
 
-      
-      
-    </footer>
-  </div>
-  
-  
-  
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2017/04/21/the-things-behind-setContentView-in-activity/" rel="prev" title="setContentView 背后那些事儿">
+      <i class="fa fa-chevron-left"></i> setContentView 背后那些事儿
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2017/07/25/build-a-city-selector-page/" rel="next" title="打造一个城市选择页面">
+      打造一个城市选择页面 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
   </article>
+  
+  
+  
 
-
-  </div>
 
 
           </div>
           
-
-  
-    <div class="comments" id="comments">
-    </div>
-
-  
-
-
-
-        </div>
-        
-          
-  
-  <div class="sidebar-toggle">
-    <div class="sidebar-toggle-line-wrap">
-      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
-      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
-      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
-    </div>
-  </div>
-
-  <aside id="sidebar" class="sidebar">
-    <div class="sidebar-inner">
-
-      
-
-      
-        <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
-            Table of Contents
-          </li>
-          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
-            Overview
-          </li>
-        </ul>
-      
-
-      <div class="site-overview-wrap sidebar-panel">
-        <div class="site-overview">
-          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
-            
-              <p class="site-author-name" itemprop="name">Alpha Gao</p>
-              <div class="site-description motion-element" itemprop="description">You will be what you want.</div>
-          </div>
-
-          
-            <nav class="site-state motion-element">
-              
-                <div class="site-state-item site-state-posts">
-                
-                  <a href="/archives/">
-                
-                    <span class="site-state-item-count">56</span>
-                    <span class="site-state-item-name">posts</span>
-                  </a>
-                </div>
-              
-
-              
-                
-                
-                <div class="site-state-item site-state-categories">
-                  
-                    
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                    <span class="site-state-item-count">12</span>
-                    <span class="site-state-item-name">categories</span>
-                  
-                </div>
-              
-
-              
-                
-                
-                <div class="site-state-item site-state-tags">
-                  
-                    
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                    <span class="site-state-item-count">100</span>
-                    <span class="site-state-item-name">tags</span>
-                  
-                </div>
-              
-            </nav>
-          
-
-          
-
-          
-
-          
-
-          
-          
-
-          
-            
-          
-          
-
-        </div>
-      </div>
-
-      
-      <!--noindex-->
-        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
-          <div class="post-toc">
-
-            
-            
-            
-            
-
-            
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#ANR-与-无限轮播"><span class="nav-number">1.</span> <span class="nav-text">ANR 与 无限轮播</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#自动轮播"><span class="nav-number">2.</span> <span class="nav-text">自动轮播</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#总结"><span class="nav-number">3.</span> <span class="nav-text">总结</span></a></li></ol></div>
-            
-
-          </div>
-        </div>
-      <!--/noindex-->
-      
-
-      
-        <div class="back-to-top">
-          <i class="fa fa-arrow-up"></i>
-          
-            <span id="scrollpercent"><span>0</span>%</span>
-          
-        </div>
-      
-
-    </div>
-  </aside>
-  
-
-
-        
-      </div>
-    </main>
-
-    <footer id="footer" class="footer">
-      <div class="footer-inner">
-        <div class="copyright">  <a href="http://www.miitbeian.gov.cn" rel="noopener" target="_blank">陇ICP备17000389号 </a>&copy; <span itemprop="copyrightYear">2022</span>
-  <span class="with-love" id="animate">
-    <i class="fa fa-Alpha Gao"></i>
-  </span>
-  <span class="author" itemprop="copyrightHolder">Alpha Gao</span>
-
-  
-
-  
-</div>
-
-
-  <div class="powered-by">Powered by <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> v3.9.0</div>
-
-
-
-  <span class="post-meta-divider">|</span>
-
-
-
-  <div class="theme-info">Theme – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> v7.0.1</div>
-
-
-
-
-        
-
-
-
-
-
-
-
-
-        
-      </div>
-    </footer>
-
-    
-
-    
-
-    
-
-    
-  </div>
-
-  
+    <div class="comments" id="valine-comments"></div>
 
 <script>
-  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
-    window.Promise = null;
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
   }
 </script>
 
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#ANR-%E4%B8%8E-%E6%97%A0%E9%99%90%E8%BD%AE%E6%92%AD"><span class="nav-number">1.</span> <span class="nav-text">ANR 与 无限轮播</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%87%AA%E5%8A%A8%E8%BD%AE%E6%92%AD"><span class="nav-number">2.</span> <span class="nav-text">自动轮播</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">3.</span> <span class="nav-text">总结</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Alpha Gao</p>
+  <div class="site-description" itemprop="description">You will be what you want.</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">56</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">12</span>
+        <span class="site-state-item-name">categories</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">100</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2025</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Alpha Gao</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a>
+  </div>
+
+        
 
 
 
@@ -979,8 +403,29 @@
 
 
 
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
 
 
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
 
 
 
@@ -997,110 +442,37 @@
 
 
   
-  <script src="/lib/jquery/index.js?v=2.1.3"></script>
-
-  
-  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
-
-  
-  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
-
 
   
 
-
-  <script src="/js/src/utils.js?v=7.0.1"></script>
-
-  <script src="/js/src/motion.js?v=7.0.1"></script>
-
-
-
-  
-  
-
-
-  <script src="/js/src/schemes/muse.js?v=7.0.1"></script>
-
-
-
-  
-  <script src="/js/src/scrollspy.js?v=7.0.1"></script>
-<script src="/js/src/post-details.js?v=7.0.1"></script>
-
-
-
-  
-
-
-  <script src="/js/src/next-boot.js?v=7.0.1"></script>
-
-
-  
-  
-  
-
-<script src="//cdn1.lncld.net/static/js/3.11.1/av-min.js"></script>
-
-
-
-<script src="//unpkg.com/valine/dist/Valine.min.js"></script>
 
 <script>
-  var GUEST = ['nick', 'mail', 'link'];
-  var guest = 'nick,mail,link';
-  guest = guest.split(',').filter(function(item) {
-    return GUEST.indexOf(item) > -1;
-  });
-  new Valine({
-    el: '#comments',
-    verify: false,
-    notify: false,
-    appId: 'H96xxLo0hzG4azqx9XRPBLGe-gzGzoHsz',
-    appKey: 'NPnxUKfUoUn6iIlWOyvA1WgE',
-    placeholder: 'Just say anything',
-    avatar: 'mm',
-    meta: guest,
-    pageSize: '10' || 10,
-    visitor: false
-  });
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : true,
+      appId      : 'H96xxLo0hzG4azqx9XRPBLGe-gzGzoHsz',
+      appKey     : 'NPnxUKfUoUn6iIlWOyvA1WgE',
+      placeholder: "Just Say Anything",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : true,
+      lang       : 'en' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : true,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
 </script>
-
-
-
-
-  
-
-
-  
-
-
-
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
 
 </body>
 </html>

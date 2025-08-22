@@ -1,126 +1,50 @@
 <!DOCTYPE html>
-
-
-
-
-
-
-
-
-
-
-
-
-  
-
-
-<html class="theme-next muse use-motion" lang="zh-Hans">
-<head><meta name="generator" content="Hexo 3.9.0">
+<html lang="zh-Hans">
+<head>
   <meta charset="UTF-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
 <meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 7.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
 
 
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
 
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"alphagao.com","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"hide","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
-
-<link rel="stylesheet" href="/css/main.css?v=7.0.1">
-
-
-  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.0.1">
-
-
-  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.0.1">
-
-
-  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.0.1">
-
-
-  <link rel="mask-icon" href="/images/logo.svg?v=7.0.1" color="#222">
-
-
-
-
-
-
-
-<script id="hexo.configurations">
-  var NexT = window.NexT || {};
-  var CONFIG = {
-    root: '/',
-    scheme: 'Muse',
-    version: '7.0.1',
-    sidebar: {"position":"left","display":"hide","offset":12,"b2t":true,"scrollpercent":true,"onmobile":false,"dimmer":false},
-    fancybox: false,
-    fastclick: false,
-    lazyload: false,
-    tabs: true,
-    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
-    algolia: {
-      applicationID: '',
-      apiKey: '',
-      indexName: '',
-      hits: {"per_page":10},
-      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
-    }
-  };
-</script>
-
-
-  
-
-
-
-
-  <meta name="description" content="题目一：数字翻转 对于一个整数x，定义操作Rev(x) 为将x按数位翻转过来，并且去除掉前导0。例如：如果x=123，则Rev(x)=321;如果x=100，则Rev(x)=1;现在给出整数x和整数y，要求Rev(Rev(x)+Rev(y))为多少？">
-<meta name="keywords" content="AC,Netease,Campus">
+  <meta name="description" content="题目一：数字翻转 对于一个整数x，定义操作Rev(x) 为将x按数位翻转过来，并且去除掉前导0。例如：如果x&#x3D;123，则Rev(x)&#x3D;321;如果x&#x3D;100，则Rev(x)&#x3D;1;现在给出整数x和整数y，要求Rev(Rev(x)+Rev(y))为多少？">
 <meta property="og:type" content="article">
 <meta property="og:title" content="网易2017校招笔试算法题(一)">
-<meta property="og:url" content="alphagao.com/2016/09/13/netease-campus-2017-algorithm-1/index.html">
+<meta property="og:url" content="https://alphagao.com/2016/09/13/netease-campus-2017-algorithm-1/index.html">
 <meta property="og:site_name" content="Here&#39;s to Change">
-<meta property="og:description" content="题目一：数字翻转 对于一个整数x，定义操作Rev(x) 为将x按数位翻转过来，并且去除掉前导0。例如：如果x=123，则Rev(x)=321;如果x=100，则Rev(x)=1;现在给出整数x和整数y，要求Rev(Rev(x)+Rev(y))为多少？">
-<meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2017-08-07T09:46:42.000Z">
+<meta property="og:description" content="题目一：数字翻转 对于一个整数x，定义操作Rev(x) 为将x按数位翻转过来，并且去除掉前导0。例如：如果x&#x3D;123，则Rev(x)&#x3D;321;如果x&#x3D;100，则Rev(x)&#x3D;1;现在给出整数x和整数y，要求Rev(Rev(x)+Rev(y))为多少？">
+<meta property="og:locale">
+<meta property="article:published_time" content="2016-09-13T09:49:24.000Z">
+<meta property="article:modified_time" content="2017-08-07T09:46:42.000Z">
+<meta property="article:author" content="Alpha Gao">
+<meta property="article:tag" content="AC">
+<meta property="article:tag" content="Netease">
+<meta property="article:tag" content="Campus">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="网易2017校招笔试算法题(一)">
-<meta name="twitter:description" content="题目一：数字翻转 对于一个整数x，定义操作Rev(x) 为将x按数位翻转过来，并且去除掉前导0。例如：如果x=123，则Rev(x)=321;如果x=100，则Rev(x)=1;现在给出整数x和整数y，要求Rev(Rev(x)+Rev(y))为多少？">
+
+<link rel="canonical" href="https://alphagao.com/2016/09/13/netease-campus-2017-algorithm-1/">
 
 
-
-
-
-
-  <link rel="canonical" href="alphagao.com/2016/09/13/netease-campus-2017-algorithm-1/">
-
-
-
-<script id="page.configurations">
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
   CONFIG.page = {
     sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-Hans'
   };
 </script>
 
@@ -132,15 +56,8 @@
 
 
 
-
-
-
-
-
-
   <noscript>
   <style>
-  .use-motion .motion-element,
   .use-motion .brand,
   .use-motion .menu-item,
   .sidebar-inner,
@@ -149,9 +66,8 @@
   .use-motion .comments,
   .use-motion .post-header,
   .use-motion .post-body,
-  .use-motion .collection-title { opacity: initial; }
+  .use-motion .collection-header { opacity: initial; }
 
-  .use-motion .logo,
   .use-motion .site-title,
   .use-motion .site-subtitle {
     opacity: initial;
@@ -165,153 +81,69 @@
 
 </head>
 
-<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
-
-  
-  
-    
-  
-
-  <div class="container sidebar-position-left page-post-detail">
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
     <div class="headband"></div>
 
-    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
-      <div class="header-inner"><div class="site-brand-wrapper">
-  <div class="site-meta">
-    
-
-    <div class="custom-logo-site-title">
-      <a href="/" class="brand" rel="start">
-        <span class="logo-line-before"><i></i></span>
-        <span class="site-title">Here's to Change</span>
-        <span class="logo-line-after"><i></i></span>
-      </a>
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
     </div>
-    
-      
-        <p class="site-subtitle">请问你真的有在努力吗 ？</p>
-      
-    
-    
   </div>
 
-  <div class="site-nav-toggle">
-    <button aria-label="Toggle navigation bar">
-      <span class="btn-bar"></span>
-      <span class="btn-bar"></span>
-      <span class="btn-bar"></span>
-    </button>
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Here's to Change</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">请问你真的有在努力吗 ？</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
   </div>
 </div>
 
 
 
+
 <nav class="site-nav">
-  
-    <ul id="menu" class="menu">
-      
-        
-        
-        
-          
-          <li class="menu-item menu-item-home">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
 
-    
-    
-    
-      
-    
-
-    
-
-    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>Home</a>
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
 
   </li>
-        
-        
-        
-          
-          <li class="menu-item menu-item-categories">
+        <li class="menu-item menu-item-about">
 
-    
-    
-    
-      
-    
-
-    
-
-    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>Categories</a>
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a>
 
   </li>
-        
-        
-        
-          
-          <li class="menu-item menu-item-tags">
+        <li class="menu-item menu-item-tags">
 
-    
-    
-    
-      
-    
-
-    
-
-    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>Tags</a>
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a>
 
   </li>
-        
-        
-        
-          
-          <li class="menu-item menu-item-archives">
+        <li class="menu-item menu-item-categories">
 
-    
-    
-    
-      
-    
-
-    
-
-    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>Archives</a>
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a>
 
   </li>
-        
-        
-        
-          
-          <li class="menu-item menu-item-about">
+        <li class="menu-item menu-item-archives">
 
-    
-    
-    
-      
-    
-
-    
-
-    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>About</a>
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
 
   </li>
-
-      
-      
-    </ul>
-  
-
-  
-    
-
-  
-
-  
+  </ul>
 </nav>
 
-
-
-  
 
 
 
@@ -319,146 +151,91 @@
     </header>
 
     
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
 
 
-    <main id="main" class="main">
+    <main class="main">
       <div class="main-inner">
         <div class="content-wrap">
           
-          <div id="content" class="content">
+
+          <div class="content post posts-expand">
             
 
-  <div id="posts" class="posts-expand">
     
-
-  
-
   
   
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="alphagao.com/2016/09/13/netease-campus-2017-algorithm-1/">
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="https://alphagao.com/2016/09/13/netease-campus-2017-algorithm-1/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
       <meta itemprop="name" content="Alpha Gao">
       <meta itemprop="description" content="You will be what you want.">
-      <meta itemprop="image" content="/images/avatar.gif">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
       <meta itemprop="name" content="Here's to Change">
     </span>
-
-    
       <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">网易2017校招笔试算法题(一)
-
-              
-            
-          </h1>
-        
+        <h1 class="post-title" itemprop="name headline">
+          网易2017校招笔试算法题(一)
+        </h1>
 
         <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
+            <span class="post-meta-item">
               <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
+                <i class="far fa-calendar"></i>
               </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-
-              
-                
-              
+              <span class="post-meta-item-text">Posted on</span>
 
               <time title="Created: 2016-09-13 17:49:24" itemprop="dateCreated datePublished" datetime="2016-09-13T17:49:24+08:00">2016-09-13</time>
-            
-
-            
-              
-
-              
-                
-                <span class="post-meta-divider">|</span>
-                
-
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">Edited on</span>
-                
-                <time title="Modified: 2017-08-07 17:46:42" itemprop="dateModified" datetime="2017-08-07T17:46:42+08:00">2017-08-07</time>
-              
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Algorithm/" itemprop="url" rel="index"><span itemprop="name">Algorithm</span></a></span>
-
-                
-                
-              
             </span>
-          
-
-          
-            
-            
-              
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
+              <span class="post-meta-item">
                 <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
+                  <i class="far fa-calendar-check"></i>
                 </span>
-            
-                <span class="post-meta-item-text">Comments: </span>
-                <a href="/2016/09/13/netease-campus-2017-algorithm-1/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/2016/09/13/netease-campus-2017-algorithm-1/" itemprop="commentCount"></span>
-                </a>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2017-08-07 17:46:42" itemprop="dateModified" datetime="2017-08-07T17:46:42+08:00">2017-08-07</time>
               </span>
-            
-          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Algorithm/" itemprop="url" rel="index"><span itemprop="name">Algorithm</span></a>
+                </span>
+            </span>
 
           
-          
-
-          
-
-          
-
-          
+            <span id="/2016/09/13/netease-campus-2017-algorithm-1/" class="post-meta-item leancloud_visitors" data-flag-title="网易2017校招笔试算法题(一)" title="Views">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">Views: </span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine: </span>
+    
+    <a title="valine" href="/2016/09/13/netease-campus-2017-algorithm-1/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2016/09/13/netease-campus-2017-algorithm-1/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
 
         </div>
       </header>
-    
 
     
     
@@ -466,13 +243,10 @@
     <div class="post-body" itemprop="articleBody">
 
       
-      
-
-      
         <h3 id="题目一：数字翻转"><a href="#题目一：数字翻转" class="headerlink" title="题目一：数字翻转"></a>题目一：数字翻转</h3><blockquote>
 <p>对于一个整数x，定义操作Rev(x) 为将x按数位翻转过来，并且去除掉前导0。例如：<br>如果x=123，则Rev(x)=321;<br>如果x=100，则Rev(x)=1;<br>现在给出整数x和整数y，要求Rev(Rev(x)+Rev(y))为多少？</p>
 </blockquote>
-<a id="more"></a>
+<span id="more"></span>
 <h4 id="输入描述"><a href="#输入描述" class="headerlink" title="输入描述"></a>输入描述</h4><blockquote>
 <p>输入为一行,x、y(1&lt;=x、y&lt;=1000),以空格隔开。</p>
 </blockquote>
@@ -480,7 +254,7 @@
 <p>输出rev(rev(x) + rev(y))的值.</p>
 </blockquote>
 <h4 id="解题思路"><a href="#解题思路" class="headerlink" title="解题思路"></a>解题思路</h4><p>本题思路较为简单，题目中已经给出了提示，就是实现Rev方法，只要实现Rev方法剩下的就没什么难度了。将一个整型数字按位翻转可以通过算数计算来实现，也可以通过编程语言的api来实现，因为我还没接触过Java的翻转字符串Api，所以就采用算数计算来实现了。<br>设原数为x，反数为y；<br>则y的初值为0；<br>将原数的个位数字得出乘以10，再加上下一个原数的个位数字，每次求个位数字后，原数除以10；<br>即：y=y*10+x%10;x/=10;</p>
-<h4 id="Java实现（已AC）"><a href="#Java实现（已AC）" class="headerlink" title="Java实现（已AC）"></a>Java实现（已AC）</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> java.util.Scanner;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">reverse</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span></span>&#123;</span><br><span class="line">        Scanner in = <span class="keyword">new</span> Scanner(System.in);</span><br><span class="line">        <span class="keyword">int</span> m = in.nextInt();</span><br><span class="line">        <span class="keyword">int</span> n = in.nextInt();</span><br><span class="line">        System.out.println(Rev(Rev(m)+Rev(n)));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 将一个整数按位翻转并去除前导0</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> x 待翻转的整数</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span> 翻转后的整数</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">int</span> <span class="title">Rev</span><span class="params">(<span class="keyword">int</span> x)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> r = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">while</span> (x &gt; <span class="number">0</span>) &#123;</span><br><span class="line">            r = r * <span class="number">10</span> + x % <span class="number">10</span>;</span><br><span class="line">            x /= <span class="number">10</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> r;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="Java实现（已AC）"><a href="#Java实现（已AC）" class="headerlink" title="Java实现（已AC）"></a>Java实现（已AC）</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> java.util.Scanner;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">reverse</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span>&#123;</span><br><span class="line">        <span class="type">Scanner</span> <span class="variable">in</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Scanner</span>(System.in);</span><br><span class="line">        <span class="type">int</span> <span class="variable">m</span> <span class="operator">=</span> in.nextInt();</span><br><span class="line">        <span class="type">int</span> <span class="variable">n</span> <span class="operator">=</span> in.nextInt();</span><br><span class="line">        System.out.println(Rev(Rev(m)+Rev(n)));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 将一个整数按位翻转并去除前导0</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> x 待翻转的整数</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span> 翻转后的整数</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="type">int</span> <span class="title function_">Rev</span><span class="params">(<span class="type">int</span> x)</span> &#123;</span><br><span class="line">        <span class="type">int</span> <span class="variable">r</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">while</span> (x &gt; <span class="number">0</span>) &#123;</span><br><span class="line">            r = r * <span class="number">10</span> + x % <span class="number">10</span>;</span><br><span class="line">            x /= <span class="number">10</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> r;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h3 id="题目二：暗黑字符串"><a href="#题目二：暗黑字符串" class="headerlink" title="题目二：暗黑字符串"></a>题目二：暗黑字符串</h3><blockquote>
 <p>一个只包含‘A’、‘B’和‘C’的字符串，如果存在某一段长度为3的连续子串恰好‘A’、‘B’和‘C’各有一个，那么这个字符串就是纯净的，否则这个字符串就是黑暗的。例如：<br>BAACAACCBAAA 连续子串“CBA”中包含了‘A’、‘B’和‘C’各一个，所以是纯净的字符串；<br>AABBCCAABB 不存在一个长度为3的连续的子串包含‘A’、‘B’、‘C’各一各，所以是暗黑的字符串；<br>你的任务就是计算出长度为n的字符串（只包含‘A’、‘B’和‘C’），有多少个是暗黑的字符串。</p>
 </blockquote>
@@ -491,12 +265,12 @@
 <p>输出一个整数表示有多少个暗黑字符串。</p>
 </blockquote>
 <h4 id="解题思路-1"><a href="#解题思路-1" class="headerlink" title="解题思路"></a>解题思路</h4><p>一开始看到这个题的时候我是打算用排序的思路做的，到后来发现其实行不通，反而越来越复杂。于是就重新思考了。当然这个题在当时笔试的时候我并没有做出来。</p>
-<p>参考了<a href="http://www.itdadao.com/articles/c15a387781p0.html" target="_blank" rel="noopener">http://www.itdadao.com/articles/c15a387781p0.html</a> 的思路，我终于恍然大悟。<br>以下是我自己的理解：</p>
+<p>参考了<a href="http://www.itdadao.com/articles/c15a387781p0.html">http://www.itdadao.com/articles/c15a387781p0.html</a> 的思路，我终于恍然大悟。<br>以下是我自己的理解：</p>
 <p>由于题目要求是长度为3的子串，所以当前两个字符确定的时候，第三个字符的写法个数也就能确定了。例如如果前两个字符是AB的时候，第三个字符就只能是A或者B，这样才能是暗黑字符串。<br>如果前两个字符是AA的时候，第三个字符就可以是A、B、C任意一个字符；<br>这样，就可以把暗黑字符串的情况分为这两种，通过这两种类型的暗黑字符串就可以构建 n+1 长度的暗黑字符串：<br>若某一字符串的最后两个字符不相同，即AB型的时候，只要在最后添加A或者B就是新的暗黑字符串，每一个长度为n的暗黑字符串可以构建出2个n+1长度的暗黑字符串（AB型）；<br>若某一字符串的最后两个字符相同，即AA型的时候，最后一个字符就可以是A、B、C任意一个字符；即每一个长度为n的暗黑字符串可以构建出3个n+1长度的暗黑字符串（AA型）；</p>
 <p>为了便于后面的计算，需要将新构建出的暗黑字符串进行分类：<br>1个AB型可以构建1个AB型暗黑字符串和1个AA型暗黑字符串；<br>1个AA型可以构建1个AA型暗黑字符串和2个AB型暗黑字符串；</p>
 <p>长度为n的字符串的两种暗黑字符串个数相加就是n+1长度字符串的暗黑字符串个数。</p>
 <p>由以上分析得：<br>设长度为n（n&gt;=2）的字符串的AB型暗黑字符串个数为x1，AA型暗黑字符串个数为y1;<br>设长度为n+1的字符串的AB型暗黑字符串个数为x2,AA型暗黑字符串个数为y2;<br>则长度为n+1的字符串的AB型暗黑字符串个数为：x2=x1+2*y1;<br>长度为n+1的字符串的AA型暗黑字符串个数为：y2=x1+y1;<br>其中当n=2的时候，x1=6;y1=3;<br>另外当n=1的时候，暗黑字符串的总个数为３；</p>
-<h4 id="Java实现（已AC）-1"><a href="#Java实现（已AC）-1" class="headerlink" title="Java实现（已AC）"></a>Java实现（已AC）</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> java.util.Scanner;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">dark</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        Scanner in = <span class="keyword">new</span> Scanner(System.in);</span><br><span class="line">        <span class="keyword">int</span> m = in.nextInt();</span><br><span class="line">        System.out.println(cal(m));</span><br><span class="line">        in.close();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 计算长度为n的字符串的暗黑字符串个数</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> n 字符串长度</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span> 暗黑字符串个数</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">long</span> <span class="title">cal</span><span class="params">(<span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (n &lt; <span class="number">1</span>)</span><br><span class="line">            <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">if</span> (n == <span class="number">1</span>)</span><br><span class="line">            <span class="keyword">return</span> <span class="number">3</span>;</span><br><span class="line">        <span class="keyword">long</span> x1 = <span class="number">6</span>;<span class="comment">//初始AB型暗黑字符串个数</span></span><br><span class="line">        <span class="keyword">long</span> y1 = <span class="number">3</span>;<span class="comment">//初始AA型暗黑字符串个数</span></span><br><span class="line">        n = n - <span class="number">2</span>;</span><br><span class="line">        <span class="keyword">while</span> (n-- &gt; <span class="number">0</span>) &#123;</span><br><span class="line">            <span class="keyword">long</span> x2 = x1 + <span class="number">2</span> * y1;<span class="comment">//n+1长度字符串的AB型暗黑字符串个数</span></span><br><span class="line">            <span class="keyword">long</span> y2 = x1 + y1;    <span class="comment">//n+1长度字符串的AA型暗黑字符串个数</span></span><br><span class="line">            x1 = x2; <span class="comment">//恢复x1,x2的值</span></span><br><span class="line">            y1 = y2;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> x1 + y1;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="Java实现（已AC）-1"><a href="#Java实现（已AC）-1" class="headerlink" title="Java实现（已AC）"></a>Java实现（已AC）</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> java.util.Scanner;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">dark</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">        <span class="type">Scanner</span> <span class="variable">in</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Scanner</span>(System.in);</span><br><span class="line">        <span class="type">int</span> <span class="variable">m</span> <span class="operator">=</span> in.nextInt();</span><br><span class="line">        System.out.println(cal(m));</span><br><span class="line">        in.close();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 计算长度为n的字符串的暗黑字符串个数</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> n 字符串长度</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span> 暗黑字符串个数</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="type">long</span> <span class="title function_">cal</span><span class="params">(<span class="type">int</span> n)</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (n &lt; <span class="number">1</span>)</span><br><span class="line">            <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">if</span> (n == <span class="number">1</span>)</span><br><span class="line">            <span class="keyword">return</span> <span class="number">3</span>;</span><br><span class="line">        <span class="type">long</span> <span class="variable">x1</span> <span class="operator">=</span> <span class="number">6</span>;<span class="comment">//初始AB型暗黑字符串个数</span></span><br><span class="line">        <span class="type">long</span> <span class="variable">y1</span> <span class="operator">=</span> <span class="number">3</span>;<span class="comment">//初始AA型暗黑字符串个数</span></span><br><span class="line">        n = n - <span class="number">2</span>;</span><br><span class="line">        <span class="keyword">while</span> (n-- &gt; <span class="number">0</span>) &#123;</span><br><span class="line">            <span class="type">long</span> <span class="variable">x2</span> <span class="operator">=</span> x1 + <span class="number">2</span> * y1;<span class="comment">//n+1长度字符串的AB型暗黑字符串个数</span></span><br><span class="line">            <span class="type">long</span> <span class="variable">y2</span> <span class="operator">=</span> x1 + y1;    <span class="comment">//n+1长度字符串的AA型暗黑字符串个数</span></span><br><span class="line">            x1 = x2; <span class="comment">//恢复x1,x2的值</span></span><br><span class="line">            y1 = y2;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> x1 + y1;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h3 id="题目三：回文序列"><a href="#题目三：回文序列" class="headerlink" title="题目三：回文序列"></a>题目三：回文序列</h3><blockquote>
 <p>如果一个数字序列逆置之后跟原序列是一样的就称这样的数字序列为回文序列。例如：<br>{1, 2, 1}, {15, 78, 78, 15} , {112} 是回文序列,<br>{1, 2, 2}, {15, 78, 87, 51} ,{112, 2, 11} 不是回文序列。<br>现在给出一个数字序列，允许使用一种转换操作：<br>选择任意两个相邻的数，然后从序列移除这两个数，并用这两个数字的和插入到这两个数之前的位置(只插入一个和)。<br>现在对于所给序列要求出最少需要多少次操作可以将其变成回文序列。</p>
 </blockquote>
@@ -507,7 +281,7 @@
 <p>输出一个数，表示最少需要的转换次数</p>
 </blockquote>
 <h4 id="解题思路-2"><a href="#解题思路-2" class="headerlink" title="解题思路"></a>解题思路</h4><p>有两个指针，一个指向序列的开始位置，一个指向序列的末尾位置；<br>前后比较两个指针指向位置的数字：<br>若头小于尾，则把头指向的数字加到头后面的位置，同时头指针指向被加的数字，也就是头指针后移一位；此时记一次变换；<br>若头大于尾，则把尾指向的数字加到尾前面的位置，同时尾指针指向被加的数字，也就是尾指针前移一位；此时记一次变换；<br>若头尾指针指向的数字相等，则头指针后移一位，尾指针前移一位，继续比较，不计变换次数；<br>如此，直到头指针指向的位置不小于尾指针指向的位置，停止比较；<br>此时就可得出变换的次数；</p>
-<h4 id="Java实现（已AC）-2"><a href="#Java实现（已AC）-2" class="headerlink" title="Java实现（已AC）"></a>Java实现（已AC）</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> java.util.Scanner;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">palindrome</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        Scanner in = <span class="keyword">new</span> Scanner(System.in);</span><br><span class="line">        <span class="keyword">int</span> m = in.nextInt();</span><br><span class="line">        <span class="keyword">int</span>[] q = <span class="keyword">new</span> <span class="keyword">int</span>[m];</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; m; i++) &#123;</span><br><span class="line">            q[i] = in.nextInt();</span><br><span class="line">        &#125;</span><br><span class="line">        System.out.println(changeTime(q));</span><br><span class="line">        in.close();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 计算成为回文序列需要变换的最少次数</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> q 原始序列</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span> 变换次数</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">int</span> <span class="title">changeTime</span><span class="params">(<span class="keyword">int</span>[] q)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> times=<span class="number">0</span>;</span><br><span class="line">        <span class="keyword">int</span> start=<span class="number">0</span>;<span class="comment">//头指针</span></span><br><span class="line">        <span class="keyword">int</span> end = q.length - <span class="number">1</span>;<span class="comment">//尾指针</span></span><br><span class="line">        <span class="keyword">while</span> (start &lt; end) &#123;</span><br><span class="line">            <span class="keyword">if</span> (q[start] &lt; q[end]) &#123;</span><br><span class="line">                q[start + <span class="number">1</span>] += q[start];</span><br><span class="line">                start++;</span><br><span class="line">                times++;</span><br><span class="line">            &#125; <span class="keyword">else</span> <span class="keyword">if</span> (q[start] &gt; q[end]) &#123;</span><br><span class="line">                q[end - <span class="number">1</span>] += q[end];</span><br><span class="line">                end--;</span><br><span class="line">                times++;</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                start++;</span><br><span class="line">                end--;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> times;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="Java实现（已AC）-2"><a href="#Java实现（已AC）-2" class="headerlink" title="Java实现（已AC）"></a>Java实现（已AC）</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> java.util.Scanner;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">palindrome</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">        <span class="type">Scanner</span> <span class="variable">in</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Scanner</span>(System.in);</span><br><span class="line">        <span class="type">int</span> <span class="variable">m</span> <span class="operator">=</span> in.nextInt();</span><br><span class="line">        <span class="type">int</span>[] q = <span class="keyword">new</span> <span class="title class_">int</span>[m];</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; m; i++) &#123;</span><br><span class="line">            q[i] = in.nextInt();</span><br><span class="line">        &#125;</span><br><span class="line">        System.out.println(changeTime(q));</span><br><span class="line">        in.close();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 计算成为回文序列需要变换的最少次数</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> q 原始序列</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span> 变换次数</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="type">int</span> <span class="title function_">changeTime</span><span class="params">(<span class="type">int</span>[] q)</span> &#123;</span><br><span class="line">        <span class="type">int</span> times=<span class="number">0</span>;</span><br><span class="line">        <span class="type">int</span> start=<span class="number">0</span>;<span class="comment">//头指针</span></span><br><span class="line">        <span class="type">int</span> <span class="variable">end</span> <span class="operator">=</span> q.length - <span class="number">1</span>;<span class="comment">//尾指针</span></span><br><span class="line">        <span class="keyword">while</span> (start &lt; end) &#123;</span><br><span class="line">            <span class="keyword">if</span> (q[start] &lt; q[end]) &#123;</span><br><span class="line">                q[start + <span class="number">1</span>] += q[start];</span><br><span class="line">                start++;</span><br><span class="line">                times++;</span><br><span class="line">            &#125; <span class="keyword">else</span> <span class="keyword">if</span> (q[start] &gt; q[end]) &#123;</span><br><span class="line">                q[end - <span class="number">1</span>] += q[end];</span><br><span class="line">                end--;</span><br><span class="line">                times++;</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                start++;</span><br><span class="line">                end--;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> times;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h3 id="题目四：优雅的点"><a href="#题目四：优雅的点" class="headerlink" title="题目四：优雅的点"></a>题目四：优雅的点</h3><blockquote>
 <p>小易有一个圆心在坐标原点的圆，小易知道圆的半径的平方。小易认为在圆上的点而且横纵坐标都是整数的点是优雅的，小易现在想寻找一个算法计算出优雅的点的个数，请你来帮帮他。<br>例如：半径的平方如果为25,优雅的点就有：(+/-3, +/-4), (+/-4, +/-3), (0, +/-5) (+/-5, 0)，一共12个点。 </p>
 </blockquote>
@@ -519,501 +293,153 @@
 </blockquote>
 <h4 id="解题思路-3"><a href="#解题思路-3" class="headerlink" title="解题思路"></a>解题思路</h4><h5 id="思路一："><a href="#思路一：" class="headerlink" title="思路一："></a>思路一：</h5><p>这是一开始的思路，但是复杂度过高，没有AC。<br>把n看成直角三角形的斜边的平方，那么就只需要找出可以构建直角三角形的坐标为整数的点即可；<br>由于圆心在坐标原点，只需要计算出第一象限的点，在乘以相应的倍数即可。如果点在坐标轴上，那么需要乘以2；如果点不在坐标轴上，就乘以4；<br>如此即可计算出所有坐标为整数且在圆上的点的个数；</p>
 <h5 id="思路二："><a href="#思路二：" class="headerlink" title="思路二："></a>思路二：</h5><p>由于思路一复杂度过高，就需要进行简化。<br>仍然只计算第一象限中的点，<br>将以上的判断点为两部分：在坐标轴上、不在坐标轴上。<br>但是判断是否为整数坐标更换为另外一种方法：<br>设横坐标为x，则纵坐标y=sqrt（n-x <code>*</code> x）;如果x <code>*</code> x+y <code>*</code> y=n,则这个点就是整数点（整型计算的特性）。<br>所有不在坐标轴的点在其他三个象限内都有对应的点，所以需要乘以4；<br>再来考虑坐标轴上的点，直接判断sqrt（n） × sqrt（n）==n；若是则再加4；因为最多就只有处在圆边缘的4个点。</p>
-<h4 id="Java实现"><a href="#Java实现" class="headerlink" title="Java实现"></a>Java实现</h4><h5 id="思路一：（未AC，结果正确）"><a href="#思路一：（未AC，结果正确）" class="headerlink" title="思路一：（未AC，结果正确）"></a>思路一：（未AC，结果正确）</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> java.util.Scanner;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CirclePoint</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        Scanner in = <span class="keyword">new</span> Scanner(System.in);</span><br><span class="line">        <span class="keyword">int</span> m = in.nextInt();</span><br><span class="line">        System.out.println(point(m));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">int</span> <span class="title">point</span><span class="params">(<span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> count = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i * i &lt;= n; i++) &#123;</span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j * j &lt;= n; j++) &#123;</span><br><span class="line">                <span class="keyword">if</span> (i * i + j * j == n) &#123;</span><br><span class="line">                    <span class="keyword">if</span> ((i == <span class="number">0</span> &amp;&amp; j != <span class="number">0</span>) || (i != <span class="number">0</span> &amp;&amp; j == <span class="number">0</span>)) &#123;</span><br><span class="line">                        count += <span class="number">2</span>;</span><br><span class="line">                    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                        count += <span class="number">4</span>;</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> count;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h5 id="思路二：（已AC）"><a href="#思路二：（已AC）" class="headerlink" title="思路二：（已AC）"></a>思路二：（已AC）</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> java.util.Scanner;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CirclePoint</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        Scanner in = <span class="keyword">new</span> Scanner(System.in);</span><br><span class="line">        <span class="keyword">int</span> m = in.nextInt();</span><br><span class="line">        System.out.println(point2(m));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">int</span> <span class="title">point2</span><span class="params">(<span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> count = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i * i &lt; n; i++) &#123;</span><br><span class="line">            <span class="keyword">int</span> j = (<span class="keyword">int</span>) Math.sqrt(n - i * i);</span><br><span class="line">            <span class="keyword">if</span> (i * i + j * j == n) &#123;</span><br><span class="line">                count++;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        count*=<span class="number">4</span>;</span><br><span class="line">        <span class="keyword">int</span> x = (<span class="keyword">int</span>) Math.sqrt(n);</span><br><span class="line">        <span class="keyword">if</span> (x * x == n) &#123;</span><br><span class="line">            count += <span class="number">4</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> count;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-      
+<h4 id="Java实现"><a href="#Java实现" class="headerlink" title="Java实现"></a>Java实现</h4><h5 id="思路一：（未AC，结果正确）"><a href="#思路一：（未AC，结果正确）" class="headerlink" title="思路一：（未AC，结果正确）"></a>思路一：（未AC，结果正确）</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> java.util.Scanner;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">CirclePoint</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">        <span class="type">Scanner</span> <span class="variable">in</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Scanner</span>(System.in);</span><br><span class="line">        <span class="type">int</span> <span class="variable">m</span> <span class="operator">=</span> in.nextInt();</span><br><span class="line">        System.out.println(point(m));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="type">int</span> <span class="title function_">point</span><span class="params">(<span class="type">int</span> n)</span> &#123;</span><br><span class="line">        <span class="type">int</span> <span class="variable">count</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i * i &lt;= n; i++) &#123;</span><br><span class="line">            <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">j</span> <span class="operator">=</span> <span class="number">0</span>; j * j &lt;= n; j++) &#123;</span><br><span class="line">                <span class="keyword">if</span> (i * i + j * j == n) &#123;</span><br><span class="line">                    <span class="keyword">if</span> ((i == <span class="number">0</span> &amp;&amp; j != <span class="number">0</span>) || (i != <span class="number">0</span> &amp;&amp; j == <span class="number">0</span>)) &#123;</span><br><span class="line">                        count += <span class="number">2</span>;</span><br><span class="line">                    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                        count += <span class="number">4</span>;</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> count;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="思路二：（已AC）"><a href="#思路二：（已AC）" class="headerlink" title="思路二：（已AC）"></a>思路二：（已AC）</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> java.util.Scanner;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">CirclePoint</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">        <span class="type">Scanner</span> <span class="variable">in</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Scanner</span>(System.in);</span><br><span class="line">        <span class="type">int</span> <span class="variable">m</span> <span class="operator">=</span> in.nextInt();</span><br><span class="line">        System.out.println(point2(m));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="type">int</span> <span class="title function_">point2</span><span class="params">(<span class="type">int</span> n)</span> &#123;</span><br><span class="line">        <span class="type">int</span> <span class="variable">count</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">1</span>; i * i &lt; n; i++) &#123;</span><br><span class="line">            <span class="type">int</span> <span class="variable">j</span> <span class="operator">=</span> (<span class="type">int</span>) Math.sqrt(n - i * i);</span><br><span class="line">            <span class="keyword">if</span> (i * i + j * j == n) &#123;</span><br><span class="line">                count++;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        count*=<span class="number">4</span>;</span><br><span class="line">        <span class="type">int</span> <span class="variable">x</span> <span class="operator">=</span> (<span class="type">int</span>) Math.sqrt(n);</span><br><span class="line">        <span class="keyword">if</span> (x * x == n) &#123;</span><br><span class="line">            count += <span class="number">4</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> count;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
     </div>
 
     
-
-    
-    
-    
-
-    
-
-    
-      
     
     
 
-    
-
-    <footer class="post-footer">
-      
-        <div class="post-tags">
-          
-            <a href="/tags/AC/" rel="tag"># AC</a>
-          
-            <a href="/tags/Netease/" rel="tag"># Netease</a>
-          
-            <a href="/tags/Campus/" rel="tag"># Campus</a>
-          
-        </div>
-      
-
-      
-      
-      
-
-      
-        <div class="post-nav">
-          <div class="post-nav-next post-nav-item">
-            
-              <a href="/2016/08/30/view-mult-click/" rel="next" title="View多次点击事件的判断">
-                <i class="fa fa-chevron-left"></i> View多次点击事件的判断
-              </a>
-            
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/AC/" rel="tag"># AC</a>
+              <a href="/tags/Netease/" rel="tag"># Netease</a>
+              <a href="/tags/Campus/" rel="tag"># Campus</a>
           </div>
 
-          <span class="post-nav-divider"></span>
+        
 
-          <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2016/11/04/listview-partial-load/" rel="prev" title="ListView的分批加载">
-                ListView的分批加载 <i class="fa fa-chevron-right"></i>
-              </a>
-            
-          </div>
-        </div>
-      
 
-      
-      
-    </footer>
-  </div>
-  
-  
-  
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2016/08/30/view-mult-click/" rel="prev" title="View多次点击事件的判断">
+      <i class="fa fa-chevron-left"></i> View多次点击事件的判断
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2016/11/04/listview-partial-load/" rel="next" title="ListView的分批加载">
+      ListView的分批加载 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
   </article>
+  
+  
+  
 
-
-  </div>
 
 
           </div>
           
-
-  
-    <div class="comments" id="comments">
-    </div>
-
-  
-
-
-
-        </div>
-        
-          
-  
-  <div class="sidebar-toggle">
-    <div class="sidebar-toggle-line-wrap">
-      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
-      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
-      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
-    </div>
-  </div>
-
-  <aside id="sidebar" class="sidebar">
-    <div class="sidebar-inner">
-
-      
-
-      
-        <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
-            Table of Contents
-          </li>
-          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
-            Overview
-          </li>
-        </ul>
-      
-
-      <div class="site-overview-wrap sidebar-panel">
-        <div class="site-overview">
-          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
-            
-              <p class="site-author-name" itemprop="name">Alpha Gao</p>
-              <div class="site-description motion-element" itemprop="description">You will be what you want.</div>
-          </div>
-
-          
-            <nav class="site-state motion-element">
-              
-                <div class="site-state-item site-state-posts">
-                
-                  <a href="/archives/">
-                
-                    <span class="site-state-item-count">56</span>
-                    <span class="site-state-item-name">posts</span>
-                  </a>
-                </div>
-              
-
-              
-                
-                
-                <div class="site-state-item site-state-categories">
-                  
-                    
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                    <span class="site-state-item-count">12</span>
-                    <span class="site-state-item-name">categories</span>
-                  
-                </div>
-              
-
-              
-                
-                
-                <div class="site-state-item site-state-tags">
-                  
-                    
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                    <span class="site-state-item-count">100</span>
-                    <span class="site-state-item-name">tags</span>
-                  
-                </div>
-              
-            </nav>
-          
-
-          
-
-          
-
-          
-
-          
-          
-
-          
-            
-          
-          
-
-        </div>
-      </div>
-
-      
-      <!--noindex-->
-        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
-          <div class="post-toc">
-
-            
-            
-            
-            
-
-            
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#题目一：数字翻转"><span class="nav-number">1.</span> <span class="nav-text">题目一：数字翻转</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#输入描述"><span class="nav-number">1.1.</span> <span class="nav-text">输入描述</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#输出描述"><span class="nav-number">1.2.</span> <span class="nav-text">输出描述</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#解题思路"><span class="nav-number">1.3.</span> <span class="nav-text">解题思路</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Java实现（已AC）"><span class="nav-number">1.4.</span> <span class="nav-text">Java实现（已AC）</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#题目二：暗黑字符串"><span class="nav-number">2.</span> <span class="nav-text">题目二：暗黑字符串</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#输入描述-1"><span class="nav-number">2.1.</span> <span class="nav-text">输入描述</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#输出描述-1"><span class="nav-number">2.2.</span> <span class="nav-text">输出描述</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#解题思路-1"><span class="nav-number">2.3.</span> <span class="nav-text">解题思路</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Java实现（已AC）-1"><span class="nav-number">2.4.</span> <span class="nav-text">Java实现（已AC）</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#题目三：回文序列"><span class="nav-number">3.</span> <span class="nav-text">题目三：回文序列</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#输入描述-2"><span class="nav-number">3.1.</span> <span class="nav-text">输入描述</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#输出描述-2"><span class="nav-number">3.2.</span> <span class="nav-text">输出描述</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#解题思路-2"><span class="nav-number">3.3.</span> <span class="nav-text">解题思路</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Java实现（已AC）-2"><span class="nav-number">3.4.</span> <span class="nav-text">Java实现（已AC）</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#题目四：优雅的点"><span class="nav-number">4.</span> <span class="nav-text">题目四：优雅的点</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#输入描述-3"><span class="nav-number">4.1.</span> <span class="nav-text">输入描述</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#输出描述-3"><span class="nav-number">4.2.</span> <span class="nav-text">输出描述</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#解题思路-3"><span class="nav-number">4.3.</span> <span class="nav-text">解题思路</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#思路一："><span class="nav-number">4.3.1.</span> <span class="nav-text">思路一：</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#思路二："><span class="nav-number">4.3.2.</span> <span class="nav-text">思路二：</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Java实现"><span class="nav-number">4.4.</span> <span class="nav-text">Java实现</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#思路一：（未AC，结果正确）"><span class="nav-number">4.4.1.</span> <span class="nav-text">思路一：（未AC，结果正确）</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#思路二：（已AC）"><span class="nav-number">4.4.2.</span> <span class="nav-text">思路二：（已AC）</span></a></li></ol></li></ol></li></ol></div>
-            
-
-          </div>
-        </div>
-      <!--/noindex-->
-      
-
-      
-        <div class="back-to-top">
-          <i class="fa fa-arrow-up"></i>
-          
-            <span id="scrollpercent"><span>0</span>%</span>
-          
-        </div>
-      
-
-    </div>
-  </aside>
-  
-
-
-        
-      </div>
-    </main>
-
-    <footer id="footer" class="footer">
-      <div class="footer-inner">
-        <div class="copyright">  <a href="http://www.miitbeian.gov.cn" rel="noopener" target="_blank">陇ICP备17000389号 </a>&copy; <span itemprop="copyrightYear">2022</span>
-  <span class="with-love" id="animate">
-    <i class="fa fa-Alpha Gao"></i>
-  </span>
-  <span class="author" itemprop="copyrightHolder">Alpha Gao</span>
-
-  
-
-  
-</div>
-
-
-  <div class="powered-by">Powered by <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> v3.9.0</div>
-
-
-
-  <span class="post-meta-divider">|</span>
-
-
-
-  <div class="theme-info">Theme – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> v7.0.1</div>
-
-
-
-
-        
-
-
-
-
-
-
-
-
-        
-      </div>
-    </footer>
-
-    
-
-    
-
-    
-
-    
-  </div>
-
-  
+    <div class="comments" id="valine-comments"></div>
 
 <script>
-  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
-    window.Promise = null;
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
   }
 </script>
 
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%A2%98%E7%9B%AE%E4%B8%80%EF%BC%9A%E6%95%B0%E5%AD%97%E7%BF%BB%E8%BD%AC"><span class="nav-number">1.</span> <span class="nav-text">题目一：数字翻转</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%BE%93%E5%85%A5%E6%8F%8F%E8%BF%B0"><span class="nav-number">1.1.</span> <span class="nav-text">输入描述</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%BE%93%E5%87%BA%E6%8F%8F%E8%BF%B0"><span class="nav-number">1.2.</span> <span class="nav-text">输出描述</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%A7%A3%E9%A2%98%E6%80%9D%E8%B7%AF"><span class="nav-number">1.3.</span> <span class="nav-text">解题思路</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Java%E5%AE%9E%E7%8E%B0%EF%BC%88%E5%B7%B2AC%EF%BC%89"><span class="nav-number">1.4.</span> <span class="nav-text">Java实现（已AC）</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%A2%98%E7%9B%AE%E4%BA%8C%EF%BC%9A%E6%9A%97%E9%BB%91%E5%AD%97%E7%AC%A6%E4%B8%B2"><span class="nav-number">2.</span> <span class="nav-text">题目二：暗黑字符串</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%BE%93%E5%85%A5%E6%8F%8F%E8%BF%B0-1"><span class="nav-number">2.1.</span> <span class="nav-text">输入描述</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%BE%93%E5%87%BA%E6%8F%8F%E8%BF%B0-1"><span class="nav-number">2.2.</span> <span class="nav-text">输出描述</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%A7%A3%E9%A2%98%E6%80%9D%E8%B7%AF-1"><span class="nav-number">2.3.</span> <span class="nav-text">解题思路</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Java%E5%AE%9E%E7%8E%B0%EF%BC%88%E5%B7%B2AC%EF%BC%89-1"><span class="nav-number">2.4.</span> <span class="nav-text">Java实现（已AC）</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%A2%98%E7%9B%AE%E4%B8%89%EF%BC%9A%E5%9B%9E%E6%96%87%E5%BA%8F%E5%88%97"><span class="nav-number">3.</span> <span class="nav-text">题目三：回文序列</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%BE%93%E5%85%A5%E6%8F%8F%E8%BF%B0-2"><span class="nav-number">3.1.</span> <span class="nav-text">输入描述</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%BE%93%E5%87%BA%E6%8F%8F%E8%BF%B0-2"><span class="nav-number">3.2.</span> <span class="nav-text">输出描述</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%A7%A3%E9%A2%98%E6%80%9D%E8%B7%AF-2"><span class="nav-number">3.3.</span> <span class="nav-text">解题思路</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Java%E5%AE%9E%E7%8E%B0%EF%BC%88%E5%B7%B2AC%EF%BC%89-2"><span class="nav-number">3.4.</span> <span class="nav-text">Java实现（已AC）</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%A2%98%E7%9B%AE%E5%9B%9B%EF%BC%9A%E4%BC%98%E9%9B%85%E7%9A%84%E7%82%B9"><span class="nav-number">4.</span> <span class="nav-text">题目四：优雅的点</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%BE%93%E5%85%A5%E6%8F%8F%E8%BF%B0-3"><span class="nav-number">4.1.</span> <span class="nav-text">输入描述</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%BE%93%E5%87%BA%E6%8F%8F%E8%BF%B0-3"><span class="nav-number">4.2.</span> <span class="nav-text">输出描述</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%A7%A3%E9%A2%98%E6%80%9D%E8%B7%AF-3"><span class="nav-number">4.3.</span> <span class="nav-text">解题思路</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%80%9D%E8%B7%AF%E4%B8%80%EF%BC%9A"><span class="nav-number">4.3.1.</span> <span class="nav-text">思路一：</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%80%9D%E8%B7%AF%E4%BA%8C%EF%BC%9A"><span class="nav-number">4.3.2.</span> <span class="nav-text">思路二：</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Java%E5%AE%9E%E7%8E%B0"><span class="nav-number">4.4.</span> <span class="nav-text">Java实现</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%80%9D%E8%B7%AF%E4%B8%80%EF%BC%9A%EF%BC%88%E6%9C%AAAC%EF%BC%8C%E7%BB%93%E6%9E%9C%E6%AD%A3%E7%A1%AE%EF%BC%89"><span class="nav-number">4.4.1.</span> <span class="nav-text">思路一：（未AC，结果正确）</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%80%9D%E8%B7%AF%E4%BA%8C%EF%BC%9A%EF%BC%88%E5%B7%B2AC%EF%BC%89"><span class="nav-number">4.4.2.</span> <span class="nav-text">思路二：（已AC）</span></a></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Alpha Gao</p>
+  <div class="site-description" itemprop="description">You will be what you want.</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">56</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">12</span>
+        <span class="site-state-item-name">categories</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">100</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2025</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Alpha Gao</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a>
+  </div>
+
+        
 
 
 
@@ -1022,8 +448,29 @@
 
 
 
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
 
 
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
 
 
 
@@ -1040,110 +487,37 @@
 
 
   
-  <script src="/lib/jquery/index.js?v=2.1.3"></script>
-
-  
-  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
-
-  
-  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
-
 
   
 
-
-  <script src="/js/src/utils.js?v=7.0.1"></script>
-
-  <script src="/js/src/motion.js?v=7.0.1"></script>
-
-
-
-  
-  
-
-
-  <script src="/js/src/schemes/muse.js?v=7.0.1"></script>
-
-
-
-  
-  <script src="/js/src/scrollspy.js?v=7.0.1"></script>
-<script src="/js/src/post-details.js?v=7.0.1"></script>
-
-
-
-  
-
-
-  <script src="/js/src/next-boot.js?v=7.0.1"></script>
-
-
-  
-  
-  
-
-<script src="//cdn1.lncld.net/static/js/3.11.1/av-min.js"></script>
-
-
-
-<script src="//unpkg.com/valine/dist/Valine.min.js"></script>
 
 <script>
-  var GUEST = ['nick', 'mail', 'link'];
-  var guest = 'nick,mail,link';
-  guest = guest.split(',').filter(function(item) {
-    return GUEST.indexOf(item) > -1;
-  });
-  new Valine({
-    el: '#comments',
-    verify: false,
-    notify: false,
-    appId: 'H96xxLo0hzG4azqx9XRPBLGe-gzGzoHsz',
-    appKey: 'NPnxUKfUoUn6iIlWOyvA1WgE',
-    placeholder: 'Just say anything',
-    avatar: 'mm',
-    meta: guest,
-    pageSize: '10' || 10,
-    visitor: false
-  });
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : true,
+      appId      : 'H96xxLo0hzG4azqx9XRPBLGe-gzGzoHsz',
+      appKey     : 'NPnxUKfUoUn6iIlWOyvA1WgE',
+      placeholder: "Just Say Anything",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : true,
+      lang       : 'en' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : true,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
 </script>
-
-
-
-
-  
-
-
-  
-
-
-
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
 
 </body>
 </html>

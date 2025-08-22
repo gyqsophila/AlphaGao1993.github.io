@@ -1,128 +1,50 @@
 <!DOCTYPE html>
-
-
-
-
-
-
-
-
-
-
-
-
-  
-
-
-<html class="theme-next muse use-motion" lang="zh-Hans">
-<head><meta name="generator" content="Hexo 3.9.0">
+<html lang="zh-Hans">
+<head>
   <meta charset="UTF-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
 <meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 7.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
 
 
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
-
-<link rel="stylesheet" href="/css/main.css?v=7.0.1">
-
-
-  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.0.1">
-
-
-  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.0.1">
-
-
-  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.0.1">
-
-
-  <link rel="mask-icon" href="/images/logo.svg?v=7.0.1" color="#222">
-
-
-
-
-
-
-
-<script id="hexo.configurations">
-  var NexT = window.NexT || {};
-  var CONFIG = {
-    root: '/',
-    scheme: 'Muse',
-    version: '7.0.1',
-    sidebar: {"position":"left","display":"hide","offset":12,"b2t":true,"scrollpercent":true,"onmobile":false,"dimmer":false},
-    fancybox: false,
-    fastclick: false,
-    lazyload: false,
-    tabs: true,
-    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
-    algolia: {
-      applicationID: '',
-      apiKey: '',
-      indexName: '',
-      hits: {"per_page":10},
-      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
-    }
-  };
-</script>
-
-
-  
-
-
-
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"alphagao.com","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"hide","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
 
   <meta name="description" content="首先来看一下启动服务的两种方式 startService 和 bindService： startService StartService(Intent intent)">
-<meta name="keywords" content="Service">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Bind方式开启服务">
-<meta property="og:url" content="alphagao.com/2016/07/11/Bind-start-service/index.html">
+<meta property="og:url" content="https://alphagao.com/2016/07/11/Bind-start-service/index.html">
 <meta property="og:site_name" content="Here&#39;s to Change">
 <meta property="og:description" content="首先来看一下启动服务的两种方式 startService 和 bindService： startService StartService(Intent intent)">
-<meta property="og:locale" content="zh-Hans">
+<meta property="og:locale">
 <meta property="og:image" content="https://ooo.0o0.ooo/2016/07/08/577f98926daf5.jpg">
-<meta property="og:updated_time" content="2017-08-07T09:49:04.000Z">
+<meta property="article:published_time" content="2016-07-10T16:15:58.000Z">
+<meta property="article:modified_time" content="2017-08-07T09:49:04.000Z">
+<meta property="article:author" content="Alpha Gao">
+<meta property="article:tag" content="Service">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Bind方式开启服务">
-<meta name="twitter:description" content="首先来看一下启动服务的两种方式 startService 和 bindService： startService StartService(Intent intent)">
 <meta name="twitter:image" content="https://ooo.0o0.ooo/2016/07/08/577f98926daf5.jpg">
 
+<link rel="canonical" href="https://alphagao.com/2016/07/11/Bind-start-service/">
 
 
-
-
-
-  <link rel="canonical" href="alphagao.com/2016/07/11/Bind-start-service/">
-
-
-
-<script id="page.configurations">
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
   CONFIG.page = {
     sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-Hans'
   };
 </script>
 
@@ -134,15 +56,8 @@
 
 
 
-
-
-
-
-
-
   <noscript>
   <style>
-  .use-motion .motion-element,
   .use-motion .brand,
   .use-motion .menu-item,
   .sidebar-inner,
@@ -151,9 +66,8 @@
   .use-motion .comments,
   .use-motion .post-header,
   .use-motion .post-body,
-  .use-motion .collection-title { opacity: initial; }
+  .use-motion .collection-header { opacity: initial; }
 
-  .use-motion .logo,
   .use-motion .site-title,
   .use-motion .site-subtitle {
     opacity: initial;
@@ -167,153 +81,69 @@
 
 </head>
 
-<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
-
-  
-  
-    
-  
-
-  <div class="container sidebar-position-left page-post-detail">
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
     <div class="headband"></div>
 
-    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
-      <div class="header-inner"><div class="site-brand-wrapper">
-  <div class="site-meta">
-    
-
-    <div class="custom-logo-site-title">
-      <a href="/" class="brand" rel="start">
-        <span class="logo-line-before"><i></i></span>
-        <span class="site-title">Here's to Change</span>
-        <span class="logo-line-after"><i></i></span>
-      </a>
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
     </div>
-    
-      
-        <p class="site-subtitle">请问你真的有在努力吗 ？</p>
-      
-    
-    
   </div>
 
-  <div class="site-nav-toggle">
-    <button aria-label="Toggle navigation bar">
-      <span class="btn-bar"></span>
-      <span class="btn-bar"></span>
-      <span class="btn-bar"></span>
-    </button>
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Here's to Change</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">请问你真的有在努力吗 ？</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
   </div>
 </div>
 
 
 
+
 <nav class="site-nav">
-  
-    <ul id="menu" class="menu">
-      
-        
-        
-        
-          
-          <li class="menu-item menu-item-home">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
 
-    
-    
-    
-      
-    
-
-    
-
-    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>Home</a>
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
 
   </li>
-        
-        
-        
-          
-          <li class="menu-item menu-item-categories">
+        <li class="menu-item menu-item-about">
 
-    
-    
-    
-      
-    
-
-    
-
-    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>Categories</a>
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a>
 
   </li>
-        
-        
-        
-          
-          <li class="menu-item menu-item-tags">
+        <li class="menu-item menu-item-tags">
 
-    
-    
-    
-      
-    
-
-    
-
-    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>Tags</a>
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a>
 
   </li>
-        
-        
-        
-          
-          <li class="menu-item menu-item-archives">
+        <li class="menu-item menu-item-categories">
 
-    
-    
-    
-      
-    
-
-    
-
-    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>Archives</a>
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a>
 
   </li>
-        
-        
-        
-          
-          <li class="menu-item menu-item-about">
+        <li class="menu-item menu-item-archives">
 
-    
-    
-    
-      
-    
-
-    
-
-    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>About</a>
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
 
   </li>
-
-      
-      
-    </ul>
-  
-
-  
-    
-
-  
-
-  
+  </ul>
 </nav>
 
-
-
-  
 
 
 
@@ -321,146 +151,91 @@
     </header>
 
     
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
 
 
-    <main id="main" class="main">
+    <main class="main">
       <div class="main-inner">
         <div class="content-wrap">
           
-          <div id="content" class="content">
+
+          <div class="content post posts-expand">
             
 
-  <div id="posts" class="posts-expand">
     
-
-  
-
   
   
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="alphagao.com/2016/07/11/Bind-start-service/">
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="https://alphagao.com/2016/07/11/Bind-start-service/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
       <meta itemprop="name" content="Alpha Gao">
       <meta itemprop="description" content="You will be what you want.">
-      <meta itemprop="image" content="/images/avatar.gif">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
       <meta itemprop="name" content="Here's to Change">
     </span>
-
-    
       <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">Bind方式开启服务
-
-              
-            
-          </h1>
-        
+        <h1 class="post-title" itemprop="name headline">
+          Bind方式开启服务
+        </h1>
 
         <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
+            <span class="post-meta-item">
               <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
+                <i class="far fa-calendar"></i>
               </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-
-              
-                
-              
+              <span class="post-meta-item-text">Posted on</span>
 
               <time title="Created: 2016-07-11 00:15:58" itemprop="dateCreated datePublished" datetime="2016-07-11T00:15:58+08:00">2016-07-11</time>
-            
-
-            
-              
-
-              
-                
-                <span class="post-meta-divider">|</span>
-                
-
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">Edited on</span>
-                
-                <time title="Modified: 2017-08-07 17:49:04" itemprop="dateModified" datetime="2017-08-07T17:49:04+08:00">2017-08-07</time>
-              
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Android/" itemprop="url" rel="index"><span itemprop="name">Android</span></a></span>
-
-                
-                
-              
             </span>
-          
-
-          
-            
-            
-              
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
+              <span class="post-meta-item">
                 <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
+                  <i class="far fa-calendar-check"></i>
                 </span>
-            
-                <span class="post-meta-item-text">Comments: </span>
-                <a href="/2016/07/11/Bind-start-service/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/2016/07/11/Bind-start-service/" itemprop="commentCount"></span>
-                </a>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2017-08-07 17:49:04" itemprop="dateModified" datetime="2017-08-07T17:49:04+08:00">2017-08-07</time>
               </span>
-            
-          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Android/" itemprop="url" rel="index"><span itemprop="name">Android</span></a>
+                </span>
+            </span>
 
           
-          
-
-          
-
-          
-
-          
+            <span id="/2016/07/11/Bind-start-service/" class="post-meta-item leancloud_visitors" data-flag-title="Bind方式开启服务" title="Views">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">Views: </span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine: </span>
+    
+    <a title="valine" href="/2016/07/11/Bind-start-service/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2016/07/11/Bind-start-service/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
 
         </div>
       </header>
-    
 
     
     
@@ -468,28 +243,23 @@
     <div class="post-body" itemprop="articleBody">
 
       
-      
-
-      
         <p>首先来看一下启动服务的两种方式 <code>startService</code> 和 <code>bindService</code>：</p>
 <h3 id="startService"><a href="#startService" class="headerlink" title="startService"></a>startService</h3><blockquote>
-<p>StartService(Intent intent)<br><a id="more"></a></p>
+<p>StartService(Intent intent)<br><span id="more"></span></p>
 </blockquote>
 <p>start 的方式只能简单的开启服务，并且开启之后基本不能干预服务的运行逻辑，话句话说，开启后服务就和开启服务的线程没什么关系了。但是通常我们都是更加紧密的去联系服务，可能会获取一些运行的结果，比如执行结果，进度信息等，那就需要使用 bind 的方式开启服务了。</p>
 <h3 id="bindService"><a href="#bindService" class="headerlink" title="bindService"></a>bindService</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">bindService 的方法就比较丰富，其传入参数有三个，类型分别为</span><br><span class="line">Intent,ServiceConnection,Int.</span><br><span class="line">其中第一个就不细说了，意图对象大家都明白，第二个为接口，其中包含两个必须实现的方法：</span><br><span class="line">onServiceConnected(ComponentName var1, IBinder var2)</span><br><span class="line">代表服务连接，第一个参数暂且不提，第二个先记住它叫 Ibinder，后面会提到。</span><br><span class="line">onServiceDisconnected(ComponentName var1)</span><br><span class="line">代表与服务失去连接</span><br><span class="line">第三个参数Int类型就是服务执行的模式。</span><br></pre></td></tr></table></figure>
 <p>虽然 <code>BindService</code> 参数丰富，功能强大，但是其使用逻辑也略微复杂，下面慢慢道来。</p>
-<h4 id="1-采用-bind-的方法绑定开启服务"><a href="#1-采用-bind-的方法绑定开启服务" class="headerlink" title="1. 采用 bind 的方法绑定开启服务"></a>1. 采用 bind 的方法绑定开启服务</h4><h5 id="a-gt-先-new-一个类实现ServiceConnection接口，这个类用于为-bind-方法的第二个是参数做准备，我的理解是定义与服务的连接通道。"><a href="#a-gt-先-new-一个类实现ServiceConnection接口，这个类用于为-bind-方法的第二个是参数做准备，我的理解是定义与服务的连接通道。" class="headerlink" title="a &gt; 先 new 一个类实现ServiceConnection接口，这个类用于为 bind 方法的第二个是参数做准备，我的理解是定义与服务的连接通道。"></a>a &gt; 先 new 一个类实现ServiceConnection接口，这个类用于为 bind 方法的第二个是参数做准备，我的理解是定义与服务的连接通道。</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="class"><span class="keyword">class</span> <span class="title">MyConn</span> <span class="keyword">implements</span> <span class="title">ServiceConnection</span></span>&#123;</span><br><span class="line">    <span class="comment">//通道成功连接</span></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onServiceConnected</span><span class="params">(ComponentName componentName, IBinder iBinder)</span> </span>&#123;</span><br><span class="line">        <span class="comment">//此处IService代表在Service中提供一个调用其内部方法的接口，为接口类型</span></span><br><span class="line">        mybinder= (IService) iBinder;</span><br><span class="line">        Log.d(<span class="string">"phone....."</span>,<span class="string">"3.  见到服务的代理对象："</span>+mybinder.toString());</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//通道失去连接</span></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onServiceDisconnected</span><span class="params">(ComponentName componentName)</span> </span>&#123;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h5 id="b-gt-实例化出通道，然后使用执行-bind-方法。"><a href="#b-gt-实例化出通道，然后使用执行-bind-方法。" class="headerlink" title="b &gt; 实例化出通道，然后使用执行 bind 方法。"></a>b &gt; 实例化出通道，然后使用执行 bind 方法。</h5><p>在外部声明类：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> MyConn comm;</span><br></pre></td></tr></table></figure></p>
-<p>调用内部方法：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">comm=<span class="keyword">new</span> MyConn();</span><br><span class="line">    bindService(intent,comm, Context.BIND_AUTO_CREATE);</span><br></pre></td></tr></table></figure></p>
-<p>其中 <code>Context.BIND_AUTO_CREATE代</code> 代表若服务不存在实例则创建一个实例。</p>
+<h4 id="1-采用-bind-的方法绑定开启服务"><a href="#1-采用-bind-的方法绑定开启服务" class="headerlink" title="1. 采用 bind 的方法绑定开启服务"></a>1. 采用 bind 的方法绑定开启服务</h4><h5 id="a-gt-先-new-一个类实现ServiceConnection接口，这个类用于为-bind-方法的第二个是参数做准备，我的理解是定义与服务的连接通道。"><a href="#a-gt-先-new-一个类实现ServiceConnection接口，这个类用于为-bind-方法的第二个是参数做准备，我的理解是定义与服务的连接通道。" class="headerlink" title="a &gt; 先 new 一个类实现ServiceConnection接口，这个类用于为 bind 方法的第二个是参数做准备，我的理解是定义与服务的连接通道。"></a>a &gt; 先 new 一个类实现ServiceConnection接口，这个类用于为 bind 方法的第二个是参数做准备，我的理解是定义与服务的连接通道。</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">class</span> <span class="title class_">MyConn</span> <span class="keyword">implements</span> <span class="title class_">ServiceConnection</span>&#123;</span><br><span class="line">    <span class="comment">//通道成功连接</span></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">onServiceConnected</span><span class="params">(ComponentName componentName, IBinder iBinder)</span> &#123;</span><br><span class="line">        <span class="comment">//此处IService代表在Service中提供一个调用其内部方法的接口，为接口类型</span></span><br><span class="line">        mybinder= (IService) iBinder;</span><br><span class="line">        Log.d(<span class="string">&quot;phone.....&quot;</span>,<span class="string">&quot;3.  见到服务的代理对象：&quot;</span>+mybinder.toString());</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//通道失去连接</span></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">onServiceDisconnected</span><span class="params">(ComponentName componentName)</span> &#123;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="b-gt-实例化出通道，然后使用执行-bind-方法。"><a href="#b-gt-实例化出通道，然后使用执行-bind-方法。" class="headerlink" title="b &gt; 实例化出通道，然后使用执行 bind 方法。"></a>b &gt; 实例化出通道，然后使用执行 bind 方法。</h5><p>在外部声明类：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> MyConn comm;       </span><br></pre></td></tr></table></figure><br>调用内部方法：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">comm=<span class="keyword">new</span> <span class="title class_">MyConn</span>();</span><br><span class="line">    bindService(intent,comm, Context.BIND_AUTO_CREATE);</span><br></pre></td></tr></table></figure><br>其中 <code>Context.BIND_AUTO_CREATE代</code> 代表若服务不存在实例则创建一个实例。</p>
 <h4 id="2-服务内部实现一个代理人类"><a href="#2-服务内部实现一个代理人类" class="headerlink" title="2. 服务内部实现一个代理人类"></a>2. 服务内部实现一个代理人类</h4><p>这个代理继承自 <code>Ibinder</code>，也就是上文 <code>ServiceConnection</code> 中的 <code>onServiceConnected</code> 方法的一个返回值，这个 Ibinder 对象就是服务中的代理在服务外部的一个引用，通过这个引用就可以调用 Ibinder 实现的接口中的方法。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="class"><span class="keyword">class</span> <span class="title">Mybinder</span> <span class="keyword">extends</span> <span class="title">Binder</span> <span class="keyword">implements</span> <span class="title">IService</span></span>&#123;</span><br><span class="line">    <span class="comment">//由代理去调用服务内部的方法</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">callinService</span><span class="params">()</span></span>&#123;</span><br><span class="line">        Log.d(<span class="string">"phone....."</span>,<span class="string">"5.  代理人执行了服务里的方法"</span>);</span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        callInService();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">class</span> <span class="title class_">Mybinder</span> <span class="keyword">extends</span> <span class="title class_">Binder</span> <span class="keyword">implements</span> <span class="title class_">IService</span>&#123;</span><br><span class="line">    <span class="comment">//由代理去调用服务内部的方法</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">callinService</span><span class="params">()</span>&#123;</span><br><span class="line">        Log.d(<span class="string">&quot;phone.....&quot;</span>,<span class="string">&quot;5.  代理人执行了服务里的方法&quot;</span>);</span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        callInService();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h4 id="3-定义-IService-的接口"><a href="#3-定义-IService-的接口" class="headerlink" title="3. 定义 IService 的接口"></a>3. 定义 IService 的接口</h4><p>这个接口就是上文提到的 IService 接口，这个接口中通常定义想要暴露给外部的方法，外部也只能看到 IBinder 中实现的这个接口的方法，除非你将上一节中的 MyBinder 这个类定义为Public。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">IService</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">callInService</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title class_">IService</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">callInService</span><span class="params">()</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h4 id="4-返回代理人对象"><a href="#4-返回代理人对象" class="headerlink" title="4. 返回代理人对象"></a>4. 返回代理人对象</h4><p>具体服务是如何将 IBinder 的引用返回给外部呢，就是通过 Service 唯一的必须实现的方法：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Nullable</span></span><br><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> IBinder <span class="title">onBind</span><span class="params">(Intent intent)</span> </span>&#123;</span><br><span class="line">    <span class="comment">//当有需求时，呼叫代理人去接待</span></span><br><span class="line">    Mybinder mybinder=<span class="keyword">new</span> Mybinder();</span><br><span class="line">    Log.d(<span class="string">"phone....."</span>,<span class="string">"2.  成功绑定，返回服务的代理对象："</span>+mybinder.toString());</span><br><span class="line">    <span class="keyword">return</span> mybinder;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Nullable</span></span><br><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="keyword">public</span> IBinder <span class="title function_">onBind</span><span class="params">(Intent intent)</span> &#123;</span><br><span class="line">    <span class="comment">//当有需求时，呼叫代理人去接待</span></span><br><span class="line">    Mybinder mybinder=<span class="keyword">new</span> <span class="title class_">Mybinder</span>();</span><br><span class="line">    Log.d(<span class="string">&quot;phone.....&quot;</span>,<span class="string">&quot;2.  成功绑定，返回服务的代理对象：&quot;</span>+mybinder.toString());</span><br><span class="line">    <span class="keyword">return</span> mybinder;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h4 id="5-实现-serviceConnection-接口里面的方法"><a href="#5-实现-serviceConnection-接口里面的方法" class="headerlink" title="5. 实现 serviceConnection 接口里面的方法"></a>5. 实现 serviceConnection 接口里面的方法</h4><p>现在你就可以在通道中看到 Service 的代理对象了：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="class"><span class="keyword">class</span> <span class="title">MyConn</span> <span class="keyword">implements</span> <span class="title">ServiceConnection</span></span>&#123;</span><br><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onServiceConnected</span><span class="params">(ComponentName name, IBinder service)</span> </span>&#123;</span><br><span class="line">    myBinder = (IService) service;</span><br><span class="line">    System.out.println(<span class="string">"Activity,得到代理人对象"</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">class</span> <span class="title class_">MyConn</span> <span class="keyword">implements</span> <span class="title class_">ServiceConnection</span>&#123;</span><br><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">onServiceConnected</span><span class="params">(ComponentName name, IBinder service)</span> &#123;</span><br><span class="line">    myBinder = (IService) service;</span><br><span class="line">    System.out.println(<span class="string">&quot;Activity,得到代理人对象&quot;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h4 id="6-调用接口里面的方法"><a href="#6-调用接口里面的方法" class="headerlink" title="6. 调用接口里面的方法"></a>6. 调用接口里面的方法</h4><p>通过 MyBinder 这个 Service 的代理对象，就可以执行服务中对外开放的方法了。当然这个方法就需要你自己去定义了。</p>
 <pre><code>mybinder.callInService();
 </code></pre><blockquote>
@@ -525,491 +295,146 @@
 </ol>
 <p>这样我们就可以灵活的使用 Service，当需要的时候可以随时进行调用，不要的时候又可以长期运行于后台而不用保留UI线程。这也是服务最常见的用法。</p>
 
-      
     </div>
 
     
-
-    
-    
-    
-
-    
-
-    
-      
     
     
 
-    
-
-    <footer class="post-footer">
-      
-        <div class="post-tags">
-          
-            <a href="/tags/Service/" rel="tag"># Service</a>
-          
-        </div>
-      
-
-      
-      
-      
-
-      
-        <div class="post-nav">
-          <div class="post-nav-next post-nav-item">
-            
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Service/" rel="tag"># Service</a>
           </div>
 
-          <span class="post-nav-divider"></span>
+        
 
-          <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2016/07/11/http-mult-thread-download-with-breakpoint/" rel="prev" title="HTTP多线程断点下载">
-                HTTP多线程断点下载 <i class="fa fa-chevron-right"></i>
-              </a>
-            
-          </div>
-        </div>
-      
 
-      
-      
-    </footer>
-  </div>
-  
-  
-  
+        
+    <div class="post-nav">
+      <div class="post-nav-item"></div>
+      <div class="post-nav-item">
+    <a href="/2016/07/11/http-mult-thread-download-with-breakpoint/" rel="next" title="HTTP多线程断点下载">
+      HTTP多线程断点下载 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
   </article>
+  
+  
+  
 
-
-  </div>
 
 
           </div>
           
-
-  
-    <div class="comments" id="comments">
-    </div>
-
-  
-
-
-
-        </div>
-        
-          
-  
-  <div class="sidebar-toggle">
-    <div class="sidebar-toggle-line-wrap">
-      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
-      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
-      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
-    </div>
-  </div>
-
-  <aside id="sidebar" class="sidebar">
-    <div class="sidebar-inner">
-
-      
-
-      
-        <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
-            Table of Contents
-          </li>
-          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
-            Overview
-          </li>
-        </ul>
-      
-
-      <div class="site-overview-wrap sidebar-panel">
-        <div class="site-overview">
-          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
-            
-              <p class="site-author-name" itemprop="name">Alpha Gao</p>
-              <div class="site-description motion-element" itemprop="description">You will be what you want.</div>
-          </div>
-
-          
-            <nav class="site-state motion-element">
-              
-                <div class="site-state-item site-state-posts">
-                
-                  <a href="/archives/">
-                
-                    <span class="site-state-item-count">56</span>
-                    <span class="site-state-item-name">posts</span>
-                  </a>
-                </div>
-              
-
-              
-                
-                
-                <div class="site-state-item site-state-categories">
-                  
-                    
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                    <span class="site-state-item-count">12</span>
-                    <span class="site-state-item-name">categories</span>
-                  
-                </div>
-              
-
-              
-                
-                
-                <div class="site-state-item site-state-tags">
-                  
-                    
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                    <span class="site-state-item-count">100</span>
-                    <span class="site-state-item-name">tags</span>
-                  
-                </div>
-              
-            </nav>
-          
-
-          
-
-          
-
-          
-
-          
-          
-
-          
-            
-          
-          
-
-        </div>
-      </div>
-
-      
-      <!--noindex-->
-        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
-          <div class="post-toc">
-
-            
-            
-            
-            
-
-            
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#startService"><span class="nav-number">1.</span> <span class="nav-text">startService</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#bindService"><span class="nav-number">2.</span> <span class="nav-text">bindService</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-采用-bind-的方法绑定开启服务"><span class="nav-number">2.1.</span> <span class="nav-text">1. 采用 bind 的方法绑定开启服务</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#a-gt-先-new-一个类实现ServiceConnection接口，这个类用于为-bind-方法的第二个是参数做准备，我的理解是定义与服务的连接通道。"><span class="nav-number">2.1.1.</span> <span class="nav-text">a &gt; 先 new 一个类实现ServiceConnection接口，这个类用于为 bind 方法的第二个是参数做准备，我的理解是定义与服务的连接通道。</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#b-gt-实例化出通道，然后使用执行-bind-方法。"><span class="nav-number">2.1.2.</span> <span class="nav-text">b &gt; 实例化出通道，然后使用执行 bind 方法。</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-服务内部实现一个代理人类"><span class="nav-number">2.2.</span> <span class="nav-text">2. 服务内部实现一个代理人类</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-定义-IService-的接口"><span class="nav-number">2.3.</span> <span class="nav-text">3. 定义 IService 的接口</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-返回代理人对象"><span class="nav-number">2.4.</span> <span class="nav-text">4. 返回代理人对象</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5-实现-serviceConnection-接口里面的方法"><span class="nav-number">2.5.</span> <span class="nav-text">5. 实现 serviceConnection 接口里面的方法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#6-调用接口里面的方法"><span class="nav-number">2.6.</span> <span class="nav-text">6. 调用接口里面的方法</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#startService-1"><span class="nav-number">3.</span> <span class="nav-text">startService</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#bindService-1"><span class="nav-number">4.</span> <span class="nav-text">bindService</span></a></li></ol><li class="nav-item nav-level-2"><a class="nav-link" href="#混合开启服务"><span class="nav-number"></span> <span class="nav-text">混合开启服务</span></a></li></div>
-            
-
-          </div>
-        </div>
-      <!--/noindex-->
-      
-
-      
-        <div class="back-to-top">
-          <i class="fa fa-arrow-up"></i>
-          
-            <span id="scrollpercent"><span>0</span>%</span>
-          
-        </div>
-      
-
-    </div>
-  </aside>
-  
-
-
-        
-      </div>
-    </main>
-
-    <footer id="footer" class="footer">
-      <div class="footer-inner">
-        <div class="copyright">  <a href="http://www.miitbeian.gov.cn" rel="noopener" target="_blank">陇ICP备17000389号 </a>&copy; <span itemprop="copyrightYear">2022</span>
-  <span class="with-love" id="animate">
-    <i class="fa fa-Alpha Gao"></i>
-  </span>
-  <span class="author" itemprop="copyrightHolder">Alpha Gao</span>
-
-  
-
-  
-</div>
-
-
-  <div class="powered-by">Powered by <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> v3.9.0</div>
-
-
-
-  <span class="post-meta-divider">|</span>
-
-
-
-  <div class="theme-info">Theme – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> v7.0.1</div>
-
-
-
-
-        
-
-
-
-
-
-
-
-
-        
-      </div>
-    </footer>
-
-    
-
-    
-
-    
-
-    
-  </div>
-
-  
+    <div class="comments" id="valine-comments"></div>
 
 <script>
-  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
-    window.Promise = null;
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
   }
 </script>
 
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#startService"><span class="nav-number">1.</span> <span class="nav-text">startService</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#bindService"><span class="nav-number">2.</span> <span class="nav-text">bindService</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-%E9%87%87%E7%94%A8-bind-%E7%9A%84%E6%96%B9%E6%B3%95%E7%BB%91%E5%AE%9A%E5%BC%80%E5%90%AF%E6%9C%8D%E5%8A%A1"><span class="nav-number">2.1.</span> <span class="nav-text">1. 采用 bind 的方法绑定开启服务</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#a-gt-%E5%85%88-new-%E4%B8%80%E4%B8%AA%E7%B1%BB%E5%AE%9E%E7%8E%B0ServiceConnection%E6%8E%A5%E5%8F%A3%EF%BC%8C%E8%BF%99%E4%B8%AA%E7%B1%BB%E7%94%A8%E4%BA%8E%E4%B8%BA-bind-%E6%96%B9%E6%B3%95%E7%9A%84%E7%AC%AC%E4%BA%8C%E4%B8%AA%E6%98%AF%E5%8F%82%E6%95%B0%E5%81%9A%E5%87%86%E5%A4%87%EF%BC%8C%E6%88%91%E7%9A%84%E7%90%86%E8%A7%A3%E6%98%AF%E5%AE%9A%E4%B9%89%E4%B8%8E%E6%9C%8D%E5%8A%A1%E7%9A%84%E8%BF%9E%E6%8E%A5%E9%80%9A%E9%81%93%E3%80%82"><span class="nav-number">2.1.1.</span> <span class="nav-text">a &gt; 先 new 一个类实现ServiceConnection接口，这个类用于为 bind 方法的第二个是参数做准备，我的理解是定义与服务的连接通道。</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#b-gt-%E5%AE%9E%E4%BE%8B%E5%8C%96%E5%87%BA%E9%80%9A%E9%81%93%EF%BC%8C%E7%84%B6%E5%90%8E%E4%BD%BF%E7%94%A8%E6%89%A7%E8%A1%8C-bind-%E6%96%B9%E6%B3%95%E3%80%82"><span class="nav-number">2.1.2.</span> <span class="nav-text">b &gt; 实例化出通道，然后使用执行 bind 方法。</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-%E6%9C%8D%E5%8A%A1%E5%86%85%E9%83%A8%E5%AE%9E%E7%8E%B0%E4%B8%80%E4%B8%AA%E4%BB%A3%E7%90%86%E4%BA%BA%E7%B1%BB"><span class="nav-number">2.2.</span> <span class="nav-text">2. 服务内部实现一个代理人类</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-%E5%AE%9A%E4%B9%89-IService-%E7%9A%84%E6%8E%A5%E5%8F%A3"><span class="nav-number">2.3.</span> <span class="nav-text">3. 定义 IService 的接口</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-%E8%BF%94%E5%9B%9E%E4%BB%A3%E7%90%86%E4%BA%BA%E5%AF%B9%E8%B1%A1"><span class="nav-number">2.4.</span> <span class="nav-text">4. 返回代理人对象</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5-%E5%AE%9E%E7%8E%B0-serviceConnection-%E6%8E%A5%E5%8F%A3%E9%87%8C%E9%9D%A2%E7%9A%84%E6%96%B9%E6%B3%95"><span class="nav-number">2.5.</span> <span class="nav-text">5. 实现 serviceConnection 接口里面的方法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#6-%E8%B0%83%E7%94%A8%E6%8E%A5%E5%8F%A3%E9%87%8C%E9%9D%A2%E7%9A%84%E6%96%B9%E6%B3%95"><span class="nav-number">2.6.</span> <span class="nav-text">6. 调用接口里面的方法</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#startService-1"><span class="nav-number">3.</span> <span class="nav-text">startService</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#bindService-1"><span class="nav-number">4.</span> <span class="nav-text">bindService</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B7%B7%E5%90%88%E5%BC%80%E5%90%AF%E6%9C%8D%E5%8A%A1"><span class="nav-number"></span> <span class="nav-text">混合开启服务</span></a></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Alpha Gao</p>
+  <div class="site-description" itemprop="description">You will be what you want.</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">56</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">12</span>
+        <span class="site-state-item-name">categories</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">100</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2025</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Alpha Gao</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a>
+  </div>
+
+        
 
 
 
@@ -1018,8 +443,29 @@
 
 
 
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
 
 
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
 
 
 
@@ -1036,110 +482,37 @@
 
 
   
-  <script src="/lib/jquery/index.js?v=2.1.3"></script>
-
-  
-  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
-
-  
-  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
-
 
   
 
-
-  <script src="/js/src/utils.js?v=7.0.1"></script>
-
-  <script src="/js/src/motion.js?v=7.0.1"></script>
-
-
-
-  
-  
-
-
-  <script src="/js/src/schemes/muse.js?v=7.0.1"></script>
-
-
-
-  
-  <script src="/js/src/scrollspy.js?v=7.0.1"></script>
-<script src="/js/src/post-details.js?v=7.0.1"></script>
-
-
-
-  
-
-
-  <script src="/js/src/next-boot.js?v=7.0.1"></script>
-
-
-  
-  
-  
-
-<script src="//cdn1.lncld.net/static/js/3.11.1/av-min.js"></script>
-
-
-
-<script src="//unpkg.com/valine/dist/Valine.min.js"></script>
 
 <script>
-  var GUEST = ['nick', 'mail', 'link'];
-  var guest = 'nick,mail,link';
-  guest = guest.split(',').filter(function(item) {
-    return GUEST.indexOf(item) > -1;
-  });
-  new Valine({
-    el: '#comments',
-    verify: false,
-    notify: false,
-    appId: 'H96xxLo0hzG4azqx9XRPBLGe-gzGzoHsz',
-    appKey: 'NPnxUKfUoUn6iIlWOyvA1WgE',
-    placeholder: 'Just say anything',
-    avatar: 'mm',
-    meta: guest,
-    pageSize: '10' || 10,
-    visitor: false
-  });
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : true,
+      appId      : 'H96xxLo0hzG4azqx9XRPBLGe-gzGzoHsz',
+      appKey     : 'NPnxUKfUoUn6iIlWOyvA1WgE',
+      placeholder: "Just Say Anything",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : true,
+      lang       : 'en' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : true,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
 </script>
-
-
-
-
-  
-
-
-  
-
-
-
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
 
 </body>
 </html>

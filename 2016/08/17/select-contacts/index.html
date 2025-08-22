@@ -1,129 +1,51 @@
 <!DOCTYPE html>
-
-
-
-
-
-
-
-
-
-
-
-
-  
-
-
-<html class="theme-next muse use-motion" lang="zh-Hans">
-<head><meta name="generator" content="Hexo 3.9.0">
+<html lang="zh-Hans">
+<head>
   <meta charset="UTF-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
 <meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 7.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
 
 
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
 
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"alphagao.com","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"hide","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
-
-<link rel="stylesheet" href="/css/main.css?v=7.0.1">
-
-
-  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.0.1">
-
-
-  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.0.1">
-
-
-  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.0.1">
-
-
-  <link rel="mask-icon" href="/images/logo.svg?v=7.0.1" color="#222">
-
-
-
-
-
-
-
-<script id="hexo.configurations">
-  var NexT = window.NexT || {};
-  var CONFIG = {
-    root: '/',
-    scheme: 'Muse',
-    version: '7.0.1',
-    sidebar: {"position":"left","display":"hide","offset":12,"b2t":true,"scrollpercent":true,"onmobile":false,"dimmer":false},
-    fancybox: false,
-    fastclick: false,
-    lazyload: false,
-    tabs: true,
-    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
-    algolia: {
-      applicationID: '',
-      apiKey: '',
-      indexName: '',
-      hits: {"per_page":10},
-      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
-    }
-  };
-</script>
-
-
-  
-
-
-
-
-  <meta name="description" content="在日常的手机开发中，经常会有获取手机联系人的需求。我之前写过一篇关于通过 ContentProvider&amp;lt;博客链接&amp;gt; 操作联系人数据库的博客，里面主要是通过匹配规则和开放的数据操作接口进行数据库的操作。 不过除了要对整个联系人或者短信数据库进行备份外，一般是不会进行删改的操作，而通过选择来拿到某个联系人的手机号码或者邮箱却是一个比较频繁的需求。这里就以该需求出发，实现简洁高效的联系人信">
-<meta name="keywords" content="Contacts">
+  <meta name="description" content="在日常的手机开发中，经常会有获取手机联系人的需求。我之前写过一篇关于通过 ContentProvider&lt;博客链接&gt; 操作联系人数据库的博客，里面主要是通过匹配规则和开放的数据操作接口进行数据库的操作。 不过除了要对整个联系人或者短信数据库进行备份外，一般是不会进行删改的操作，而通过选择来拿到某个联系人的手机号码或者邮箱却是一个比较频繁的需求。这里就以该需求出发，实现简洁高效的联系人信">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Android 选取手机联系人">
-<meta property="og:url" content="alphagao.com/2016/08/17/select-contacts/index.html">
+<meta property="og:url" content="https://alphagao.com/2016/08/17/select-contacts/index.html">
 <meta property="og:site_name" content="Here&#39;s to Change">
-<meta property="og:description" content="在日常的手机开发中，经常会有获取手机联系人的需求。我之前写过一篇关于通过 ContentProvider&amp;lt;博客链接&amp;gt; 操作联系人数据库的博客，里面主要是通过匹配规则和开放的数据操作接口进行数据库的操作。 不过除了要对整个联系人或者短信数据库进行备份外，一般是不会进行删改的操作，而通过选择来拿到某个联系人的手机号码或者邮箱却是一个比较频繁的需求。这里就以该需求出发，实现简洁高效的联系人信">
-<meta property="og:locale" content="zh-Hans">
+<meta property="og:description" content="在日常的手机开发中，经常会有获取手机联系人的需求。我之前写过一篇关于通过 ContentProvider&lt;博客链接&gt; 操作联系人数据库的博客，里面主要是通过匹配规则和开放的数据操作接口进行数据库的操作。 不过除了要对整个联系人或者短信数据库进行备份外，一般是不会进行删改的操作，而通过选择来拿到某个联系人的手机号码或者邮箱却是一个比较频繁的需求。这里就以该需求出发，实现简洁高效的联系人信">
+<meta property="og:locale">
 <meta property="og:image" content="https://oa3wvfmvl.bkt.clouddn.com/device-2016-08-17-221307.png">
 <meta property="og:image" content="https://oa3wvfmvl.bkt.clouddn.com/device-2016-08-17-221843.png">
-<meta property="og:updated_time" content="2019-03-08T09:06:32.000Z">
+<meta property="article:published_time" content="2016-08-17T12:41:30.000Z">
+<meta property="article:modified_time" content="2019-03-08T09:06:32.000Z">
+<meta property="article:author" content="Alpha Gao">
+<meta property="article:tag" content="Contacts">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Android 选取手机联系人">
-<meta name="twitter:description" content="在日常的手机开发中，经常会有获取手机联系人的需求。我之前写过一篇关于通过 ContentProvider&amp;lt;博客链接&amp;gt; 操作联系人数据库的博客，里面主要是通过匹配规则和开放的数据操作接口进行数据库的操作。 不过除了要对整个联系人或者短信数据库进行备份外，一般是不会进行删改的操作，而通过选择来拿到某个联系人的手机号码或者邮箱却是一个比较频繁的需求。这里就以该需求出发，实现简洁高效的联系人信">
 <meta name="twitter:image" content="https://oa3wvfmvl.bkt.clouddn.com/device-2016-08-17-221307.png">
 
+<link rel="canonical" href="https://alphagao.com/2016/08/17/select-contacts/">
 
 
-
-
-
-  <link rel="canonical" href="alphagao.com/2016/08/17/select-contacts/">
-
-
-
-<script id="page.configurations">
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
   CONFIG.page = {
     sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-Hans'
   };
 </script>
 
@@ -135,15 +57,8 @@
 
 
 
-
-
-
-
-
-
   <noscript>
   <style>
-  .use-motion .motion-element,
   .use-motion .brand,
   .use-motion .menu-item,
   .sidebar-inner,
@@ -152,9 +67,8 @@
   .use-motion .comments,
   .use-motion .post-header,
   .use-motion .post-body,
-  .use-motion .collection-title { opacity: initial; }
+  .use-motion .collection-header { opacity: initial; }
 
-  .use-motion .logo,
   .use-motion .site-title,
   .use-motion .site-subtitle {
     opacity: initial;
@@ -168,153 +82,69 @@
 
 </head>
 
-<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
-
-  
-  
-    
-  
-
-  <div class="container sidebar-position-left page-post-detail">
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
     <div class="headband"></div>
 
-    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
-      <div class="header-inner"><div class="site-brand-wrapper">
-  <div class="site-meta">
-    
-
-    <div class="custom-logo-site-title">
-      <a href="/" class="brand" rel="start">
-        <span class="logo-line-before"><i></i></span>
-        <span class="site-title">Here's to Change</span>
-        <span class="logo-line-after"><i></i></span>
-      </a>
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
     </div>
-    
-      
-        <p class="site-subtitle">请问你真的有在努力吗 ？</p>
-      
-    
-    
   </div>
 
-  <div class="site-nav-toggle">
-    <button aria-label="Toggle navigation bar">
-      <span class="btn-bar"></span>
-      <span class="btn-bar"></span>
-      <span class="btn-bar"></span>
-    </button>
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Here's to Change</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">请问你真的有在努力吗 ？</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
   </div>
 </div>
 
 
 
+
 <nav class="site-nav">
-  
-    <ul id="menu" class="menu">
-      
-        
-        
-        
-          
-          <li class="menu-item menu-item-home">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
 
-    
-    
-    
-      
-    
-
-    
-
-    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>Home</a>
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
 
   </li>
-        
-        
-        
-          
-          <li class="menu-item menu-item-categories">
+        <li class="menu-item menu-item-about">
 
-    
-    
-    
-      
-    
-
-    
-
-    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>Categories</a>
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a>
 
   </li>
-        
-        
-        
-          
-          <li class="menu-item menu-item-tags">
+        <li class="menu-item menu-item-tags">
 
-    
-    
-    
-      
-    
-
-    
-
-    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>Tags</a>
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a>
 
   </li>
-        
-        
-        
-          
-          <li class="menu-item menu-item-archives">
+        <li class="menu-item menu-item-categories">
 
-    
-    
-    
-      
-    
-
-    
-
-    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>Archives</a>
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a>
 
   </li>
-        
-        
-        
-          
-          <li class="menu-item menu-item-about">
+        <li class="menu-item menu-item-archives">
 
-    
-    
-    
-      
-    
-
-    
-
-    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>About</a>
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
 
   </li>
-
-      
-      
-    </ul>
-  
-
-  
-    
-
-  
-
-  
+  </ul>
 </nav>
 
-
-
-  
 
 
 
@@ -322,146 +152,91 @@
     </header>
 
     
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
 
 
-    <main id="main" class="main">
+    <main class="main">
       <div class="main-inner">
         <div class="content-wrap">
           
-          <div id="content" class="content">
+
+          <div class="content post posts-expand">
             
 
-  <div id="posts" class="posts-expand">
     
-
-  
-
   
   
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="alphagao.com/2016/08/17/select-contacts/">
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="https://alphagao.com/2016/08/17/select-contacts/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
       <meta itemprop="name" content="Alpha Gao">
       <meta itemprop="description" content="You will be what you want.">
-      <meta itemprop="image" content="/images/avatar.gif">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
       <meta itemprop="name" content="Here's to Change">
     </span>
-
-    
       <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">Android 选取手机联系人
-
-              
-            
-          </h1>
-        
+        <h1 class="post-title" itemprop="name headline">
+          Android 选取手机联系人
+        </h1>
 
         <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
+            <span class="post-meta-item">
               <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
+                <i class="far fa-calendar"></i>
               </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-
-              
-                
-              
+              <span class="post-meta-item-text">Posted on</span>
 
               <time title="Created: 2016-08-17 20:41:30" itemprop="dateCreated datePublished" datetime="2016-08-17T20:41:30+08:00">2016-08-17</time>
-            
-
-            
-              
-
-              
-                
-                <span class="post-meta-divider">|</span>
-                
-
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">Edited on</span>
-                
-                <time title="Modified: 2019-03-08 17:06:32" itemprop="dateModified" datetime="2019-03-08T17:06:32+08:00">2019-03-08</time>
-              
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Android/" itemprop="url" rel="index"><span itemprop="name">Android</span></a></span>
-
-                
-                
-              
             </span>
-          
-
-          
-            
-            
-              
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
+              <span class="post-meta-item">
                 <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
+                  <i class="far fa-calendar-check"></i>
                 </span>
-            
-                <span class="post-meta-item-text">Comments: </span>
-                <a href="/2016/08/17/select-contacts/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/2016/08/17/select-contacts/" itemprop="commentCount"></span>
-                </a>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2019-03-08 17:06:32" itemprop="dateModified" datetime="2019-03-08T17:06:32+08:00">2019-03-08</time>
               </span>
-            
-          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Android/" itemprop="url" rel="index"><span itemprop="name">Android</span></a>
+                </span>
+            </span>
 
           
-          
-
-          
-
-          
-
-          
+            <span id="/2016/08/17/select-contacts/" class="post-meta-item leancloud_visitors" data-flag-title="Android 选取手机联系人" title="Views">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">Views: </span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine: </span>
+    
+    <a title="valine" href="/2016/08/17/select-contacts/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2016/08/17/select-contacts/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
 
         </div>
       </header>
-    
 
     
     
@@ -469,520 +244,171 @@
     <div class="post-body" itemprop="articleBody">
 
       
-      
-
-      
-        <p>在日常的手机开发中，经常会有获取手机联系人的需求。我之前写过一篇关于通过 <code>ContentProvider</code><a href="https://alphagao1993.github.io/2016/07/15/ContentProvider%E4%B9%8B%E8%AF%BB%E5%86%99%E8%81%94%E7%B3%BB%E4%BA%BA%E3%80%81%E7%9F%AD%E4%BF%A1%E3%80%81%E9%80%9A%E8%AF%9D%E8%AE%B0%E5%BD%95/" target="_blank" rel="noopener">&lt;博客链接&gt;</a> 操作联系人数据库的博客，里面主要是通过匹配规则和开放的数据操作接口进行数据库的操作。</p>
+        <p>在日常的手机开发中，经常会有获取手机联系人的需求。我之前写过一篇关于通过 <code>ContentProvider</code><a href="https://alphagao1993.github.io/2016/07/15/ContentProvider%E4%B9%8B%E8%AF%BB%E5%86%99%E8%81%94%E7%B3%BB%E4%BA%BA%E3%80%81%E7%9F%AD%E4%BF%A1%E3%80%81%E9%80%9A%E8%AF%9D%E8%AE%B0%E5%BD%95/">&lt;博客链接&gt;</a> 操作联系人数据库的博客，里面主要是通过匹配规则和开放的数据操作接口进行数据库的操作。</p>
 <p>不过除了要对整个联系人或者短信数据库进行备份外，一般是不会进行删改的操作，而通过选择来拿到某个联系人的手机号码或者邮箱却是一个比较频繁的需求。这里就以该需求出发，实现简洁高效的联系人信息抓取。</p>
-<a id="more"></a>
+<span id="more"></span>
 <h3 id="打开联系人选择列表"><a href="#打开联系人选择列表" class="headerlink" title="打开联系人选择列表"></a>打开联系人选择列表</h3><p>在使用支付宝进行转账或者充值的时候，可以直接打开联系人列表进行选择目标联系人，点击后就可以自动填充联系人手机号码。我们的目标就是实现同样的功能。</p>
 <p>事实上这个联系人选择界面并不是由我们自己开发的，而是系统默认会提供给我们的。通过特定的意图（Intent）就可以开启这个界面。通常这个界面被称为 Android Contact Picker 。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Intent intent = <span class="keyword">new</span> Intent(Intent.ACTION_PICK, ContactsContract.CommonDataKinds.Phone.CONTENT_URI);</span><br><span class="line">startActivityForResult(intent, CODE_PICK_CONTACTS);</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">Intent</span> <span class="variable">intent</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Intent</span>(Intent.ACTION_PICK, ContactsContract.CommonDataKinds.Phone.CONTENT_URI);</span><br><span class="line">startActivityForResult(intent, CODE_PICK_CONTACTS);</span><br></pre></td></tr></table></figure>
 <p>其中 <code>CODE_PICK_CONTACTS</code> 定义的一个Int类型的常量，用于表示请求码。</p>
 <p>执行了这段逻辑就会打开一个联系人选择界面，通过点击就可以选择你的目标联系人。如果该联系人有多个手机号码，这个界面也会弹出对话框叫你选择，免去了我们自己实现逻辑的麻烦。</p>
-<p><img src="https://oa3wvfmvl.bkt.clouddn.com/device-2016-08-17-221307.png" alt><br><img src="https://oa3wvfmvl.bkt.clouddn.com/device-2016-08-17-221843.png" alt></p>
+<p><img src="https://oa3wvfmvl.bkt.clouddn.com/device-2016-08-17-221307.png" alt=""><br><img src="https://oa3wvfmvl.bkt.clouddn.com/device-2016-08-17-221843.png" alt=""></p>
 <h3 id="根据返回值进行操作"><a href="#根据返回值进行操作" class="headerlink" title="根据返回值进行操作"></a>根据返回值进行操作</h3><p>注意上面我们是使用 <code>startActivityForResult</code> 这个方法打开一个Activity的，因为我们需要拿到返回的字段，如姓名，手机号，邮箱等。</p>
 <p>那么就重写 <code>onActivityResult</code> 将需要的字段显示出来：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onActivityResult</span><span class="params">(<span class="keyword">int</span> requestCode, <span class="keyword">int</span> resultCode, Intent data)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">super</span>.onActivityResult(requestCode, resultCode, data);</span><br><span class="line">    <span class="keyword">if</span> (resultCode == Activity.RESULT_OK) &#123;</span><br><span class="line">        <span class="keyword">switch</span> (requestCode) &#123;</span><br><span class="line">            <span class="keyword">case</span> (CODE_PICK_CONTACTS):</span><br><span class="line">                String phone=ContactInfoUtils.getPickPhoneNumber(<span class="keyword">this</span>,data.getData());</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title function_">onActivityResult</span><span class="params">(<span class="type">int</span> requestCode, <span class="type">int</span> resultCode, Intent data)</span> &#123;</span><br><span class="line">    <span class="built_in">super</span>.onActivityResult(requestCode, resultCode, data);</span><br><span class="line">    <span class="keyword">if</span> (resultCode == Activity.RESULT_OK) &#123;</span><br><span class="line">        <span class="keyword">switch</span> (requestCode) &#123;</span><br><span class="line">            <span class="keyword">case</span> (CODE_PICK_CONTACTS):</span><br><span class="line">                String phone=ContactInfoUtils.getPickPhoneNumber(<span class="built_in">this</span>,data.getData());</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>这里我将具体的获得联系人信息的逻辑进行了简单的封装，便于其他地方进行调用。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> ContactInfo <span class="title">getPickContact</span><span class="params">(Context context, Uri uri)</span> </span>&#123;</span><br><span class="line">    ContactInfo info = <span class="keyword">new</span> ContactInfo();</span><br><span class="line">    Cursor cursor = context.getContentResolver().query(uri, <span class="keyword">null</span>, <span class="keyword">null</span>, <span class="keyword">null</span>, <span class="keyword">null</span>);</span><br><span class="line">    String num = <span class="string">""</span>;</span><br><span class="line">    <span class="keyword">if</span> (cursor != <span class="keyword">null</span> &amp;&amp; cursor.moveToNext()) &#123;</span><br><span class="line">        info.id = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts._ID));</span><br><span class="line">        info.name = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME));</span><br><span class="line">        num = cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));</span><br><span class="line">        <span class="comment">//替换掉不合法的字符</span></span><br><span class="line">        num = num.replace(<span class="string">"-"</span>, <span class="string">""</span>);</span><br><span class="line">        num = num.replace(<span class="string">" "</span>, <span class="string">""</span>);</span><br><span class="line">        info.phone = num;</span><br><span class="line">        cursor.close();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    Cursor emailCur = context.getContentResolver().query(</span><br><span class="line">            ContactsContract.CommonDataKinds.Email.CONTENT_URI, <span class="keyword">null</span>,</span><br><span class="line">            ContactsContract.CommonDataKinds.Email.CONTACT_ID + <span class="string">" = "</span>+info.id,</span><br><span class="line">            <span class="keyword">null</span>, <span class="keyword">null</span>);</span><br><span class="line">    <span class="keyword">if</span> (emailCur != <span class="keyword">null</span>) &#123;</span><br><span class="line">        <span class="keyword">while</span> (emailCur.moveToNext()) &#123;</span><br><span class="line">            info.email = emailCur.getString(</span><br><span class="line">                    emailCur.getColumnIndex(ContactsContract.CommonDataKinds.Email.DATA));</span><br><span class="line">        &#125;</span><br><span class="line">        emailCur.close();</span><br><span class="line">    &#125;</span><br><span class="line">    Log.d(<span class="string">"getPickContact"</span>, <span class="string">"ID:"</span> + info.id + <span class="string">" name:"</span> + info.name + <span class="string">" num:"</span> + info.phone + <span class="string">" email:"</span> + info.email);</span><br><span class="line">    <span class="keyword">return</span> info;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> ContactInfo <span class="title function_">getPickContact</span><span class="params">(Context context, Uri uri)</span> &#123;</span><br><span class="line">    <span class="type">ContactInfo</span> <span class="variable">info</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">ContactInfo</span>();</span><br><span class="line">    <span class="type">Cursor</span> <span class="variable">cursor</span> <span class="operator">=</span> context.getContentResolver().query(uri, <span class="literal">null</span>, <span class="literal">null</span>, <span class="literal">null</span>, <span class="literal">null</span>);</span><br><span class="line">    <span class="type">String</span> <span class="variable">num</span> <span class="operator">=</span> <span class="string">&quot;&quot;</span>;</span><br><span class="line">    <span class="keyword">if</span> (cursor != <span class="literal">null</span> &amp;&amp; cursor.moveToNext()) &#123;</span><br><span class="line">        info.id = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts._ID));</span><br><span class="line">        info.name = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME));</span><br><span class="line">        num = cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));</span><br><span class="line">        <span class="comment">//替换掉不合法的字符</span></span><br><span class="line">        num = num.replace(<span class="string">&quot;-&quot;</span>, <span class="string">&quot;&quot;</span>);</span><br><span class="line">        num = num.replace(<span class="string">&quot; &quot;</span>, <span class="string">&quot;&quot;</span>);</span><br><span class="line">        info.phone = num;</span><br><span class="line">        cursor.close();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="type">Cursor</span> <span class="variable">emailCur</span> <span class="operator">=</span> context.getContentResolver().query(</span><br><span class="line">            ContactsContract.CommonDataKinds.Email.CONTENT_URI, <span class="literal">null</span>,</span><br><span class="line">            ContactsContract.CommonDataKinds.Email.CONTACT_ID + <span class="string">&quot; = &quot;</span>+info.id,</span><br><span class="line">            <span class="literal">null</span>, <span class="literal">null</span>);</span><br><span class="line">    <span class="keyword">if</span> (emailCur != <span class="literal">null</span>) &#123;</span><br><span class="line">        <span class="keyword">while</span> (emailCur.moveToNext()) &#123;</span><br><span class="line">            info.email = emailCur.getString(</span><br><span class="line">                    emailCur.getColumnIndex(ContactsContract.CommonDataKinds.Email.DATA));</span><br><span class="line">        &#125;</span><br><span class="line">        emailCur.close();</span><br><span class="line">    &#125;</span><br><span class="line">    Log.d(<span class="string">&quot;getPickContact&quot;</span>, <span class="string">&quot;ID:&quot;</span> + info.id + <span class="string">&quot; name:&quot;</span> + info.name + <span class="string">&quot; num:&quot;</span> + info.phone + <span class="string">&quot; email:&quot;</span> + info.email);</span><br><span class="line">    <span class="keyword">return</span> info;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>内部类：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">ContactInfo</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> String id;</span><br><span class="line">    <span class="keyword">public</span> String name;</span><br><span class="line">    <span class="keyword">public</span> String phone;</span><br><span class="line">    <span class="keyword">public</span> String email;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">class</span> <span class="title class_">ContactInfo</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> String id;</span><br><span class="line">    <span class="keyword">public</span> String name;</span><br><span class="line">    <span class="keyword">public</span> String phone;</span><br><span class="line">    <span class="keyword">public</span> String email;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>运行后打印的日志如下：</p>
 <pre><code>D/getPickContact: ID:1 name:gyq num:12345678 email:gyq@qq.com
 </code></pre><blockquote>
 <p>以上结果是在虚拟机中运行获得的。而在我的htc m7 中实测是不能获得邮件地址的，得到仍然是电话号码。手头上没有其他实体机器，目前还无法验证是不是仅在虚拟机中有效。</p>
 </blockquote>
 
-      
     </div>
 
     
-
-    
-    
-    
-
-    
-
-    
-      
     
     
 
-    
-
-    <footer class="post-footer">
-      
-        <div class="post-tags">
-          
-            <a href="/tags/Contacts/" rel="tag"># Contacts</a>
-          
-        </div>
-      
-
-      
-      
-      
-
-      
-        <div class="post-nav">
-          <div class="post-nav-next post-nav-item">
-            
-              <a href="/2016/08/17/gesture-identify/" rel="next" title="Android 手势识别">
-                <i class="fa fa-chevron-left"></i> Android 手势识别
-              </a>
-            
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Contacts/" rel="tag"># Contacts</a>
           </div>
 
-          <span class="post-nav-divider"></span>
+        
 
-          <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2016/08/25/160825/" rel="prev" title="Ubuntu折腾手记">
-                Ubuntu折腾手记 <i class="fa fa-chevron-right"></i>
-              </a>
-            
-          </div>
-        </div>
-      
 
-      
-      
-    </footer>
-  </div>
-  
-  
-  
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2016/08/17/gesture-identify/" rel="prev" title="Android 手势识别">
+      <i class="fa fa-chevron-left"></i> Android 手势识别
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2016/08/25/160825/" rel="next" title="Ubuntu折腾手记">
+      Ubuntu折腾手记 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
   </article>
+  
+  
+  
 
-
-  </div>
 
 
           </div>
           
-
-  
-    <div class="comments" id="comments">
-    </div>
-
-  
-
-
-
-        </div>
-        
-          
-  
-  <div class="sidebar-toggle">
-    <div class="sidebar-toggle-line-wrap">
-      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
-      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
-      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
-    </div>
-  </div>
-
-  <aside id="sidebar" class="sidebar">
-    <div class="sidebar-inner">
-
-      
-
-      
-        <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
-            Table of Contents
-          </li>
-          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
-            Overview
-          </li>
-        </ul>
-      
-
-      <div class="site-overview-wrap sidebar-panel">
-        <div class="site-overview">
-          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
-            
-              <p class="site-author-name" itemprop="name">Alpha Gao</p>
-              <div class="site-description motion-element" itemprop="description">You will be what you want.</div>
-          </div>
-
-          
-            <nav class="site-state motion-element">
-              
-                <div class="site-state-item site-state-posts">
-                
-                  <a href="/archives/">
-                
-                    <span class="site-state-item-count">56</span>
-                    <span class="site-state-item-name">posts</span>
-                  </a>
-                </div>
-              
-
-              
-                
-                
-                <div class="site-state-item site-state-categories">
-                  
-                    
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                    <span class="site-state-item-count">12</span>
-                    <span class="site-state-item-name">categories</span>
-                  
-                </div>
-              
-
-              
-                
-                
-                <div class="site-state-item site-state-tags">
-                  
-                    
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                    <span class="site-state-item-count">100</span>
-                    <span class="site-state-item-name">tags</span>
-                  
-                </div>
-              
-            </nav>
-          
-
-          
-
-          
-
-          
-
-          
-          
-
-          
-            
-          
-          
-
-        </div>
-      </div>
-
-      
-      <!--noindex-->
-        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
-          <div class="post-toc">
-
-            
-            
-            
-            
-
-            
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#打开联系人选择列表"><span class="nav-number">1.</span> <span class="nav-text">打开联系人选择列表</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#根据返回值进行操作"><span class="nav-number">2.</span> <span class="nav-text">根据返回值进行操作</span></a></li></ol></div>
-            
-
-          </div>
-        </div>
-      <!--/noindex-->
-      
-
-      
-        <div class="back-to-top">
-          <i class="fa fa-arrow-up"></i>
-          
-            <span id="scrollpercent"><span>0</span>%</span>
-          
-        </div>
-      
-
-    </div>
-  </aside>
-  
-
-
-        
-      </div>
-    </main>
-
-    <footer id="footer" class="footer">
-      <div class="footer-inner">
-        <div class="copyright">  <a href="http://www.miitbeian.gov.cn" rel="noopener" target="_blank">陇ICP备17000389号 </a>&copy; <span itemprop="copyrightYear">2022</span>
-  <span class="with-love" id="animate">
-    <i class="fa fa-Alpha Gao"></i>
-  </span>
-  <span class="author" itemprop="copyrightHolder">Alpha Gao</span>
-
-  
-
-  
-</div>
-
-
-  <div class="powered-by">Powered by <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> v3.9.0</div>
-
-
-
-  <span class="post-meta-divider">|</span>
-
-
-
-  <div class="theme-info">Theme – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> v7.0.1</div>
-
-
-
-
-        
-
-
-
-
-
-
-
-
-        
-      </div>
-    </footer>
-
-    
-
-    
-
-    
-
-    
-  </div>
-
-  
+    <div class="comments" id="valine-comments"></div>
 
 <script>
-  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
-    window.Promise = null;
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
   }
 </script>
 
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%89%93%E5%BC%80%E8%81%94%E7%B3%BB%E4%BA%BA%E9%80%89%E6%8B%A9%E5%88%97%E8%A1%A8"><span class="nav-number">1.</span> <span class="nav-text">打开联系人选择列表</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A0%B9%E6%8D%AE%E8%BF%94%E5%9B%9E%E5%80%BC%E8%BF%9B%E8%A1%8C%E6%93%8D%E4%BD%9C"><span class="nav-number">2.</span> <span class="nav-text">根据返回值进行操作</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Alpha Gao</p>
+  <div class="site-description" itemprop="description">You will be what you want.</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">56</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">12</span>
+        <span class="site-state-item-name">categories</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">100</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2025</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Alpha Gao</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a>
+  </div>
+
+        
 
 
 
@@ -991,8 +417,29 @@
 
 
 
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
 
 
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
 
 
 
@@ -1009,110 +456,37 @@
 
 
   
-  <script src="/lib/jquery/index.js?v=2.1.3"></script>
-
-  
-  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
-
-  
-  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
-
 
   
 
-
-  <script src="/js/src/utils.js?v=7.0.1"></script>
-
-  <script src="/js/src/motion.js?v=7.0.1"></script>
-
-
-
-  
-  
-
-
-  <script src="/js/src/schemes/muse.js?v=7.0.1"></script>
-
-
-
-  
-  <script src="/js/src/scrollspy.js?v=7.0.1"></script>
-<script src="/js/src/post-details.js?v=7.0.1"></script>
-
-
-
-  
-
-
-  <script src="/js/src/next-boot.js?v=7.0.1"></script>
-
-
-  
-  
-  
-
-<script src="//cdn1.lncld.net/static/js/3.11.1/av-min.js"></script>
-
-
-
-<script src="//unpkg.com/valine/dist/Valine.min.js"></script>
 
 <script>
-  var GUEST = ['nick', 'mail', 'link'];
-  var guest = 'nick,mail,link';
-  guest = guest.split(',').filter(function(item) {
-    return GUEST.indexOf(item) > -1;
-  });
-  new Valine({
-    el: '#comments',
-    verify: false,
-    notify: false,
-    appId: 'H96xxLo0hzG4azqx9XRPBLGe-gzGzoHsz',
-    appKey: 'NPnxUKfUoUn6iIlWOyvA1WgE',
-    placeholder: 'Just say anything',
-    avatar: 'mm',
-    meta: guest,
-    pageSize: '10' || 10,
-    visitor: false
-  });
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : true,
+      appId      : 'H96xxLo0hzG4azqx9XRPBLGe-gzGzoHsz',
+      appKey     : 'NPnxUKfUoUn6iIlWOyvA1WgE',
+      placeholder: "Just Say Anything",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : true,
+      lang       : 'en' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : true,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
 </script>
-
-
-
-
-  
-
-
-  
-
-
-
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
 
 </body>
 </html>

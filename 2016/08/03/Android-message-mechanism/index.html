@@ -1,128 +1,53 @@
 <!DOCTYPE html>
-
-
-
-
-
-
-
-
-
-
-
-
-  
-
-
-<html class="theme-next muse use-motion" lang="zh-Hans">
-<head><meta name="generator" content="Hexo 3.9.0">
+<html lang="zh-Hans">
+<head>
   <meta charset="UTF-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
 <meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 7.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
 
 
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
-
-<link rel="stylesheet" href="/css/main.css?v=7.0.1">
-
-
-  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.0.1">
-
-
-  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.0.1">
-
-
-  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.0.1">
-
-
-  <link rel="mask-icon" href="/images/logo.svg?v=7.0.1" color="#222">
-
-
-
-
-
-
-
-<script id="hexo.configurations">
-  var NexT = window.NexT || {};
-  var CONFIG = {
-    root: '/',
-    scheme: 'Muse',
-    version: '7.0.1',
-    sidebar: {"position":"left","display":"hide","offset":12,"b2t":true,"scrollpercent":true,"onmobile":false,"dimmer":false},
-    fancybox: false,
-    fastclick: false,
-    lazyload: false,
-    tabs: true,
-    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
-    algolia: {
-      applicationID: '',
-      apiKey: '',
-      indexName: '',
-      hits: {"per_page":10},
-      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
-    }
-  };
-</script>
-
-
-  
-
-
-
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"alphagao.com","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"hide","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
 
   <meta name="description" content="Android消息机制可以说是Android系统的核心也不为过，所有与UI相关的操作基本都需要依赖消息机制，而Handler就是消息机制的上层开放的接口。一般我们不论是更新UI还是异步传递消息都只需要通过Handler即可。">
-<meta name="keywords" content="Android,Message,Handler,Looper">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Android消息机制浅析">
-<meta property="og:url" content="alphagao.com/2016/08/03/Android-message-mechanism/index.html">
+<meta property="og:url" content="https://alphagao.com/2016/08/03/Android-message-mechanism/index.html">
 <meta property="og:site_name" content="Here&#39;s to Change">
 <meta property="og:description" content="Android消息机制可以说是Android系统的核心也不为过，所有与UI相关的操作基本都需要依赖消息机制，而Handler就是消息机制的上层开放的接口。一般我们不论是更新UI还是异步传递消息都只需要通过Handler即可。">
-<meta property="og:locale" content="zh-Hans">
+<meta property="og:locale">
 <meta property="og:image" content="https://oa3wvfmvl.bkt.clouddn.com/xiaoxi.jpg">
-<meta property="og:updated_time" content="2019-03-08T09:06:32.000Z">
+<meta property="article:published_time" content="2016-08-03T10:49:14.000Z">
+<meta property="article:modified_time" content="2019-03-08T09:06:32.000Z">
+<meta property="article:author" content="Alpha Gao">
+<meta property="article:tag" content="Android">
+<meta property="article:tag" content="Message">
+<meta property="article:tag" content="Handler">
+<meta property="article:tag" content="Looper">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Android消息机制浅析">
-<meta name="twitter:description" content="Android消息机制可以说是Android系统的核心也不为过，所有与UI相关的操作基本都需要依赖消息机制，而Handler就是消息机制的上层开放的接口。一般我们不论是更新UI还是异步传递消息都只需要通过Handler即可。">
 <meta name="twitter:image" content="https://oa3wvfmvl.bkt.clouddn.com/xiaoxi.jpg">
 
+<link rel="canonical" href="https://alphagao.com/2016/08/03/Android-message-mechanism/">
 
 
-
-
-
-  <link rel="canonical" href="alphagao.com/2016/08/03/Android-message-mechanism/">
-
-
-
-<script id="page.configurations">
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
   CONFIG.page = {
     sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-Hans'
   };
 </script>
 
@@ -134,15 +59,8 @@
 
 
 
-
-
-
-
-
-
   <noscript>
   <style>
-  .use-motion .motion-element,
   .use-motion .brand,
   .use-motion .menu-item,
   .sidebar-inner,
@@ -151,9 +69,8 @@
   .use-motion .comments,
   .use-motion .post-header,
   .use-motion .post-body,
-  .use-motion .collection-title { opacity: initial; }
+  .use-motion .collection-header { opacity: initial; }
 
-  .use-motion .logo,
   .use-motion .site-title,
   .use-motion .site-subtitle {
     opacity: initial;
@@ -167,153 +84,69 @@
 
 </head>
 
-<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
-
-  
-  
-    
-  
-
-  <div class="container sidebar-position-left page-post-detail">
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
     <div class="headband"></div>
 
-    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
-      <div class="header-inner"><div class="site-brand-wrapper">
-  <div class="site-meta">
-    
-
-    <div class="custom-logo-site-title">
-      <a href="/" class="brand" rel="start">
-        <span class="logo-line-before"><i></i></span>
-        <span class="site-title">Here's to Change</span>
-        <span class="logo-line-after"><i></i></span>
-      </a>
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
     </div>
-    
-      
-        <p class="site-subtitle">请问你真的有在努力吗 ？</p>
-      
-    
-    
   </div>
 
-  <div class="site-nav-toggle">
-    <button aria-label="Toggle navigation bar">
-      <span class="btn-bar"></span>
-      <span class="btn-bar"></span>
-      <span class="btn-bar"></span>
-    </button>
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Here's to Change</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">请问你真的有在努力吗 ？</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
   </div>
 </div>
 
 
 
+
 <nav class="site-nav">
-  
-    <ul id="menu" class="menu">
-      
-        
-        
-        
-          
-          <li class="menu-item menu-item-home">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
 
-    
-    
-    
-      
-    
-
-    
-
-    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>Home</a>
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
 
   </li>
-        
-        
-        
-          
-          <li class="menu-item menu-item-categories">
+        <li class="menu-item menu-item-about">
 
-    
-    
-    
-      
-    
-
-    
-
-    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>Categories</a>
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a>
 
   </li>
-        
-        
-        
-          
-          <li class="menu-item menu-item-tags">
+        <li class="menu-item menu-item-tags">
 
-    
-    
-    
-      
-    
-
-    
-
-    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>Tags</a>
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a>
 
   </li>
-        
-        
-        
-          
-          <li class="menu-item menu-item-archives">
+        <li class="menu-item menu-item-categories">
 
-    
-    
-    
-      
-    
-
-    
-
-    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>Archives</a>
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a>
 
   </li>
-        
-        
-        
-          
-          <li class="menu-item menu-item-about">
+        <li class="menu-item menu-item-archives">
 
-    
-    
-    
-      
-    
-
-    
-
-    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>About</a>
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
 
   </li>
-
-      
-      
-    </ul>
-  
-
-  
-    
-
-  
-
-  
+  </ul>
 </nav>
 
-
-
-  
 
 
 
@@ -321,146 +154,91 @@
     </header>
 
     
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
 
 
-    <main id="main" class="main">
+    <main class="main">
       <div class="main-inner">
         <div class="content-wrap">
           
-          <div id="content" class="content">
+
+          <div class="content post posts-expand">
             
 
-  <div id="posts" class="posts-expand">
     
-
-  
-
   
   
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="alphagao.com/2016/08/03/Android-message-mechanism/">
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="https://alphagao.com/2016/08/03/Android-message-mechanism/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
       <meta itemprop="name" content="Alpha Gao">
       <meta itemprop="description" content="You will be what you want.">
-      <meta itemprop="image" content="/images/avatar.gif">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
       <meta itemprop="name" content="Here's to Change">
     </span>
-
-    
       <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">Android消息机制浅析
-
-              
-            
-          </h1>
-        
+        <h1 class="post-title" itemprop="name headline">
+          Android消息机制浅析
+        </h1>
 
         <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
+            <span class="post-meta-item">
               <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
+                <i class="far fa-calendar"></i>
               </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-
-              
-                
-              
+              <span class="post-meta-item-text">Posted on</span>
 
               <time title="Created: 2016-08-03 18:49:14" itemprop="dateCreated datePublished" datetime="2016-08-03T18:49:14+08:00">2016-08-03</time>
-            
-
-            
-              
-
-              
-                
-                <span class="post-meta-divider">|</span>
-                
-
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">Edited on</span>
-                
-                <time title="Modified: 2019-03-08 17:06:32" itemprop="dateModified" datetime="2019-03-08T17:06:32+08:00">2019-03-08</time>
-              
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Android/" itemprop="url" rel="index"><span itemprop="name">Android</span></a></span>
-
-                
-                
-              
             </span>
-          
-
-          
-            
-            
-              
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
+              <span class="post-meta-item">
                 <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
+                  <i class="far fa-calendar-check"></i>
                 </span>
-            
-                <span class="post-meta-item-text">Comments: </span>
-                <a href="/2016/08/03/Android-message-mechanism/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/2016/08/03/Android-message-mechanism/" itemprop="commentCount"></span>
-                </a>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2019-03-08 17:06:32" itemprop="dateModified" datetime="2019-03-08T17:06:32+08:00">2019-03-08</time>
               </span>
-            
-          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Android/" itemprop="url" rel="index"><span itemprop="name">Android</span></a>
+                </span>
+            </span>
 
           
-          
-
-          
-
-          
-
-          
+            <span id="/2016/08/03/Android-message-mechanism/" class="post-meta-item leancloud_visitors" data-flag-title="Android消息机制浅析" title="Views">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">Views: </span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine: </span>
+    
+    <a title="valine" href="/2016/08/03/Android-message-mechanism/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2016/08/03/Android-message-mechanism/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
 
         </div>
       </header>
-    
 
     
     
@@ -468,13 +246,10 @@
     <div class="post-body" itemprop="articleBody">
 
       
-      
-
-      
         <blockquote>
 <p>Android消息机制可以说是Android系统的核心也不为过，所有与UI相关的操作基本都需要依赖消息机制，而Handler就是消息机制的上层开放的接口。一般我们不论是更新UI还是异步传递消息都只需要通过Handler即可。</p>
 </blockquote>
-<a id="more"></a>
+<span id="more"></span>
 <h2 id="使用消息机制的原因"><a href="#使用消息机制的原因" class="headerlink" title="使用消息机制的原因"></a>使用消息机制的原因</h2><ul>
 <li><p>android4.0以后不允许主线程进行网络请求</p>
 <p>  现在几乎每个app都需要访问网络，而在android4.0以前，访问网络操作是可以在UI线程中进行的，但在4.0以后，Android默认禁止在UI线程中进行网络请求和相关操作（会报NetworkOnMainThreadException的异常，但其实可以强制在主线程里进行）。另外我们知道，Android的UI线程的等待时间，也就是Activity的等待时间为5秒，Service（服务也是运行于UI线程下的）的为20秒，所以比较耗时的操作也不能放在主线程里运行。</p>
@@ -488,16 +263,16 @@
 </ul>
 <p>而以上问题，借助消息机制，通过Handler就全部都能搞定。</p>
 <h2 id="消息机制的框架"><a href="#消息机制的框架" class="headerlink" title="消息机制的框架"></a>消息机制的框架</h2><p>android中的消息机制由Handler，MessageQueue，Looper，Message组成，其架构如图：</p>
-<p><img src="https://oa3wvfmvl.bkt.clouddn.com/xiaoxi.jpg" alt></p>
+<p><img src="https://oa3wvfmvl.bkt.clouddn.com/xiaoxi.jpg" alt=""></p>
 <p>Handler: 线程之间通信的桥梁，通过Handler可以发送消息(sendMessage)和处理消息(handleMessage)；<br>Message: 被发送的消息，可以存放一些关键性的指信息，如文本，对象等，另外可以指定消息的标志，表明该消息应该如何处理；<br>MessageQueue: 存放消息的队列，所有由子线程发送给主线程的消息都暂存在这里，等待Looper来取；<br>Looper: 通过loop()无限循环不断从MessageQueue取消息并将消息提交至Handler；每个线程只能存在一个Looper的实例，但一个Looper实例可以被多个线程引用；</p>
 <h2 id="消息的处理过程（代码）"><a href="#消息的处理过程（代码）" class="headerlink" title="消息的处理过程（代码）"></a>消息的处理过程（代码）</h2><ul>
 <li>在主线程中创建一个Handler的实例并重写handleMessage方法：</li>
 </ul>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> Handler handler=<span class="keyword">new</span> Handler()&#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">handleMessage</span><span class="params">(Message msg)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">switch</span> (msg.what)&#123;</span><br><span class="line">            <span class="comment">// <span class="doctag">TODO:</span> 操作UI </span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> Handler handler=<span class="keyword">new</span> <span class="title class_">Handler</span>()&#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">handleMessage</span><span class="params">(Message msg)</span> &#123;</span><br><span class="line">        <span class="keyword">switch</span> (msg.what)&#123;</span><br><span class="line">            <span class="comment">// <span class="doctag">TODO:</span> 操作UI </span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
 <ul>
 <li>在子线程向主线程发送信息</li>
 </ul>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">new</span> Thread()&#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        ...</span><br><span class="line">        Message msg=<span class="keyword">new</span> Message();</span><br><span class="line">        msg.what=LOAD_IMAGE;</span><br><span class="line">        handler.sendMessage(msg);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;.start();</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">new</span> <span class="title class_">Thread</span>()&#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">run</span><span class="params">()</span> &#123;</span><br><span class="line">        ...</span><br><span class="line">        Message msg=<span class="keyword">new</span> <span class="title class_">Message</span>();</span><br><span class="line">        msg.what=LOAD_IMAGE;</span><br><span class="line">        handler.sendMessage(msg);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;.start();</span><br></pre></td></tr></table></figure>
 <p>其实需要我们写的代码就这么多，系统在后台自动帮们实时获取到队列中的Message并提交到了Handler，但是我们还是需要了解其背后的一些原理。</p>
 <h2 id="为什么主线程可以更新UI"><a href="#为什么主线程可以更新UI" class="headerlink" title="为什么主线程可以更新UI"></a>为什么主线程可以更新UI</h2><p>事实上所有的线程本身都不具有消息循环能力，而是通过Looper.prepare()方法可以将一个线程转换为Looper线程，同时也就具备了消息循环能力。<br>当主线程被创建的时候，系统会自动调用Looper.prepare()将当前线程转换为Looper线程，然后在创建Handler的时候系统会自动调用Looper.loop()进行轮询。<br>所以其实我们在子线程中也是可以更新UI的，只要将操作UI对象的代码写在Looper.prepare()和Looper.loop()之间，当然大前提还是操作的UI对象必须得是子线程自己创建的。<br>因此即使子线程可以操作自己的UI对象，比如弹出一个Toast(使用getApplicationContext)，但是子线程仍然不能直接操作主线程的UI。<br>同理主线程也不能操作子线程创建的UI对象，想要操作也必须引用子线程中的Handler发送消息来更新。</p>
 <h2 id="消息的处理过程（原理）"><a href="#消息的处理过程（原理）" class="headerlink" title="消息的处理过程（原理）"></a>消息的处理过程（原理）</h2><p>通过上面的解释，接着来深入分析消息机制的实现流程：</p>
@@ -525,505 +300,156 @@
 <h2 id="看似神奇的post-方法"><a href="#看似神奇的post-方法" class="headerlink" title="看似神奇的post()方法"></a>看似神奇的post()方法</h2><p>或许你见过有的人直接调用对象的post()或者postXXX()方法可以直接在子线程中进行UI操作，但是如果深入去看这些方法的源码，就会发现其实他们也是依赖于消息机制，例如post()的流程：<br>post() -&gt; attachInfo.mHandler.post(action) -&gt; sendMessageDelayed() -&gt; sendMessageAtTime() -&gt; enqueueMessage()</p>
 <p>所以post()类型的方法底层也是使用消息机制进行UI操作，只是Android官方帮我们做了封装而已。</p>
 <h2 id="强制在主线程请求网络"><a href="#强制在主线程请求网络" class="headerlink" title="强制在主线程请求网络"></a>强制在主线程请求网络</h2><p>虽然Android官方禁止在4.0以后的版本中在主线程中进行网络请求，但是仍然可以通过特殊的方法强制在主线程中进行：<br>在UI线程的onCreate()方法中setContentView()之后添加如同下代码：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (android.os.Build.VERSION.SDK_INT &gt; <span class="number">9</span>) &#123;</span><br><span class="line">    StrictMode.ThreadPolicy policy = <span class="keyword">new</span> StrictMode.ThreadPolicy.Builder().permitAll().build();</span><br><span class="line">    StrictMode.setThreadPolicy(policy);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (android.os.Build.VERSION.SDK_INT &gt; <span class="number">9</span>) &#123;</span><br><span class="line">    StrictMode.<span class="type">ThreadPolicy</span> <span class="variable">policy</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">StrictMode</span>.ThreadPolicy.Builder().permitAll().build();</span><br><span class="line">    StrictMode.setThreadPolicy(policy);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>这几行代码的作用是修改当前线程的限制策略，表示允许所有行为，即所有不规范的的操作都是被允许的。</p>
 <p>这几行代码其实是相当危险的，这以后的所有的不规范操作都不会被编译器识别并提醒，或许你当时没有发现什么错误，但是以后会有很多的坑等着你往里跳呢。所以最好不要使用这种方法，按照Android官方的规范，把所有与网络请求的操作放入子线程运行。</p>
 
-      
     </div>
 
     
-
-    
-    
-    
-
-    
-
-    
-      
     
     
 
-    
-
-    <footer class="post-footer">
-      
-        <div class="post-tags">
-          
-            <a href="/tags/Android/" rel="tag"># Android</a>
-          
-            <a href="/tags/Message/" rel="tag"># Message</a>
-          
-            <a href="/tags/Handler/" rel="tag"># Handler</a>
-          
-            <a href="/tags/Looper/" rel="tag"># Looper</a>
-          
-        </div>
-      
-
-      
-      
-      
-
-      
-        <div class="post-nav">
-          <div class="post-nav-next post-nav-item">
-            
-              <a href="/2016/07/27/Activity-launcher-mode/" rel="next" title="Activity 的四种启动模式">
-                <i class="fa fa-chevron-left"></i> Activity 的四种启动模式
-              </a>
-            
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Android/" rel="tag"># Android</a>
+              <a href="/tags/Message/" rel="tag"># Message</a>
+              <a href="/tags/Handler/" rel="tag"># Handler</a>
+              <a href="/tags/Looper/" rel="tag"># Looper</a>
           </div>
 
-          <span class="post-nav-divider"></span>
+        
 
-          <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2016/08/05/exchange-theme-of-hexo/" rel="prev" title="又换了博客主题">
-                又换了博客主题 <i class="fa fa-chevron-right"></i>
-              </a>
-            
-          </div>
-        </div>
-      
 
-      
-      
-    </footer>
-  </div>
-  
-  
-  
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2016/07/27/Activity-launcher-mode/" rel="prev" title="Activity 的四种启动模式">
+      <i class="fa fa-chevron-left"></i> Activity 的四种启动模式
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2016/08/05/exchange-theme-of-hexo/" rel="next" title="又换了博客主题">
+      又换了博客主题 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
   </article>
+  
+  
+  
 
-
-  </div>
 
 
           </div>
           
-
-  
-    <div class="comments" id="comments">
-    </div>
-
-  
-
-
-
-        </div>
-        
-          
-  
-  <div class="sidebar-toggle">
-    <div class="sidebar-toggle-line-wrap">
-      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
-      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
-      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
-    </div>
-  </div>
-
-  <aside id="sidebar" class="sidebar">
-    <div class="sidebar-inner">
-
-      
-
-      
-        <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
-            Table of Contents
-          </li>
-          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
-            Overview
-          </li>
-        </ul>
-      
-
-      <div class="site-overview-wrap sidebar-panel">
-        <div class="site-overview">
-          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
-            
-              <p class="site-author-name" itemprop="name">Alpha Gao</p>
-              <div class="site-description motion-element" itemprop="description">You will be what you want.</div>
-          </div>
-
-          
-            <nav class="site-state motion-element">
-              
-                <div class="site-state-item site-state-posts">
-                
-                  <a href="/archives/">
-                
-                    <span class="site-state-item-count">56</span>
-                    <span class="site-state-item-name">posts</span>
-                  </a>
-                </div>
-              
-
-              
-                
-                
-                <div class="site-state-item site-state-categories">
-                  
-                    
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                    <span class="site-state-item-count">12</span>
-                    <span class="site-state-item-name">categories</span>
-                  
-                </div>
-              
-
-              
-                
-                
-                <div class="site-state-item site-state-tags">
-                  
-                    
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                    <span class="site-state-item-count">100</span>
-                    <span class="site-state-item-name">tags</span>
-                  
-                </div>
-              
-            </nav>
-          
-
-          
-
-          
-
-          
-
-          
-          
-
-          
-            
-          
-          
-
-        </div>
-      </div>
-
-      
-      <!--noindex-->
-        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
-          <div class="post-toc">
-
-            
-            
-            
-            
-
-            
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#使用消息机制的原因"><span class="nav-number">1.</span> <span class="nav-text">使用消息机制的原因</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#消息机制的框架"><span class="nav-number">2.</span> <span class="nav-text">消息机制的框架</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#消息的处理过程（代码）"><span class="nav-number">3.</span> <span class="nav-text">消息的处理过程（代码）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#为什么主线程可以更新UI"><span class="nav-number">4.</span> <span class="nav-text">为什么主线程可以更新UI</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#消息的处理过程（原理）"><span class="nav-number">5.</span> <span class="nav-text">消息的处理过程（原理）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#看似神奇的post-方法"><span class="nav-number">6.</span> <span class="nav-text">看似神奇的post()方法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#强制在主线程请求网络"><span class="nav-number">7.</span> <span class="nav-text">强制在主线程请求网络</span></a></li></ol></div>
-            
-
-          </div>
-        </div>
-      <!--/noindex-->
-      
-
-      
-        <div class="back-to-top">
-          <i class="fa fa-arrow-up"></i>
-          
-            <span id="scrollpercent"><span>0</span>%</span>
-          
-        </div>
-      
-
-    </div>
-  </aside>
-  
-
-
-        
-      </div>
-    </main>
-
-    <footer id="footer" class="footer">
-      <div class="footer-inner">
-        <div class="copyright">  <a href="http://www.miitbeian.gov.cn" rel="noopener" target="_blank">陇ICP备17000389号 </a>&copy; <span itemprop="copyrightYear">2022</span>
-  <span class="with-love" id="animate">
-    <i class="fa fa-Alpha Gao"></i>
-  </span>
-  <span class="author" itemprop="copyrightHolder">Alpha Gao</span>
-
-  
-
-  
-</div>
-
-
-  <div class="powered-by">Powered by <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> v3.9.0</div>
-
-
-
-  <span class="post-meta-divider">|</span>
-
-
-
-  <div class="theme-info">Theme – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> v7.0.1</div>
-
-
-
-
-        
-
-
-
-
-
-
-
-
-        
-      </div>
-    </footer>
-
-    
-
-    
-
-    
-
-    
-  </div>
-
-  
+    <div class="comments" id="valine-comments"></div>
 
 <script>
-  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
-    window.Promise = null;
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
   }
 </script>
 
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8%E6%B6%88%E6%81%AF%E6%9C%BA%E5%88%B6%E7%9A%84%E5%8E%9F%E5%9B%A0"><span class="nav-number">1.</span> <span class="nav-text">使用消息机制的原因</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B6%88%E6%81%AF%E6%9C%BA%E5%88%B6%E7%9A%84%E6%A1%86%E6%9E%B6"><span class="nav-number">2.</span> <span class="nav-text">消息机制的框架</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B6%88%E6%81%AF%E7%9A%84%E5%A4%84%E7%90%86%E8%BF%87%E7%A8%8B%EF%BC%88%E4%BB%A3%E7%A0%81%EF%BC%89"><span class="nav-number">3.</span> <span class="nav-text">消息的处理过程（代码）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E4%B8%BB%E7%BA%BF%E7%A8%8B%E5%8F%AF%E4%BB%A5%E6%9B%B4%E6%96%B0UI"><span class="nav-number">4.</span> <span class="nav-text">为什么主线程可以更新UI</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B6%88%E6%81%AF%E7%9A%84%E5%A4%84%E7%90%86%E8%BF%87%E7%A8%8B%EF%BC%88%E5%8E%9F%E7%90%86%EF%BC%89"><span class="nav-number">5.</span> <span class="nav-text">消息的处理过程（原理）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%9C%8B%E4%BC%BC%E7%A5%9E%E5%A5%87%E7%9A%84post-%E6%96%B9%E6%B3%95"><span class="nav-number">6.</span> <span class="nav-text">看似神奇的post()方法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BC%BA%E5%88%B6%E5%9C%A8%E4%B8%BB%E7%BA%BF%E7%A8%8B%E8%AF%B7%E6%B1%82%E7%BD%91%E7%BB%9C"><span class="nav-number">7.</span> <span class="nav-text">强制在主线程请求网络</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Alpha Gao</p>
+  <div class="site-description" itemprop="description">You will be what you want.</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">56</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">12</span>
+        <span class="site-state-item-name">categories</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">100</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2025</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Alpha Gao</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a>
+  </div>
+
+        
 
 
 
@@ -1032,8 +458,29 @@
 
 
 
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
 
 
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
 
 
 
@@ -1050,110 +497,37 @@
 
 
   
-  <script src="/lib/jquery/index.js?v=2.1.3"></script>
-
-  
-  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
-
-  
-  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
-
 
   
 
-
-  <script src="/js/src/utils.js?v=7.0.1"></script>
-
-  <script src="/js/src/motion.js?v=7.0.1"></script>
-
-
-
-  
-  
-
-
-  <script src="/js/src/schemes/muse.js?v=7.0.1"></script>
-
-
-
-  
-  <script src="/js/src/scrollspy.js?v=7.0.1"></script>
-<script src="/js/src/post-details.js?v=7.0.1"></script>
-
-
-
-  
-
-
-  <script src="/js/src/next-boot.js?v=7.0.1"></script>
-
-
-  
-  
-  
-
-<script src="//cdn1.lncld.net/static/js/3.11.1/av-min.js"></script>
-
-
-
-<script src="//unpkg.com/valine/dist/Valine.min.js"></script>
 
 <script>
-  var GUEST = ['nick', 'mail', 'link'];
-  var guest = 'nick,mail,link';
-  guest = guest.split(',').filter(function(item) {
-    return GUEST.indexOf(item) > -1;
-  });
-  new Valine({
-    el: '#comments',
-    verify: false,
-    notify: false,
-    appId: 'H96xxLo0hzG4azqx9XRPBLGe-gzGzoHsz',
-    appKey: 'NPnxUKfUoUn6iIlWOyvA1WgE',
-    placeholder: 'Just say anything',
-    avatar: 'mm',
-    meta: guest,
-    pageSize: '10' || 10,
-    visitor: false
-  });
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : true,
+      appId      : 'H96xxLo0hzG4azqx9XRPBLGe-gzGzoHsz',
+      appKey     : 'NPnxUKfUoUn6iIlWOyvA1WgE',
+      placeholder: "Just Say Anything",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : true,
+      lang       : 'en' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : true,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
 </script>
-
-
-
-
-  
-
-
-  
-
-
-
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
 
 </body>
 </html>

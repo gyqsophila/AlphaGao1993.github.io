@@ -1,126 +1,48 @@
 <!DOCTYPE html>
-
-
-
-
-
-
-
-
-
-
-
-
-  
-
-
-<html class="theme-next muse use-motion" lang="zh-Hans">
-<head><meta name="generator" content="Hexo 3.9.0">
+<html lang="zh-Hans">
+<head>
   <meta charset="UTF-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
 <meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 7.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
 
 
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
-
-<link rel="stylesheet" href="/css/main.css?v=7.0.1">
-
-
-  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.0.1">
-
-
-  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.0.1">
-
-
-  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.0.1">
-
-
-  <link rel="mask-icon" href="/images/logo.svg?v=7.0.1" color="#222">
-
-
-
-
-
-
-
-<script id="hexo.configurations">
-  var NexT = window.NexT || {};
-  var CONFIG = {
-    root: '/',
-    scheme: 'Muse',
-    version: '7.0.1',
-    sidebar: {"position":"left","display":"hide","offset":12,"b2t":true,"scrollpercent":true,"onmobile":false,"dimmer":false},
-    fancybox: false,
-    fastclick: false,
-    lazyload: false,
-    tabs: true,
-    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
-    algolia: {
-      applicationID: '',
-      apiKey: '',
-      indexName: '',
-      hits: {"per_page":10},
-      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
-    }
-  };
-</script>
-
-
-  
-
-
-
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"alphagao.com","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"hide","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
 
   <meta name="description" content="虽然开发过程中经常会中奖踩坑，但是这次真的踩了很大的坑啊，感觉填了很久踩勉强填好。当然也只是对我来说，在大神眼里根本不算什么。事情是这样的，两天前我需要在 App 被安装的时候，向桌面添加一个快捷图标，来增强在用户眼里的存在感。。。由于在此之前我正好给 App 换了个图标，虽然是 png 格式，但是宽高病不同，分辨率大概是 620×610 的样子，基本是个正方形，而且用于 App 的桌面图标也没有">
-<meta name="keywords" content="Shortcut">
 <meta property="og:type" content="article">
 <meta property="og:title" content="桌面添加图标心碎二三事[摔]">
-<meta property="og:url" content="alphagao.com/2016/11/14/add-shortcut/index.html">
+<meta property="og:url" content="https://alphagao.com/2016/11/14/add-shortcut/index.html">
 <meta property="og:site_name" content="Here&#39;s to Change">
 <meta property="og:description" content="虽然开发过程中经常会中奖踩坑，但是这次真的踩了很大的坑啊，感觉填了很久踩勉强填好。当然也只是对我来说，在大神眼里根本不算什么。事情是这样的，两天前我需要在 App 被安装的时候，向桌面添加一个快捷图标，来增强在用户眼里的存在感。。。由于在此之前我正好给 App 换了个图标，虽然是 png 格式，但是宽高病不同，分辨率大概是 620×610 的样子，基本是个正方形，而且用于 App 的桌面图标也没有">
-<meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2017-08-07T09:50:08.000Z">
+<meta property="og:locale">
+<meta property="article:published_time" content="2016-11-14T02:40:14.000Z">
+<meta property="article:modified_time" content="2017-08-07T09:50:08.000Z">
+<meta property="article:author" content="Alpha Gao">
+<meta property="article:tag" content="Shortcut">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="桌面添加图标心碎二三事[摔]">
-<meta name="twitter:description" content="虽然开发过程中经常会中奖踩坑，但是这次真的踩了很大的坑啊，感觉填了很久踩勉强填好。当然也只是对我来说，在大神眼里根本不算什么。事情是这样的，两天前我需要在 App 被安装的时候，向桌面添加一个快捷图标，来增强在用户眼里的存在感。。。由于在此之前我正好给 App 换了个图标，虽然是 png 格式，但是宽高病不同，分辨率大概是 620×610 的样子，基本是个正方形，而且用于 App 的桌面图标也没有">
+
+<link rel="canonical" href="https://alphagao.com/2016/11/14/add-shortcut/">
 
 
-
-
-
-
-  <link rel="canonical" href="alphagao.com/2016/11/14/add-shortcut/">
-
-
-
-<script id="page.configurations">
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
   CONFIG.page = {
     sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-Hans'
   };
 </script>
 
@@ -132,15 +54,8 @@
 
 
 
-
-
-
-
-
-
   <noscript>
   <style>
-  .use-motion .motion-element,
   .use-motion .brand,
   .use-motion .menu-item,
   .sidebar-inner,
@@ -149,9 +64,8 @@
   .use-motion .comments,
   .use-motion .post-header,
   .use-motion .post-body,
-  .use-motion .collection-title { opacity: initial; }
+  .use-motion .collection-header { opacity: initial; }
 
-  .use-motion .logo,
   .use-motion .site-title,
   .use-motion .site-subtitle {
     opacity: initial;
@@ -165,153 +79,69 @@
 
 </head>
 
-<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
-
-  
-  
-    
-  
-
-  <div class="container sidebar-position-left page-post-detail">
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
     <div class="headband"></div>
 
-    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
-      <div class="header-inner"><div class="site-brand-wrapper">
-  <div class="site-meta">
-    
-
-    <div class="custom-logo-site-title">
-      <a href="/" class="brand" rel="start">
-        <span class="logo-line-before"><i></i></span>
-        <span class="site-title">Here's to Change</span>
-        <span class="logo-line-after"><i></i></span>
-      </a>
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
     </div>
-    
-      
-        <p class="site-subtitle">请问你真的有在努力吗 ？</p>
-      
-    
-    
   </div>
 
-  <div class="site-nav-toggle">
-    <button aria-label="Toggle navigation bar">
-      <span class="btn-bar"></span>
-      <span class="btn-bar"></span>
-      <span class="btn-bar"></span>
-    </button>
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Here's to Change</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">请问你真的有在努力吗 ？</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
   </div>
 </div>
 
 
 
+
 <nav class="site-nav">
-  
-    <ul id="menu" class="menu">
-      
-        
-        
-        
-          
-          <li class="menu-item menu-item-home">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
 
-    
-    
-    
-      
-    
-
-    
-
-    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>Home</a>
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
 
   </li>
-        
-        
-        
-          
-          <li class="menu-item menu-item-categories">
+        <li class="menu-item menu-item-about">
 
-    
-    
-    
-      
-    
-
-    
-
-    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>Categories</a>
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a>
 
   </li>
-        
-        
-        
-          
-          <li class="menu-item menu-item-tags">
+        <li class="menu-item menu-item-tags">
 
-    
-    
-    
-      
-    
-
-    
-
-    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>Tags</a>
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a>
 
   </li>
-        
-        
-        
-          
-          <li class="menu-item menu-item-archives">
+        <li class="menu-item menu-item-categories">
 
-    
-    
-    
-      
-    
-
-    
-
-    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>Archives</a>
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a>
 
   </li>
-        
-        
-        
-          
-          <li class="menu-item menu-item-about">
+        <li class="menu-item menu-item-archives">
 
-    
-    
-    
-      
-    
-
-    
-
-    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>About</a>
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
 
   </li>
-
-      
-      
-    </ul>
-  
-
-  
-    
-
-  
-
-  
+  </ul>
 </nav>
 
-
-
-  
 
 
 
@@ -319,146 +149,91 @@
     </header>
 
     
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
 
 
-    <main id="main" class="main">
+    <main class="main">
       <div class="main-inner">
         <div class="content-wrap">
           
-          <div id="content" class="content">
+
+          <div class="content post posts-expand">
             
 
-  <div id="posts" class="posts-expand">
     
-
-  
-
   
   
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="alphagao.com/2016/11/14/add-shortcut/">
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="https://alphagao.com/2016/11/14/add-shortcut/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
       <meta itemprop="name" content="Alpha Gao">
       <meta itemprop="description" content="You will be what you want.">
-      <meta itemprop="image" content="/images/avatar.gif">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
       <meta itemprop="name" content="Here's to Change">
     </span>
-
-    
       <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">桌面添加图标心碎二三事[摔]
-
-              
-            
-          </h1>
-        
+        <h1 class="post-title" itemprop="name headline">
+          桌面添加图标心碎二三事[摔]
+        </h1>
 
         <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
+            <span class="post-meta-item">
               <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
+                <i class="far fa-calendar"></i>
               </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-
-              
-                
-              
+              <span class="post-meta-item-text">Posted on</span>
 
               <time title="Created: 2016-11-14 10:40:14" itemprop="dateCreated datePublished" datetime="2016-11-14T10:40:14+08:00">2016-11-14</time>
-            
-
-            
-              
-
-              
-                
-                <span class="post-meta-divider">|</span>
-                
-
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">Edited on</span>
-                
-                <time title="Modified: 2017-08-07 17:50:08" itemprop="dateModified" datetime="2017-08-07T17:50:08+08:00">2017-08-07</time>
-              
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Android/" itemprop="url" rel="index"><span itemprop="name">Android</span></a></span>
-
-                
-                
-              
             </span>
-          
-
-          
-            
-            
-              
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
+              <span class="post-meta-item">
                 <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
+                  <i class="far fa-calendar-check"></i>
                 </span>
-            
-                <span class="post-meta-item-text">Comments: </span>
-                <a href="/2016/11/14/add-shortcut/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/2016/11/14/add-shortcut/" itemprop="commentCount"></span>
-                </a>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2017-08-07 17:50:08" itemprop="dateModified" datetime="2017-08-07T17:50:08+08:00">2017-08-07</time>
               </span>
-            
-          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Android/" itemprop="url" rel="index"><span itemprop="name">Android</span></a>
+                </span>
+            </span>
 
           
-          
-
-          
-
-          
-
-          
+            <span id="/2016/11/14/add-shortcut/" class="post-meta-item leancloud_visitors" data-flag-title="桌面添加图标心碎二三事[摔]" title="Views">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">Views: </span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine: </span>
+    
+    <a title="valine" href="/2016/11/14/add-shortcut/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2016/11/14/add-shortcut/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
 
         </div>
       </header>
-    
 
     
     
@@ -466,10 +241,7 @@
     <div class="post-body" itemprop="articleBody">
 
       
-      
-
-      
-        <p>虽然开发过程中经常会中奖踩坑，但是这次真的踩了很大的坑啊，感觉填了很久踩勉强填好。当然也只是对我来说，在大神眼里根本不算什么。事情是这样的，两天前我需要在 App 被安装的时候，向桌面添加一个快捷图标，来增强在用户眼里的存在感。。。由于在此之前我正好给 App 换了个图标，虽然是 png 格式，但是宽高病不同，分辨率大概是 620×610 的样子，基本是个正方形，而且用于 App 的桌面图标也没有什么问题，可以正常显示。但是在用于给 App 添加桌面快捷方式的时候，却死活也不显示，明明 log 显示确实已经添加了，代码执行良好，也没有报错和警告，但就是死活看不到。这是第一个坑。<br><a id="more"></a><br>于是重新创建了一个小工程，用了完全相同的代码，只不过 App 图标是自带的，我没有更换。一执行，居然成功了！我简直惊呆了。仔细对比觉得唯一的可能就是出在照片上了。于是把原来的图标裁剪了一下，改成完全的正方型 610×610 ，还是不显示。没办法，直接用了另外一张照片，标准的 MD 风格的 png，再一执行，果然创建成功了。看来 AS 对照片的检查还真不是一般的严格，之前在 Eclipse 里还能用的 .9 图片，在 AS 里会报错，这次看来也一样，只是 AS 却没有任何表示，以后在照片的使用上必须多加注意。第一个坑填好。</p>
+        <p>虽然开发过程中经常会中奖踩坑，但是这次真的踩了很大的坑啊，感觉填了很久踩勉强填好。当然也只是对我来说，在大神眼里根本不算什么。事情是这样的，两天前我需要在 App 被安装的时候，向桌面添加一个快捷图标，来增强在用户眼里的存在感。。。由于在此之前我正好给 App 换了个图标，虽然是 png 格式，但是宽高病不同，分辨率大概是 620×610 的样子，基本是个正方形，而且用于 App 的桌面图标也没有什么问题，可以正常显示。但是在用于给 App 添加桌面快捷方式的时候，却死活也不显示，明明 log 显示确实已经添加了，代码执行良好，也没有报错和警告，但就是死活看不到。这是第一个坑。<br><span id="more"></span><br>于是重新创建了一个小工程，用了完全相同的代码，只不过 App 图标是自带的，我没有更换。一执行，居然成功了！我简直惊呆了。仔细对比觉得唯一的可能就是出在照片上了。于是把原来的图标裁剪了一下，改成完全的正方型 610×610 ，还是不显示。没办法，直接用了另外一张照片，标准的 MD 风格的 png，再一执行，果然创建成功了。看来 AS 对照片的检查还真不是一般的严格，之前在 Eclipse 里还能用的 .9 图片，在 AS 里会报错，这次看来也一样，只是 AS 却没有任何表示，以后在照片的使用上必须多加注意。第一个坑填好。</p>
 <p>然后就要给快捷图标添加点击 Intent ，在这里尝试了很多次，才找到正确的方法。具体的常识过程太啰嗦，就不详细讲了，主要讲一下在这个过程得到的经验吧。</p>
 <ol>
 <li>首先需要在点击 Intent 要开启的 Activity 的 manifest 里添加 IntentFilter 标签；</li>
@@ -482,7 +254,7 @@
 <li>在sendBoradcast()中的 intent 设置 intent.putExtra(“duplicate”, false) 不能保证可以避免重复创建快捷方式，这是最后一个坑，大坑啊，见后文。</li>
 </ol>
 <p>所以我的添加快捷方式的代码是这样的：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">Intent intent = <span class="keyword">new</span> Intent();</span><br><span class="line">        intent.setAction(<span class="string">"com.android.launcher.action.INSTALL_SHORTCUT"</span>);</span><br><span class="line">        <span class="comment">//快捷方式名字</span></span><br><span class="line">        intent.putExtra(Intent.EXTRA_SHORTCUT_NAME, getString(R.string.app_name));</span><br><span class="line">        <span class="comment">//快捷方式图标</span></span><br><span class="line">        Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.mipmap.ic_shortcut);</span><br><span class="line">        intent.putExtra(Intent.EXTRA_SHORTCUT_ICON, bitmap);</span><br><span class="line">        <span class="comment">//不能保证可以避免重复创建</span></span><br><span class="line">        intent.putExtra(<span class="string">"duplicate"</span>, <span class="keyword">false</span>);</span><br><span class="line"></span><br><span class="line">        <span class="comment">//快捷方式点击执行的意图</span></span><br><span class="line">        Intent actionIntent = <span class="keyword">new</span> Intent();</span><br><span class="line">        actionIntent.setClass(SplashActivity.<span class="keyword">this</span>, HomeActivity.class);</span><br><span class="line">        <span class="comment">//actionIntent.setAction(Intent.ACTION_MAIN);</span></span><br><span class="line">        <span class="comment">//actionIntent.addCategory(Intent.CATEGORY_LAUNCHER);</span></span><br><span class="line"></span><br><span class="line">        intent.putExtra(Intent.EXTRA_SHORTCUT_INTENT, actionIntent);</span><br><span class="line">        <span class="comment">//以发送广播的形式创建快捷方式</span></span><br><span class="line">        sendBroadcast(intent);</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">Intent</span> <span class="variable">intent</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Intent</span>();</span><br><span class="line">        intent.setAction(<span class="string">&quot;com.android.launcher.action.INSTALL_SHORTCUT&quot;</span>);</span><br><span class="line">        <span class="comment">//快捷方式名字</span></span><br><span class="line">        intent.putExtra(Intent.EXTRA_SHORTCUT_NAME, getString(R.string.app_name));</span><br><span class="line">        <span class="comment">//快捷方式图标</span></span><br><span class="line">        <span class="type">Bitmap</span> <span class="variable">bitmap</span> <span class="operator">=</span> BitmapFactory.decodeResource(getResources(), R.mipmap.ic_shortcut);</span><br><span class="line">        intent.putExtra(Intent.EXTRA_SHORTCUT_ICON, bitmap);</span><br><span class="line">        <span class="comment">//不能保证可以避免重复创建</span></span><br><span class="line">        intent.putExtra(<span class="string">&quot;duplicate&quot;</span>, <span class="literal">false</span>);</span><br><span class="line"></span><br><span class="line">        <span class="comment">//快捷方式点击执行的意图</span></span><br><span class="line">        <span class="type">Intent</span> <span class="variable">actionIntent</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Intent</span>();</span><br><span class="line">        actionIntent.setClass(SplashActivity.<span class="built_in">this</span>, HomeActivity.class);</span><br><span class="line">        <span class="comment">//actionIntent.setAction(Intent.ACTION_MAIN);</span></span><br><span class="line">        <span class="comment">//actionIntent.addCategory(Intent.CATEGORY_LAUNCHER);</span></span><br><span class="line"></span><br><span class="line">        intent.putExtra(Intent.EXTRA_SHORTCUT_INTENT, actionIntent);</span><br><span class="line">        <span class="comment">//以发送广播的形式创建快捷方式</span></span><br><span class="line">        sendBroadcast(intent);</span><br></pre></td></tr></table></figure>
 <p>因为 <code>intent.putExtra(&quot;duplicate&quot;, false);</code> 这一句代码不能保证可以避免重复创建快捷方式（在虚拟机测试有效，但在 htc 真机上无效），所以还需要自己来判断是否已经存在相同的快捷方式。这这里耗费了将近一天的时间来测试，真的无所不用其极，感觉已经翻遍 google 了。这里不得不吐槽了 Android 各种机型想要完全适配工作量真的是太大了，现在屏幕上的适配反而比较容易，但是对各大厂商自己定制的 ROM ，那才是最大的沟渠啊，就桌面 Launcher 来说，每种手机都有自己的定制版，那么对于相应的权限，提供认证的 provider 都可能不同，适配起来也就无比麻烦。同时 Android 不同的版本也可能存在不同的 Launcher ，就现在的 Android 原生来说，已经有 3 个版本的 Launcher 了：launcher、launcher2 和 launcher3 。</p>
 <p>下面是碰到的几种错误 log 和解释：</p>
 <h5 id="Failed-to-find-provider-info-for-com-android-launcher-settings"><a href="#Failed-to-find-provider-info-for-com-android-launcher-settings" class="headerlink" title="Failed to find provider info for com.android.launcher.settings"></a>Failed to find provider info for com.android.launcher.settings</h5><p>这个是因为 Android SDK 版本的不同，系统 launcher 版本也有变化，可能回事 launcher2，或者 launcher3，或者其他 ROM 的自家 launcher；</p>
@@ -490,505 +262,159 @@
 <h5 id="Permission-Denial-opening-provider-com-android-launcher3-LauncherProvider-from-ProcessRecord-f264d45-13880-com-example-alpha-mobilesafe-u0a68-pid-13880-uid-10068-requires-com-google-android-launcher-permission-READ-SETTINGS-or-com-google-android-launcher-permission-WRITE-SETTINGS"><a href="#Permission-Denial-opening-provider-com-android-launcher3-LauncherProvider-from-ProcessRecord-f264d45-13880-com-example-alpha-mobilesafe-u0a68-pid-13880-uid-10068-requires-com-google-android-launcher-permission-READ-SETTINGS-or-com-google-android-launcher-permission-WRITE-SETTINGS" class="headerlink" title="Permission Denial: opening provider com.android.launcher3.LauncherProvider from ProcessRecord{f264d45 13880:com.example.alpha.mobilesafe/u0a68} (pid=13880, uid=10068) requires com.google.android.launcher.permission.READ_SETTINGS or com.google.android.launcher.permission.WRITE_SETTINGS"></a>Permission Denial: opening provider com.android.launcher3.LauncherProvider from ProcessRecord{f264d45 13880:com.example.alpha.mobilesafe/u0a68} (pid=13880, uid=10068) requires com.google.android.launcher.permission.READ_SETTINGS or com.google.android.launcher.permission.WRITE_SETTINGS</h5><p>很明显，因为虚拟机是 Nexus4，还需要添加 google 的权限：<br><code>com.google.android.launcher.permission.READ_SETTINGS</code></p>
 <p>接下来主要说说适配的一点小技巧，也是最后一个坑：</p>
 <p>网络版本的 <code>getAuthorityFromPermission</code> 是直接传入一个完整的 permission ，而我只是传入了半个，比如：<code>.launcher.permission.READ_SETTINGS</code> ，因为我发现不管是虚拟机，还是真机，在权限上都包含这一部分，既然如此，就通过是否包含来判断对应烦人 authority ，但是在 htc 真机上又有个问题， authority 总是传回 <code>com.htc.launcher.ExternalApp</code>而不是我想要的<code>com.htc.launcher.settings</code>，所以在回传结果的再加一次判断：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (provider.authority.contains(<span class="string">"launcher.settings"</span>)</span><br><span class="line">        || provider.authority.contains(<span class="string">"launcher2.settings"</span>)</span><br><span class="line">        || provider.authority.contains(<span class="string">"launcher3.settings"</span>)) &#123;</span><br><span class="line">    <span class="keyword">return</span> provider.authority;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (provider.authority.contains(<span class="string">&quot;launcher.settings&quot;</span>)</span><br><span class="line">        || provider.authority.contains(<span class="string">&quot;launcher2.settings&quot;</span>)</span><br><span class="line">        || provider.authority.contains(<span class="string">&quot;launcher3.settings&quot;</span>)) &#123;</span><br><span class="line">    <span class="keyword">return</span> provider.authority;</span><br></pre></td></tr></table></figure>
 <p>不过这样虽然可以达到我们想要的结果，但是这个方法的适用范围就仅限于此了。这个就需要大家自己斟酌了。</p>
 <p>最后贴上完整的代码：</p>
 <p>manifest：</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">uses-permission</span> <span class="attr">android:name</span>=<span class="string">"com.android.launcher.permission.READ_SETTINGS"</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">uses-permission</span> <span class="attr">android:name</span>=<span class="string">"com.htc.launcher.permission.READ_SETTINGS"</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">uses-permission</span> <span class="attr">android:name</span>=<span class="string">"com.android.launcher2.permission.READ_SETTINGS"</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">uses-permission</span> <span class="attr">android:name</span>=<span class="string">"com.android.launcher3.permission.READ_SETTINGS"</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">uses-permission</span> <span class="attr">android:name</span>=<span class="string">"com.google.android.launcher.permission.READ_SETTINGS"</span>/&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">activity</span> <span class="attr">android:name</span>=<span class="string">".Activity.HomeActivity"</span> <span class="attr">android:launchMode</span>=<span class="string">"singleInstance"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">intent-filter</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">action</span> <span class="attr">android:name</span>=<span class="string">"com.example.alpha.mobilesafe.home"</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">intent-filter</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">activity</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">uses-permission</span> <span class="attr">android:name</span>=<span class="string">&quot;com.android.launcher.permission.READ_SETTINGS&quot;</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">uses-permission</span> <span class="attr">android:name</span>=<span class="string">&quot;com.htc.launcher.permission.READ_SETTINGS&quot;</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">uses-permission</span> <span class="attr">android:name</span>=<span class="string">&quot;com.android.launcher2.permission.READ_SETTINGS&quot;</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">uses-permission</span> <span class="attr">android:name</span>=<span class="string">&quot;com.android.launcher3.permission.READ_SETTINGS&quot;</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">uses-permission</span> <span class="attr">android:name</span>=<span class="string">&quot;com.google.android.launcher.permission.READ_SETTINGS&quot;</span>/&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">activity</span> <span class="attr">android:name</span>=<span class="string">&quot;.Activity.HomeActivity&quot;</span> <span class="attr">android:launchMode</span>=<span class="string">&quot;singleInstance&quot;</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">intent-filter</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">action</span> <span class="attr">android:name</span>=<span class="string">&quot;com.example.alpha.mobilesafe.home&quot;</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">intent-filter</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">activity</span>&gt;</span></span><br></pre></td></tr></table></figure>
 <p>添加 shortcut</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 创建桌面快捷方式</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">addShortCut</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (AppInfoUtils.hasShortCut(<span class="keyword">this</span>)) &#123;</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    Intent intent = <span class="keyword">new</span> Intent();</span><br><span class="line">    intent.setAction(<span class="string">"com.android.launcher.action.INSTALL_SHORTCUT"</span>);</span><br><span class="line">    <span class="comment">//快捷方式名字</span></span><br><span class="line">    intent.putExtra(Intent.EXTRA_SHORTCUT_NAME, getString(R.string.app_name));</span><br><span class="line">    <span class="comment">//快捷方式图标</span></span><br><span class="line">    Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.mipmap.ic_shortcut);</span><br><span class="line">    intent.putExtra(Intent.EXTRA_SHORTCUT_ICON, bitmap);</span><br><span class="line">    <span class="comment">//不要重复创建</span></span><br><span class="line">    intent.putExtra(<span class="string">"duplicate"</span>, <span class="keyword">false</span>);</span><br><span class="line"></span><br><span class="line">    <span class="comment">//快捷方式点击执行的意图</span></span><br><span class="line">    Intent actionIntent = <span class="keyword">new</span> Intent();</span><br><span class="line">    actionIntent.setClass(SplashActivity.<span class="keyword">this</span>, HomeActivity.class);</span><br><span class="line">    <span class="comment">//不是必须的</span></span><br><span class="line">    <span class="comment">//actionIntent.setAction(Intent.ACTION_MAIN);</span></span><br><span class="line">    <span class="comment">//actionIntent.addCategory(Intent.CATEGORY_LAUNCHER);</span></span><br><span class="line"></span><br><span class="line">    intent.putExtra(Intent.EXTRA_SHORTCUT_INTENT, actionIntent);</span><br><span class="line">    <span class="comment">//以发送广播的形式创建快捷方式</span></span><br><span class="line">    sendBroadcast(intent);</span><br><span class="line">    Log.d(TAG, <span class="string">"addShortCut: 桌面图标添加完成"</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 判断当前应用是否已经创建快捷图标</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> context 上下文</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@return</span> 是否创建</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">boolean</span> <span class="title">hasShortCut</span><span class="params">(Context context)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">boolean</span> result = <span class="keyword">false</span>;</span><br><span class="line">    String authority = getAuthorityFromPermission(context,</span><br><span class="line">            <span class="string">".launcher.permission.READ_SETTINGS"</span>);</span><br><span class="line">    Log.d(TAG, <span class="string">"hasShortCut: authority是什么呢？"</span>+authority);</span><br><span class="line"></span><br><span class="line">    String uriStr = <span class="string">"content://"</span> + authority + <span class="string">"/favorites?notify=true"</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        Cursor cursor = context.getContentResolver().query(</span><br><span class="line">                Uri.parse(uriStr),</span><br><span class="line">                <span class="keyword">null</span>,</span><br><span class="line">                <span class="string">"title=?"</span>,</span><br><span class="line">                <span class="keyword">new</span> String[]&#123;context.getString(R.string.app_name)&#125;,</span><br><span class="line">                <span class="keyword">null</span>);</span><br><span class="line">        result = cursor != <span class="keyword">null</span> &amp;&amp; cursor.getCount() &gt; <span class="number">0</span>;</span><br><span class="line">        Log.d(TAG, String.valueOf(<span class="string">"hasShortCut: 有没有图标啊？"</span> + result));</span><br><span class="line">        <span class="keyword">if</span> (cursor != <span class="keyword">null</span>) &#123;</span><br><span class="line">            cursor.close();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">        e.printStackTrace();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> result;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 根据传入的权限名查找目标 authority</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> context 上下文</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> permission 部分权限名</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@return</span> 目标 authority</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">static</span> String <span class="title">getAuthorityFromPermission</span><span class="params">(Context context, String permission)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (permission == <span class="keyword">null</span>) <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">    List&lt;PackageInfo&gt; installedPackages = context.getPackageManager()</span><br><span class="line">            .getInstalledPackages(PackageManager.GET_PROVIDERS);</span><br><span class="line">    <span class="keyword">if</span> (installedPackages != <span class="keyword">null</span>) &#123;</span><br><span class="line">        <span class="keyword">for</span> (PackageInfo pack : installedPackages) &#123;</span><br><span class="line">            ProviderInfo[] providers = pack.providers;</span><br><span class="line">            <span class="keyword">if</span> (providers != <span class="keyword">null</span>) &#123;</span><br><span class="line">                <span class="keyword">for</span> (ProviderInfo provider : providers) &#123;</span><br><span class="line">                    Log.d(TAG, <span class="string">"getAuthorityFromPermission: "</span> + provider.readPermission);</span><br><span class="line">                    <span class="comment">//Log.d(TAG, "getAuthorityFromPermission: " + provider.writePermission);</span></span><br><span class="line">                    <span class="keyword">if</span> (provider.readPermission != <span class="keyword">null</span> &amp;&amp; provider.readPermission.contains(permission)) &#123;</span><br><span class="line">                        <span class="keyword">if</span> (provider.authority.contains(<span class="string">"launcher.settings"</span>)</span><br><span class="line">                                || provider.authority.contains(<span class="string">"launcher2.settings"</span>)</span><br><span class="line">                                || provider.authority.contains(<span class="string">"launcher3.settings"</span>)) &#123;</span><br><span class="line">                            <span class="keyword">return</span> provider.authority;</span><br><span class="line">                        &#125;</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 创建桌面快捷方式</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title function_">addShortCut</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (AppInfoUtils.hasShortCut(<span class="built_in">this</span>)) &#123;</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="type">Intent</span> <span class="variable">intent</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Intent</span>();</span><br><span class="line">    intent.setAction(<span class="string">&quot;com.android.launcher.action.INSTALL_SHORTCUT&quot;</span>);</span><br><span class="line">    <span class="comment">//快捷方式名字</span></span><br><span class="line">    intent.putExtra(Intent.EXTRA_SHORTCUT_NAME, getString(R.string.app_name));</span><br><span class="line">    <span class="comment">//快捷方式图标</span></span><br><span class="line">    <span class="type">Bitmap</span> <span class="variable">bitmap</span> <span class="operator">=</span> BitmapFactory.decodeResource(getResources(), R.mipmap.ic_shortcut);</span><br><span class="line">    intent.putExtra(Intent.EXTRA_SHORTCUT_ICON, bitmap);</span><br><span class="line">    <span class="comment">//不要重复创建</span></span><br><span class="line">    intent.putExtra(<span class="string">&quot;duplicate&quot;</span>, <span class="literal">false</span>);</span><br><span class="line"></span><br><span class="line">    <span class="comment">//快捷方式点击执行的意图</span></span><br><span class="line">    <span class="type">Intent</span> <span class="variable">actionIntent</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Intent</span>();</span><br><span class="line">    actionIntent.setClass(SplashActivity.<span class="built_in">this</span>, HomeActivity.class);</span><br><span class="line">    <span class="comment">//不是必须的</span></span><br><span class="line">    <span class="comment">//actionIntent.setAction(Intent.ACTION_MAIN);</span></span><br><span class="line">    <span class="comment">//actionIntent.addCategory(Intent.CATEGORY_LAUNCHER);</span></span><br><span class="line"></span><br><span class="line">    intent.putExtra(Intent.EXTRA_SHORTCUT_INTENT, actionIntent);</span><br><span class="line">    <span class="comment">//以发送广播的形式创建快捷方式</span></span><br><span class="line">    sendBroadcast(intent);</span><br><span class="line">    Log.d(TAG, <span class="string">&quot;addShortCut: 桌面图标添加完成&quot;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 判断当前应用是否已经创建快捷图标</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> context 上下文</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@return</span> 是否创建</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="type">boolean</span> <span class="title function_">hasShortCut</span><span class="params">(Context context)</span> &#123;</span><br><span class="line">    <span class="type">boolean</span> <span class="variable">result</span> <span class="operator">=</span> <span class="literal">false</span>;</span><br><span class="line">    <span class="type">String</span> <span class="variable">authority</span> <span class="operator">=</span> getAuthorityFromPermission(context,</span><br><span class="line">            <span class="string">&quot;.launcher.permission.READ_SETTINGS&quot;</span>);</span><br><span class="line">    Log.d(TAG, <span class="string">&quot;hasShortCut: authority是什么呢？&quot;</span>+authority);</span><br><span class="line"></span><br><span class="line">    <span class="type">String</span> <span class="variable">uriStr</span> <span class="operator">=</span> <span class="string">&quot;content://&quot;</span> + authority + <span class="string">&quot;/favorites?notify=true&quot;</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        <span class="type">Cursor</span> <span class="variable">cursor</span> <span class="operator">=</span> context.getContentResolver().query(</span><br><span class="line">                Uri.parse(uriStr),</span><br><span class="line">                <span class="literal">null</span>,</span><br><span class="line">                <span class="string">&quot;title=?&quot;</span>,</span><br><span class="line">                <span class="keyword">new</span> <span class="title class_">String</span>[]&#123;context.getString(R.string.app_name)&#125;,</span><br><span class="line">                <span class="literal">null</span>);</span><br><span class="line">        result = cursor != <span class="literal">null</span> &amp;&amp; cursor.getCount() &gt; <span class="number">0</span>;</span><br><span class="line">        Log.d(TAG, String.valueOf(<span class="string">&quot;hasShortCut: 有没有图标啊？&quot;</span> + result));</span><br><span class="line">        <span class="keyword">if</span> (cursor != <span class="literal">null</span>) &#123;</span><br><span class="line">            cursor.close();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">        e.printStackTrace();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> result;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 根据传入的权限名查找目标 authority</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> context 上下文</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> permission 部分权限名</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@return</span> 目标 authority</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> String <span class="title function_">getAuthorityFromPermission</span><span class="params">(Context context, String permission)</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (permission == <span class="literal">null</span>) <span class="keyword">return</span> <span class="literal">null</span>;</span><br><span class="line">    List&lt;PackageInfo&gt; installedPackages = context.getPackageManager()</span><br><span class="line">            .getInstalledPackages(PackageManager.GET_PROVIDERS);</span><br><span class="line">    <span class="keyword">if</span> (installedPackages != <span class="literal">null</span>) &#123;</span><br><span class="line">        <span class="keyword">for</span> (PackageInfo pack : installedPackages) &#123;</span><br><span class="line">            ProviderInfo[] providers = pack.providers;</span><br><span class="line">            <span class="keyword">if</span> (providers != <span class="literal">null</span>) &#123;</span><br><span class="line">                <span class="keyword">for</span> (ProviderInfo provider : providers) &#123;</span><br><span class="line">                    Log.d(TAG, <span class="string">&quot;getAuthorityFromPermission: &quot;</span> + provider.readPermission);</span><br><span class="line">                    <span class="comment">//Log.d(TAG, &quot;getAuthorityFromPermission: &quot; + provider.writePermission);</span></span><br><span class="line">                    <span class="keyword">if</span> (provider.readPermission != <span class="literal">null</span> &amp;&amp; provider.readPermission.contains(permission)) &#123;</span><br><span class="line">                        <span class="keyword">if</span> (provider.authority.contains(<span class="string">&quot;launcher.settings&quot;</span>)</span><br><span class="line">                                || provider.authority.contains(<span class="string">&quot;launcher2.settings&quot;</span>)</span><br><span class="line">                                || provider.authority.contains(<span class="string">&quot;launcher3.settings&quot;</span>)) &#123;</span><br><span class="line">                            <span class="keyword">return</span> provider.authority;</span><br><span class="line">                        &#125;</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">null</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>这样无论是真机还是虚拟机，都可以判断是否已经存在快捷方式，而且根据我的方法，我想还是存在一定的广泛型，可以匹配大部分机型，当然仅限这一功能了。</p>
 
-      
     </div>
 
     
-
-    
-    
-    
-
-    
-
-    
-      
     
     
 
-    
-
-    <footer class="post-footer">
-      
-        <div class="post-tags">
-          
-            <a href="/tags/Shortcut/" rel="tag"># Shortcut</a>
-          
-        </div>
-      
-
-      
-      
-      
-
-      
-        <div class="post-nav">
-          <div class="post-nav-next post-nav-item">
-            
-              <a href="/2016/11/10/move-hexo-to-qcloud/" rel="next" title="迁移 Hexo 到腾讯云服务器 CVM">
-                <i class="fa fa-chevron-left"></i> 迁移 Hexo 到腾讯云服务器 CVM
-              </a>
-            
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Shortcut/" rel="tag"># Shortcut</a>
           </div>
 
-          <span class="post-nav-divider"></span>
+        
 
-          <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2016/11/19/udp-socket-sample/" rel="prev" title="基于 UDP 协议的 C/S 通信案例">
-                基于 UDP 协议的 C/S 通信案例 <i class="fa fa-chevron-right"></i>
-              </a>
-            
-          </div>
-        </div>
-      
 
-      
-      
-    </footer>
-  </div>
-  
-  
-  
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2016/11/10/move-hexo-to-qcloud/" rel="prev" title="迁移 Hexo 到腾讯云服务器 CVM">
+      <i class="fa fa-chevron-left"></i> 迁移 Hexo 到腾讯云服务器 CVM
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2016/11/19/udp-socket-sample/" rel="next" title="基于 UDP 协议的 C/S 通信案例">
+      基于 UDP 协议的 C/S 通信案例 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
   </article>
+  
+  
+  
 
-
-  </div>
 
 
           </div>
           
-
-  
-    <div class="comments" id="comments">
-    </div>
-
-  
-
-
-
-        </div>
-        
-          
-  
-  <div class="sidebar-toggle">
-    <div class="sidebar-toggle-line-wrap">
-      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
-      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
-      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
-    </div>
-  </div>
-
-  <aside id="sidebar" class="sidebar">
-    <div class="sidebar-inner">
-
-      
-
-      
-        <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
-            Table of Contents
-          </li>
-          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
-            Overview
-          </li>
-        </ul>
-      
-
-      <div class="site-overview-wrap sidebar-panel">
-        <div class="site-overview">
-          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
-            
-              <p class="site-author-name" itemprop="name">Alpha Gao</p>
-              <div class="site-description motion-element" itemprop="description">You will be what you want.</div>
-          </div>
-
-          
-            <nav class="site-state motion-element">
-              
-                <div class="site-state-item site-state-posts">
-                
-                  <a href="/archives/">
-                
-                    <span class="site-state-item-count">56</span>
-                    <span class="site-state-item-name">posts</span>
-                  </a>
-                </div>
-              
-
-              
-                
-                
-                <div class="site-state-item site-state-categories">
-                  
-                    
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                    <span class="site-state-item-count">12</span>
-                    <span class="site-state-item-name">categories</span>
-                  
-                </div>
-              
-
-              
-                
-                
-                <div class="site-state-item site-state-tags">
-                  
-                    
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                    <span class="site-state-item-count">100</span>
-                    <span class="site-state-item-name">tags</span>
-                  
-                </div>
-              
-            </nav>
-          
-
-          
-
-          
-
-          
-
-          
-          
-
-          
-            
-          
-          
-
-        </div>
-      </div>
-
-      
-      <!--noindex-->
-        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
-          <div class="post-toc">
-
-            
-            
-            
-            
-
-            
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-5"><a class="nav-link" href="#Failed-to-find-provider-info-for-com-android-launcher-settings"><span class="nav-number">1.</span> <span class="nav-text">Failed to find provider info for com.android.launcher.settings</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#getAuthorityFromPermission-返回-null"><span class="nav-number">2.</span> <span class="nav-text">getAuthorityFromPermission 返回 null</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Permission-Denial-opening-provider-com-android-launcher3-LauncherProvider-from-ProcessRecord-f264d45-13880-com-example-alpha-mobilesafe-u0a68-pid-13880-uid-10068-requires-com-google-android-launcher-permission-READ-SETTINGS-or-com-google-android-launcher-permission-WRITE-SETTINGS"><span class="nav-number">3.</span> <span class="nav-text">Permission Denial: opening provider com.android.launcher3.LauncherProvider from ProcessRecord{f264d45 13880:com.example.alpha.mobilesafe/u0a68} (pid=13880, uid=10068) requires com.google.android.launcher.permission.READ_SETTINGS or com.google.android.launcher.permission.WRITE_SETTINGS</span></a></li></ol></div>
-            
-
-          </div>
-        </div>
-      <!--/noindex-->
-      
-
-      
-        <div class="back-to-top">
-          <i class="fa fa-arrow-up"></i>
-          
-            <span id="scrollpercent"><span>0</span>%</span>
-          
-        </div>
-      
-
-    </div>
-  </aside>
-  
-
-
-        
-      </div>
-    </main>
-
-    <footer id="footer" class="footer">
-      <div class="footer-inner">
-        <div class="copyright">  <a href="http://www.miitbeian.gov.cn" rel="noopener" target="_blank">陇ICP备17000389号 </a>&copy; <span itemprop="copyrightYear">2022</span>
-  <span class="with-love" id="animate">
-    <i class="fa fa-Alpha Gao"></i>
-  </span>
-  <span class="author" itemprop="copyrightHolder">Alpha Gao</span>
-
-  
-
-  
-</div>
-
-
-  <div class="powered-by">Powered by <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> v3.9.0</div>
-
-
-
-  <span class="post-meta-divider">|</span>
-
-
-
-  <div class="theme-info">Theme – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> v7.0.1</div>
-
-
-
-
-        
-
-
-
-
-
-
-
-
-        
-      </div>
-    </footer>
-
-    
-
-    
-
-    
-
-    
-  </div>
-
-  
+    <div class="comments" id="valine-comments"></div>
 
 <script>
-  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
-    window.Promise = null;
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
   }
 </script>
 
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-5"><a class="nav-link" href="#Failed-to-find-provider-info-for-com-android-launcher-settings"><span class="nav-number">1.</span> <span class="nav-text">Failed to find provider info for com.android.launcher.settings</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#getAuthorityFromPermission-%E8%BF%94%E5%9B%9E-null"><span class="nav-number">2.</span> <span class="nav-text">getAuthorityFromPermission 返回 null</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Permission-Denial-opening-provider-com-android-launcher3-LauncherProvider-from-ProcessRecord-f264d45-13880-com-example-alpha-mobilesafe-u0a68-pid-13880-uid-10068-requires-com-google-android-launcher-permission-READ-SETTINGS-or-com-google-android-launcher-permission-WRITE-SETTINGS"><span class="nav-number">3.</span> <span class="nav-text">Permission Denial: opening provider com.android.launcher3.LauncherProvider from ProcessRecord{f264d45 13880:com.example.alpha.mobilesafe&#x2F;u0a68} (pid&#x3D;13880, uid&#x3D;10068) requires com.google.android.launcher.permission.READ_SETTINGS or com.google.android.launcher.permission.WRITE_SETTINGS</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Alpha Gao</p>
+  <div class="site-description" itemprop="description">You will be what you want.</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">56</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">12</span>
+        <span class="site-state-item-name">categories</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">100</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2025</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Alpha Gao</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a>
+  </div>
+
+        
 
 
 
@@ -997,8 +423,29 @@
 
 
 
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
 
 
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
 
 
 
@@ -1015,110 +462,37 @@
 
 
   
-  <script src="/lib/jquery/index.js?v=2.1.3"></script>
-
-  
-  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
-
-  
-  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
-
 
   
 
-
-  <script src="/js/src/utils.js?v=7.0.1"></script>
-
-  <script src="/js/src/motion.js?v=7.0.1"></script>
-
-
-
-  
-  
-
-
-  <script src="/js/src/schemes/muse.js?v=7.0.1"></script>
-
-
-
-  
-  <script src="/js/src/scrollspy.js?v=7.0.1"></script>
-<script src="/js/src/post-details.js?v=7.0.1"></script>
-
-
-
-  
-
-
-  <script src="/js/src/next-boot.js?v=7.0.1"></script>
-
-
-  
-  
-  
-
-<script src="//cdn1.lncld.net/static/js/3.11.1/av-min.js"></script>
-
-
-
-<script src="//unpkg.com/valine/dist/Valine.min.js"></script>
 
 <script>
-  var GUEST = ['nick', 'mail', 'link'];
-  var guest = 'nick,mail,link';
-  guest = guest.split(',').filter(function(item) {
-    return GUEST.indexOf(item) > -1;
-  });
-  new Valine({
-    el: '#comments',
-    verify: false,
-    notify: false,
-    appId: 'H96xxLo0hzG4azqx9XRPBLGe-gzGzoHsz',
-    appKey: 'NPnxUKfUoUn6iIlWOyvA1WgE',
-    placeholder: 'Just say anything',
-    avatar: 'mm',
-    meta: guest,
-    pageSize: '10' || 10,
-    visitor: false
-  });
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : true,
+      appId      : 'H96xxLo0hzG4azqx9XRPBLGe-gzGzoHsz',
+      appKey     : 'NPnxUKfUoUn6iIlWOyvA1WgE',
+      placeholder: "Just Say Anything",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : true,
+      lang       : 'en' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : true,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
 </script>
-
-
-
-
-  
-
-
-  
-
-
-
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
 
 </body>
 </html>
