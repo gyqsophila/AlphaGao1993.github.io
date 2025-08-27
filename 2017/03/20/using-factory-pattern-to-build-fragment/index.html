@@ -24,7 +24,7 @@
 <meta property="og:type" content="article">
 <meta property="og:title" content="借助工厂模式构建不同的 Fragment">
 <meta property="og:url" content="https://alphagao.com/2017/03/20/using-factory-pattern-to-build-fragment/index.html">
-<meta property="og:site_name" content="Here&#39;s to Change">
+<meta property="og:site_name" content="AlphaGao&#39;s Blog">
 <meta property="og:description" content="还记的上篇文章 使用观察者模式解决单 Activity 与多个 Fragment 通信 中我使用了观察者模式暂时解决了 Activity 与多个 Fragment 之间的通信问题，最后的更新中我抽象了一个 Fragment 共同的基类：BaseFragment，在 BaseFragment 的构造方法中传入了 EventManager 也就是消息处理中心的实例，本来这样是没有问题的。直到今天，我升">
 <meta property="og:locale">
 <meta property="og:image" content="https://oluujmx7v.bkt.clouddn.com/022001.png">
@@ -50,7 +50,7 @@
   };
 </script>
 
-  <title>借助工厂模式构建不同的 Fragment | Here's to Change</title>
+  <title>借助工厂模式构建不同的 Fragment | AlphaGao's Blog</title>
   
 
 
@@ -101,10 +101,10 @@
 
     <a href="/" class="brand" rel="start">
       <span class="logo-line-before"><i></i></span>
-      <h1 class="site-title">Here's to Change</h1>
+      <h1 class="site-title">AlphaGao's Blog</h1>
       <span class="logo-line-after"><i></i></span>
     </a>
-      <p class="site-subtitle" itemprop="description">请问你真的有在努力吗 ？</p>
+      <p class="site-subtitle" itemprop="description">恐惧源于火力不足，紧张源于准备不足！</p>
   </div>
 
   <div class="site-nav-right">
@@ -176,11 +176,11 @@
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
       <meta itemprop="name" content="Alpha Gao">
-      <meta itemprop="description" content="You will be what you want.">
+      <meta itemprop="description" content="">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Here's to Change">
+      <meta itemprop="name" content="AlphaGao's Blog">
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
@@ -342,7 +342,7 @@
       <div class="site-overview-wrap sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
   <p class="site-author-name" itemprop="name">Alpha Gao</p>
-  <div class="site-description" itemprop="description">You will be what you want.</div>
+  <div class="site-description" itemprop="description"></div>
 </div>
 <div class="site-state-wrap motion-element">
   <nav class="site-state">
@@ -354,12 +354,16 @@
         </a>
       </div>
       <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
         <span class="site-state-item-count">12</span>
-        <span class="site-state-item-name">categories</span>
+        <span class="site-state-item-name">categories</span></a>
       </div>
       <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
         <span class="site-state-item-count">100</span>
-        <span class="site-state-item-name">tags</span>
+        <span class="site-state-item-name">tags</span></a>
       </div>
   </nav>
 </div>
