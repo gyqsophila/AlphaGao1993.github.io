@@ -161,6 +161,108 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="https://alphagao.com/2025/09/09/go-sync-map-and-map/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Alpha Gao">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="AlphaGao's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2025/09/09/go-sync-map-and-map/" class="post-title-link" itemprop="url">Go 中 map 与 sync.Map 性能比较</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2025-09-09 15:57:28" itemprop="dateCreated datePublished" datetime="2025-09-09T15:57:28+08:00">2025-09-09</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2025-09-10 10:45:30" itemprop="dateModified" datetime="2025-09-10T10:45:30+08:00">2025-09-10</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Go/" itemprop="url" rel="index"><span itemprop="name">Go</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/2025/09/09/go-sync-map-and-map/" class="post-meta-item leancloud_visitors" data-flag-title="Go 中 map 与 sync.Map 性能比较" title="Views">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">Views: </span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine: </span>
+    
+    <a title="valine" href="/2025/09/09/go-sync-map-and-map/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2025/09/09/go-sync-map-and-map/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p><code>sync.Map</code> 是在 Go 1.9 版本新增的并发安全的 map 类型。我们知道通过将普通的 <code>map</code> 与 <code>sync.Mutex</code> 或 <code>sync.RWMutex</code> 结合也能实现并发安全的 map 结构，那为什么 Go 还要提供新的 <code>sync.Map</code>类型呢，又与结合 <code>Mutex</code> 的 <code>map</code> 有什么区别呢？一起来看下吧。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2025/09/09/go-sync-map-and-map/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
     <link itemprop="mainEntityOfPage" href="https://alphagao.com/2022/03/31/resolve-conflict-with-grpc-between-etcd-and-protoc/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -2106,108 +2208,6 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
-    <link itemprop="mainEntityOfPage" href="https://alphagao.com/2017/05/22/carousel-pager-practice-and-encapsulation/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Alpha Gao">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="AlphaGao's Blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2017/05/22/carousel-pager-practice-and-encapsulation/" class="post-title-link" itemprop="url">轮播页面实践与封装</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2017-05-22 11:10:16" itemprop="dateCreated datePublished" datetime="2017-05-22T11:10:16+08:00">2017-05-22</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2017-08-07 17:41:54" itemprop="dateModified" datetime="2017-08-07T17:41:54+08:00">2017-08-07</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Android/" itemprop="url" rel="index"><span itemprop="name">Android</span></a>
-                </span>
-            </span>
-
-          
-            <span id="/2017/05/22/carousel-pager-practice-and-encapsulation/" class="post-meta-item leancloud_visitors" data-flag-title="轮播页面实践与封装" title="Views">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-eye"></i>
-              </span>
-              <span class="post-meta-item-text">Views: </span>
-              <span class="leancloud-visitors-count"></span>
-            </span>
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Valine: </span>
-    
-    <a title="valine" href="/2017/05/22/carousel-pager-practice-and-encapsulation/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2017/05/22/carousel-pager-practice-and-encapsulation/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h3 id="ANR-与-无限轮播"><a href="#ANR-与-无限轮播" class="headerlink" title="ANR 与 无限轮播"></a>ANR 与 无限轮播</h3><p>以前跟着课程做过一个无限轮播的 Demo ，原理就是 Adapter 的 <code>getCount()</code> 返回 Integer.MaxValue 加上子线程控制页面切换。但是这几天在用这种模式的时候发现一个隐藏的坑，有很高几率触发 ANR，这可是不得了的问题（我就不说为了找到这个 ANR 原因花了多大功夫）。在这种模式下，当更新 ViewPager 的数据源的时候，基本上百分百会导致 ANR ，原因就是 PagerAdapter 的 <code>getCount()</code>返回一个很大的值，再调用 <code>setCurrentItem()</code> 更新页面，如果引起的页面跨度超过 1，例如从第 3 页跳转到第 1 页，就会导致 ANR。<br>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2017/05/22/carousel-pager-practice-and-encapsulation/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
@@ -2277,7 +2277,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">56</span>
+          <span class="site-state-item-count">57</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -2290,7 +2290,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">100</span>
+        <span class="site-state-item-count">103</span>
         <span class="site-state-item-name">tags</span></a>
       </div>
   </nav>
