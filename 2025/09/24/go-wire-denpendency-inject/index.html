@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 7.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"alphagao.com","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"hide","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="在 Go 项目里，依赖关系的初始化通常是件麻烦事。最开始的时候，我们往往会在 main.go 里直接 new 一堆对象，把它们一个个串起来。比如先建 db，然后基于 db 创建 dao，再基于 dao 创建 service，最后才有上层的 handler 或 api。 这没什么问题，小项目完全够用。但随着项目逐渐变大，依赖越来越多，初始化函数就会越来越长。每次有人加一个新的 service，你就要">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Go 依赖注入以及 wire 最佳实践">
+<meta property="og:url" content="https://alphagao.com/2025/09/24/go-wire-denpendency-inject/index.html">
+<meta property="og:site_name" content="AlphaGao&#39;s Blog">
+<meta property="og:description" content="在 Go 项目里，依赖关系的初始化通常是件麻烦事。最开始的时候，我们往往会在 main.go 里直接 new 一堆对象，把它们一个个串起来。比如先建 db，然后基于 db 创建 dao，再基于 dao 创建 service，最后才有上层的 handler 或 api。 这没什么问题，小项目完全够用。但随着项目逐渐变大，依赖越来越多，初始化函数就会越来越长。每次有人加一个新的 service，你就要">
+<meta property="og:locale">
+<meta property="article:published_time" content="2025-09-24T08:43:12.000Z">
+<meta property="article:modified_time" content="2025-09-24T09:01:34.769Z">
+<meta property="article:author" content="Alpha Gao">
+<meta property="article:tag" content="pattern">
+<meta property="article:tag" content="inject">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://alphagao.com/2025/09/24/go-wire-denpendency-inject/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-Hans'
+  };
+</script>
+
+  <title>Go 依赖注入以及 wire 最佳实践 | AlphaGao's Blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">AlphaGao's Blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">恐惧源于火力不足，紧张源于准备不足！</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="https://alphagao.com/2025/09/24/go-wire-denpendency-inject/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Alpha Gao">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="AlphaGao's Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Go 依赖注入以及 wire 最佳实践
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2025-09-24 16:43:12 / Modified: 17:01:34" itemprop="dateCreated datePublished" datetime="2025-09-24T16:43:12+08:00">2025-09-24</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Go/" itemprop="url" rel="index"><span itemprop="name">Go</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/2025/09/24/go-wire-denpendency-inject/" class="post-meta-item leancloud_visitors" data-flag-title="Go 依赖注入以及 wire 最佳实践" title="Views">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">Views: </span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine: </span>
+    
+    <a title="valine" href="/2025/09/24/go-wire-denpendency-inject/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2025/09/24/go-wire-denpendency-inject/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>在 Go 项目里，依赖关系的初始化通常是件麻烦事。最开始的时候，我们往往会在 main.go 里直接 new 一堆对象，把它们一个个串起来。比如先建 db，然后基于 db 创建 dao，再基于 dao 创建 service，最后才有上层的 handler 或 api。</p>
+<p>这没什么问题，小项目完全够用。但随着项目逐渐变大，依赖越来越多，初始化函数就会越来越长。每次有人加一个新的 service，你就要手动改一堆代码，稍不注意就漏掉了。</p>
+<p>于是很多人会问：Go 里有没有更好的依赖注入方式？有的兄弟，有的。</p>
+<span id="more"></span>
+<h3 id="手写依赖注入的问题"><a href="#手写依赖注入的问题" class="headerlink" title="手写依赖注入的问题"></a>手写依赖注入的问题</h3><p>我们先看一个很常见的例子：<br><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">db := NewDB()</span><br><span class="line">userDao := NewUserDao(db)</span><br><span class="line">orderDao := NewOrderDao(db)</span><br><span class="line"></span><br><span class="line">userService := NewUserService(userDao)</span><br><span class="line">orderService := NewOrderService(orderDao, userDao)</span><br></pre></td></tr></table></figure><br>这种写法直观，优点是没有黑箱。所有依赖都能在一眼看懂的地方被串起来。<br>问题在于：当依赖很多的时候，你要手写的初始化逻辑也会很多，而且这些逻辑往往是重复的。</p>
+<p>这时候就会有人想到自动化：有没有办法把“依赖如何组合”的规则声明出来，剩下的初始化代码自动生成？</p>
+<h3 id="Wire-的出现"><a href="#Wire-的出现" class="headerlink" title="Wire 的出现"></a>Wire 的出现</h3><p>Google 开源的 <a href="https://github.com/google/wire">Wire</a> 就是做这件事的。</p>
+<p>它的定位很简单：在编译期自动生成依赖注入代码。<br>这意味着它跟 Java 或 Spring 那种运行时容器不一样。Wire 并不在程序运行的时候动态查找依赖，而是在你 go build 的时候，帮你生成一份 wire_gen.go，里面就是完整的初始化逻辑。</p>
+<p>换句话说：用 Wire 的结果，和你手写初始化代码是一样的。只是 Wire 替你写好了。</p>
+<h3 id="Wire-的基本用法"><a href="#Wire-的基本用法" class="headerlink" title="Wire 的基本用法"></a>Wire 的基本用法</h3><p>用法其实挺简单的：</p>
+<p>1、你要有一堆构造函数，比如：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">NewUserDao</span><span class="params">(db *gorm.DB)</span></span> *UserDao &#123; ... &#125;</span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">NewOrderDao</span><span class="params">(db *gorm.DB)</span></span> *OrderDao &#123; ... &#125;</span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">NewUserService</span><span class="params">(dao *UserDao)</span></span> *UserService &#123; ... &#125;</span><br></pre></td></tr></table></figure>
+<p>这些构造函数本来就要写的，无论是否使用 wire 做依赖注入；</p>
+<p>2、把它们放进一个 <code>ProviderSet</code> 里:</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> ProviderSet = wire.NewSet(</span><br><span class="line">	NewUserDao,</span><br><span class="line">	NewOrderDao,</span><br><span class="line">	NewUserService,</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+<p>3、写一个注入函数作为 wire 的入口:</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">InitUserService</span><span class="params">(db *gorm.DB)</span></span> *UserService &#123;</span><br><span class="line">	wire.Build(ProviderSet)</span><br><span class="line">	<span class="keyword">return</span> <span class="literal">nil</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>然后运行 <code>wire</code> 命令，Wire 就会生成一个 <code>wire_gen.go</code> 文件，里面帮你把 db → dao → service 全部串起来。</p>
+<h3 id="Wire-的原理"><a href="#Wire-的原理" class="headerlink" title="Wire 的原理"></a>Wire 的原理</h3><p>理解 Wire 原理很重要，否则容易觉得它“有点魔法”。其实它做的事很直接：</p>
+<p>1、解析 <code>wire.Build</code> 里提到的 <code>ProviderSet</code>；</p>
+<p>2、分析每个构造函数的输入和输出类型；</p>
+<p>3、自动生成一份依赖拼装代码；</p>
+<p>4、编译时用生成的代码，不引入任何运行时开销。</p>
+<p>所以 Wire 的思路完全是静态的，所有问题都会在编译阶段暴露。比如有依赖没声明，就会直接编译失败。</p>
+<h3 id="使用-Wire-的优缺点"><a href="#使用-Wire-的优缺点" class="headerlink" title="使用 Wire 的优缺点"></a>使用 Wire 的优缺点</h3><p>这里分享一些我在实际项目里遇到的感受。</p>
+<p><strong>优点：</strong></p>
+<ul>
+<li>省去大量样板代码，少写一堆 NewXxx 串联逻辑。</li>
+<li>类型安全，缺少依赖时编译器直接报错。</li>
+<li>ProviderSet 可以分模块维护，解耦明显。</li>
+<li>没有运行时损耗，比动态容器更轻。</li>
+</ul>
+<p><strong>缺点：</strong></p>
+<ul>
+<li>每次新增依赖都要动 <code>ProviderSet</code>，并跑一遍 <code>wire</code>。</li>
+<li>生成的 <code>wire_gen.go</code> 有时很长，不适合人工阅读。</li>
+<li>团队成员需要理解 Wire 的原理，否则看不到 <code>wire_gen.go</code> 会一头雾水。</li>
+</ul>
+<h3 id="个人感觉的最佳实践"><a href="#个人感觉的最佳实践" class="headerlink" title="个人感觉的最佳实践"></a>个人感觉的最佳实践</h3><p>经过一些踩坑，我觉得有几个点比较重要：</p>
+<p>1、<code>wire_gen.go</code> 不要提交 PR</p>
+<ul>
+<li>文件太大，diff 没意义，还容易冲突。</li>
+<li>在 CI/CD 里执行 <code>wire ./...</code>，保证始终可复现。</li>
+<li>可以加检查脚本，确保开发和 CI 生成的文件一致。</li>
+</ul>
+<p>2、ProviderSet 按模块拆分</p>
+<ul>
+<li>dao 层一个 set，service 层一个 set，最后再汇总。</li>
+<li>这样可读性强，也便于复用。</li>
+</ul>
+<p>3、构造函数统一风格</p>
+<ul>
+<li>命名用 NewXxx，避免歧义。</li>
+<li>参数显式传入，依赖不要藏在函数里。</li>
+</ul>
+<p>4、适合的使用场景</p>
+<ul>
+<li>小项目：完全没必要，用手写更清晰。</li>
+<li>中大型项目：依赖多，service 层级深，Wire 才能发挥价值。</li>
+<li>微服务：每个服务独立一份 ProviderSet，初始化成本低。</li>
+</ul>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>Wire 本质上就是一个“帮你写初始化代码的工具”。它不神秘，也没有运行时开销，适合用在依赖复杂的中大型 Go 项目里。</p>
+<p>但要注意：工具不会自动降低复杂度。如果团队里缺少规范，Wire 可能会让工程更难懂。反过来，如果大家统一好 <code>ProviderSet</code> 的组织方式，并把 <code>wire_gen.go</code> 交给 CI 管理，它就能成为一个减轻负担的好帮手。</p>
+<p>所以我的建议是：<strong>小项目手写即可</strong></p>
+<p>中大型项目用 Wire，但要配合 CI/CD、模块化 ProviderSet 一起使用。</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/pattern/" rel="tag"># pattern</a>
+              <a href="/tags/inject/" rel="tag"># inject</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2025/09/09/go-sync-map-and-map/" rel="prev" title="Go 中 map 与 sync.Map 性能比较">
+      <i class="fa fa-chevron-left"></i> Go 中 map 与 sync.Map 性能比较
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%89%8B%E5%86%99%E4%BE%9D%E8%B5%96%E6%B3%A8%E5%85%A5%E7%9A%84%E9%97%AE%E9%A2%98"><span class="nav-number">1.</span> <span class="nav-text">手写依赖注入的问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Wire-%E7%9A%84%E5%87%BA%E7%8E%B0"><span class="nav-number">2.</span> <span class="nav-text">Wire 的出现</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Wire-%E7%9A%84%E5%9F%BA%E6%9C%AC%E7%94%A8%E6%B3%95"><span class="nav-number">3.</span> <span class="nav-text">Wire 的基本用法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Wire-%E7%9A%84%E5%8E%9F%E7%90%86"><span class="nav-number">4.</span> <span class="nav-text">Wire 的原理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8-Wire-%E7%9A%84%E4%BC%98%E7%BC%BA%E7%82%B9"><span class="nav-number">5.</span> <span class="nav-text">使用 Wire 的优缺点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%AA%E4%BA%BA%E6%84%9F%E8%A7%89%E7%9A%84%E6%9C%80%E4%BD%B3%E5%AE%9E%E8%B7%B5"><span class="nav-number">6.</span> <span class="nav-text">个人感觉的最佳实践</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">7.</span> <span class="nav-text">总结</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Alpha Gao</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">58</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">12</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">104</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2025</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Alpha Gao</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : true,
+      appId      : 'H96xxLo0hzG4azqx9XRPBLGe-gzGzoHsz',
+      appKey     : 'NPnxUKfUoUn6iIlWOyvA1WgE',
+      placeholder: "Just Say Anything",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : true,
+      lang       : 'en' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : true,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>
